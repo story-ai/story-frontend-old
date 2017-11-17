@@ -9,8 +9,8 @@ export const AppHeader: React.StatelessComponent<{}> = () => {
         <Menu.Item header as={(props: {}) => <Link to="/" {...props} />}>
           Story
         </Menu.Item>
-        <Menu.Item as={(props: {}) => <Link to="/page2" {...props} />}>
-          Page 2
+        <Menu.Item as={(props: {}) => <Link to="/page1" {...props} />}>
+          Page 1
         </Menu.Item>
 
         <Menu.Item

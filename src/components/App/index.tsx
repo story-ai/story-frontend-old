@@ -15,7 +15,7 @@ export const App: React.StatelessComponent<{}> = () => {
       </div>
       <Container className="content">
         <Switch>
-          <Route path="/page2" render={() => <Home to="page 2" />} />
+          <Route path="/page1" render={() => <Home to="page 1" />} />
           <Route path="/" component={Home} />
         </Switch>
       </Container>
