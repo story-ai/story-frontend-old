@@ -1,22 +1,27 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { ping } from "../../core/actions/ping";
+import { requestAllClasses } from "../../core/actions/materials";
 
-interface HelloProps {
-  readonly to?: string;
-}
-
-const Hello: React.StatelessComponent<HelloProps> = ({ to = "World" }) => (
-  <div>Hello {to}!</div>
-);
-
-export class Home extends React.Component<{ to?: string }, {}> {
+export class HomeComponent extends React.Component<{
+  to?: string;
+  requestAllClasses: () => any;
+  ping: () => any;
+}> {
   render(): JSX.Element {
     return (
       <div>
-        <div>
-          <Hello to={this.props.to} />
-        </div>
         <div>This is the home page!</div>
+        <button onClick={() => this.props.requestAllClasses()}>
+          Click me!
+        </button>
+        <button onClick={() => this.props.ping()}>Ping me!</button>
       </div>
     );
   }
 }
+
+export const Home = connect(state => ({}), {
+  ping,
+  requestAllClasses
+})(HomeComponent);

@@ -2,24 +2,32 @@ import {
   applyMiddleware,
   compose,
   createStore,
-  StoreEnhancerStoreCreator
+  StoreEnhancerStoreCreator,
+  Action
 } from "redux";
 import { createLogger } from "redux-logger";
-import thunk from "redux-thunk";
-import rootReducer from "../reducers";
-import { State } from "../reducers/initialState";
+import { reducer, StateType } from "../reducers";
+import { createEpicMiddleware } from "redux-observable";
+import { epic } from "../epics";
 
 const logger = createLogger();
 const devExtension = (window as any).devToolsExtension;
-const middlewares: (
-  next: StoreEnhancerStoreCreator<State>
-) => StoreEnhancerStoreCreator<State> = applyMiddleware(thunk, logger);
+const epicMiddleware = createEpicMiddleware(epic);
 
-const configureStore = (initialState: State) => {
-  const store = createStore<State>(
-    rootReducer,
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+const middlewares: (
+  next: StoreEnhancerStoreCreator<StateType>
+) => StoreEnhancerStoreCreator<StateType> = applyMiddleware(
+  epicMiddleware,
+  logger
+);
+
+const configureStore = (initialState: StateType) => {
+  const store = createStore<StateType>(
+    reducer,
     initialState,
-    compose(middlewares, devExtension ? devExtension() : (f: any) => f)
+    composeEnhancers(middlewares)
   );
 
   if ((<any>module).hot) {

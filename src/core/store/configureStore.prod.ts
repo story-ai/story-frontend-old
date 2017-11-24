@@ -1,15 +1,21 @@
-import { applyMiddleware, compose, createStore, StoreEnhancerStoreCreator } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from '../reducers';
-import { State } from '../reducers/initialState';
+import {
+  applyMiddleware,
+  compose,
+  createStore,
+  StoreEnhancerStoreCreator
+} from "redux";
+import { reducer, StateType } from "../reducers";
+import { epic } from "../epics";
+import { ping } from "../epics/ping";
+import { createEpicMiddleware } from "redux-observable";
 
-const middlewares: (next: StoreEnhancerStoreCreator<State>) => StoreEnhancerStoreCreator<State> = 
-    applyMiddleware(thunk);
+const epicMiddleware = createEpicMiddleware(epic);
 
-const configureStore = (initialState: State) => createStore<State>(
-    rootReducer,
-    initialState,
-    compose(middlewares)
-);
+const middlewares: (
+  next: StoreEnhancerStoreCreator<StateType>
+) => StoreEnhancerStoreCreator<StateType> = applyMiddleware(epicMiddleware);
+
+const configureStore = (initialState: StateType) =>
+  createStore<StateType>(reducer, initialState, compose(middlewares));
 
 export default configureStore;
