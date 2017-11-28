@@ -1,5 +1,5 @@
-import { ping } from "./ping";
 import { requestAllClasses } from "./classes";
+import { requestTeachers } from "./teachers";
 import { combineEpics } from "redux-observable";
 
-export const epic = combineEpics(ping, requestAllClasses);
+export const epic = combineEpics(requestAllClasses, requestTeachers);

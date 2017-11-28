@@ -6,7 +6,6 @@ import {
 } from "redux";
 import { reducer, StateType } from "../reducers";
 import { epic } from "../epics";
-import { ping } from "../epics/ping";
 import { createEpicMiddleware } from "redux-observable";
 
 const epicMiddleware = createEpicMiddleware(epic);

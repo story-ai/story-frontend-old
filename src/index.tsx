@@ -2,7 +2,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import { Provider } from "react-redux";
-import { setAppStarted, startApp } from "./core/actions/app";
 import { initial } from "./core/reducers";
 import configureStore from "./core/store/configureStore";
 import Root from "./components/Root";

@@ -2,10 +2,12 @@ import {
   CLASSES_REQUEST_FAILED,
   CLASSES_REQUEST_SUCCEEDED,
   CLASSES_REQUESTED,
+  ALL_CLASSES_REQUESTED,
+  AllClassesRequestAction,
   ClassRequestAction,
   ClassRequestFailedAction,
   ClassRequestSucceededAction
-} from "../actions/materials";
+} from "../actions/classes";
 
 export type StateType = {
   classes: {
@@ -26,6 +28,7 @@ export const reducer = (
   state: StateType = initial,
   action:
     | ClassRequestAction
+    | AllClassesRequestAction
     | ClassRequestFailedAction
     | ClassRequestSucceededAction
 ): StateType => {
@@ -52,6 +55,10 @@ export const reducer = (
           item: action.items[item]
         };
       }
+      break;
+
+    case ALL_CLASSES_REQUESTED:
+      state = initial;
       break;
 
     case CLASSES_REQUESTED:

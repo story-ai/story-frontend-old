@@ -1,3 +1,5 @@
+import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
+
 export const CLASSES_REQUESTED = "CLASS_REQUESTED";
 export type ClassRequestAction = {
   type: "CLASS_REQUESTED";
@@ -34,10 +36,10 @@ export const failClassRequest = (
 export const CLASSES_REQUEST_SUCCEEDED = "CLASS_REQUEST_SUCCEEDED";
 export type ClassRequestSucceededAction = {
   type: "CLASS_REQUEST_SUCCEEDED";
-  items: { [k: string]: {} };
+  items: { [k: string]: StoryTypes.Class };
 };
 export const succeedClassRequest = (items: {
-  [k: string]: {};
+  [k: string]: StoryTypes.Class;
 }): ClassRequestSucceededAction => ({
   type: CLASSES_REQUEST_SUCCEEDED,
   items
