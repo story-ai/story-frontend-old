@@ -2,8 +2,21 @@ import {
   failClassRequest,
   succeedClassRequest,
   ALL_CLASSES_REQUESTED,
-  AllClassesRequestAction
+  AllClassesRequestAction,
+  CLASSES_REQUEST_SUCCEEDED,
+  ClassRequestAction,
+  ClassRequestSucceededAction
 } from "../actions/classes";
+import {
+  requestTeacher,
+  succeedTeacherRequest,
+  failTeacherRequest
+} from "../actions/teachers";
+import {
+  failCourseRequest,
+  requestCourse,
+  succeedCourseRequest
+} from "../actions/courses";
 import { ActionsObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import "rxjs";

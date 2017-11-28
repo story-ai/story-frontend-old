@@ -10,19 +10,15 @@ import {
 } from "../actions/classes";
 
 export type StateType = {
-  classes: {
-    [id: string]: {
-      readonly state: "LOADED" | "FAILED" | "PENDING";
-      item: null | {
-        [k: string]: any;
-      };
+  [id: string]: {
+    readonly state: "LOADED" | "FAILED" | "PENDING";
+    item: null | {
+      [k: string]: any;
     };
   };
 };
 
-export const initial: StateType = {
-  classes: {}
-};
+export const initial: StateType = {};
 
 export const reducer = (
   state: StateType = initial,
@@ -38,10 +34,10 @@ export const reducer = (
     case CLASSES_REQUEST_FAILED:
       console.error(action.error);
       if (action.ids === null) {
-        return { classes: {} };
+        return initial;
       }
       for (const id of action.ids) {
-        state.classes[id] = {
+        state[id] = {
           state: "PENDING",
           item: null
         };
@@ -50,7 +46,7 @@ export const reducer = (
 
     case CLASSES_REQUEST_SUCCEEDED:
       for (const item of Object.keys(action.items)) {
-        state.classes[item] = {
+        state[item] = {
           state: "LOADED",
           item: action.items[item]
         };
@@ -63,7 +59,7 @@ export const reducer = (
 
     case CLASSES_REQUESTED:
       for (const id of action.ids) {
-        state.classes[id] = {
+        state[id] = {
           state: "PENDING",
           item: null
         };

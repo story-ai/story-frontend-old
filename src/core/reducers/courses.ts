@@ -10,14 +10,10 @@ import { Loadable } from "./types/Loadable";
 import { StoryTypes } from "story-backend-utils";
 
 export type StateType = {
-  courses: {
-    [id: string]: Loadable<StoryTypes.Course>;
-  };
+  [id: string]: Loadable<StoryTypes.Course>;
 };
 
-export const initial: StateType = {
-  courses: {}
-};
+export const initial: StateType = {};
 
 export const reducer = (
   state: StateType = initial,
@@ -32,10 +28,10 @@ export const reducer = (
     case COURSES_REQUEST_FAILED:
       console.error(action.error);
       if (action.ids === null) {
-        return { courses: {} };
+        return initial;
       }
       for (const id of action.ids) {
-        state.courses[id] = {
+        state[id] = {
           state: "PENDING",
           item: null
         };
@@ -44,7 +40,7 @@ export const reducer = (
 
     case COURSES_REQUEST_SUCCEEDED:
       for (const item of Object.keys(action.items)) {
-        state.courses[item] = {
+        state[item] = {
           state: "LOADED",
           item: action.items[item]
         };
@@ -53,7 +49,7 @@ export const reducer = (
 
     case COURSES_REQUESTED:
       for (const id of action.ids) {
-        state.courses[id] = {
+        state[id] = {
           state: "PENDING",
           item: null
         };
