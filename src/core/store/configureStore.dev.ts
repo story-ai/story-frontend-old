@@ -10,7 +10,11 @@ import { reducer, StateType } from "../reducers";
 import { createEpicMiddleware } from "redux-observable";
 import { epic } from "../epics";
 
-const logger = createLogger();
+const logger = createLogger({
+  collapsed: (getState, action, logEntry) =>
+    logEntry === undefined || !logEntry.error,
+  predicate: (getState, action) => action.type.indexOf("@@") < 0
+});
 const devExtension = (window as any).devToolsExtension;
 const epicMiddleware = createEpicMiddleware(epic);
 

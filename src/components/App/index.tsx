@@ -6,13 +6,9 @@ import { Container } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
-import { startApp } from "../../core/actions/app";
 import { connect } from "react-redux";
 
 export class AppComponent extends React.Component<{ startApp: () => any }, {}> {
-  componentDidMount() {
-    this.props.startApp();
-  }
   render() {
     return (
       <div className="app-container">
@@ -33,6 +29,4 @@ export class AppComponent extends React.Component<{ startApp: () => any }, {}> {
   }
 }
 
-export const App = connect(() => ({}), {
-  startApp
-})(AppComponent);
+export const App = connect(() => ({}), {})(AppComponent);

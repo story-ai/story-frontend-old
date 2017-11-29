@@ -1,4 +1,8 @@
 import {
+  LOGIN,
+  LOGIN_FAILED,
+  LoginAction,
+  LoginFailedAction,
   LOGOUT,
   LogoutAction,
   RECEIVED_TOKEN,
@@ -14,20 +18,28 @@ import {
 
 export type StateType = {
   token: string | null;
+  loginPending: boolean;
+  loginError?: string;
 };
 
-export const initial: StateType = { token: null };
+export const initial: StateType = { token: null, loginPending: false };
 
 export const reducer = (
   state: StateType = initial,
-  action: ReceivedTokenAction | LogoutAction
+  action: ReceivedTokenAction | LogoutAction | LoginAction | LoginFailedAction
 ): StateType => {
   switch (action.type) {
     case RECEIVED_TOKEN:
-      return { token: action.token };
+      return { loginPending: false, token: action.token };
 
     case LOGOUT:
-      return { token: null };
+      return { loginPending: false, token: null };
+
+    case LOGIN:
+      return { loginPending: true, token: null };
+
+    case LOGIN_FAILED:
+      return { loginPending: false, token: null, loginError: action.e };
   }
   return state;
 };

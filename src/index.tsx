@@ -3,12 +3,16 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { Provider } from "react-redux";
 import { initial } from "./core/reducers";
+import { loadState, saveState } from "./core/store/localStore";
 import configureStore from "./core/store/configureStore";
 import Root from "./components/Root";
 import { AppContainer } from "react-hot-loader";
 import { combineReducers } from "redux";
 
-const store = configureStore(initial);
+const store = configureStore(loadState() || initial);
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 ReactDom.render(<Root store={store} />, document.getElementById("app"));
 

@@ -6,13 +6,29 @@ export const logout = (): LogoutAction => ({
   type: LOGOUT
 });
 
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export type LoginFailedAction = {
+  type: "LOGIN_FAILED";
+  e: string;
+};
+export const failLogin = (e: string): LoginFailedAction => ({
+  type: LOGIN_FAILED,
+  e
+});
+
 export const LOGIN = "LOGIN";
 export type LoginAction = {
   type: "LOGIN";
   username: string;
   password: string;
 };
-export const login = (username: string, password: string): LoginAction => ({
+export const login = ({
+  username,
+  password
+}: {
+  username: string;
+  password: string;
+}): LoginAction => ({
   type: LOGIN,
   username,
   password

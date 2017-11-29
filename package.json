@@ -1,31 +1,32 @@
 {
   "name": "story-frontend",
   "version": "0.0.0",
-  "description":
-    "Frontend for the Story application. React based SPA (Single-Page Application)",
+  "description": "Frontend for the Story application. React based SPA (Single-Page Application)",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/story-ai/frontend."
   },
-  "keywords": ["react", "typescript"],
+  "keywords": [
+    "react",
+    "typescript"
+  ],
   "scripts": {
-    "start":
-      "node_modules\\.bin\\concurrently \"node dev-server.js\" \"npm run watch\"",
+    "start": "node_modules\\.bin\\concurrently \"node dev-server.js\" \"npm run watch\"",
     "build": "node build.js",
-    "test":
-      "mocha-webpack \"src/**/*.test.{js,jsx,ts,tsx}\" --webpack-config webpack.config.test.js",
+    "test": "mocha-webpack \"src/**/*.test.{js,jsx,ts,tsx}\" --webpack-config webpack.config.test.js",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "tslint": "tslint -c ./tslint.json \"src/**/*.{ts,tsx}\"",
     "lint-fix": "npm run lint -- --fix",
     "tslint-fix": "npm run tslint -- --fix",
     "watch": "npm-watch",
-    "deploy":
-      "aws --profile serverless --region eu-west-1 s3 sync dist s3://frontend.story.ai"
+    "deploy": "aws --profile serverless --region eu-west-1 s3 sync dist s3://frontend.story.ai"
   },
   "watch": {
     "test": {
-      "patterns": ["src/**/*"],
+      "patterns": [
+        "src/**/*"
+      ],
       "extensions": "js,jsx,ts,tsx"
     }
   },
@@ -38,7 +39,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.1.2",
+    "redux-form": "^7.2.0",
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.17.0",
     "rxjs": "^5.5.2",
