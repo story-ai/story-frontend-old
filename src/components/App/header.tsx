@@ -17,7 +17,11 @@ export const AppHeaderComponent: React.StatelessComponent<{
           Page 1
         </Menu.Item> */}
 
-        <Menu.Item position="right" onClick={props.logout}>
+        <Menu.Item
+          position="right"
+          onClick={props.logout}
+          as={(props: {}) => <Link to="/" {...props} />}
+        >
           Logout
         </Menu.Item>
       </Container>

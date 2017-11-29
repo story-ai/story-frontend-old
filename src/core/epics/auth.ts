@@ -5,6 +5,7 @@ import "rxjs";
 import { ajax } from "rxjs/observable/dom/ajax";
 import { Action, MiddlewareAPI } from "redux";
 import axios from "axios";
+import { CENTURY_API_BASE } from "../../config";
 
 import { StoryServices } from "../../config";
 import { StateType } from "../reducers/index";
@@ -16,7 +17,13 @@ import {
   LogoutAction,
   RECEIVED_TOKEN,
   ReceivedTokenAction,
-  receiveToken
+  receiveToken,
+  REGISTER,
+  REGISTER_SUCCEEDED,
+  RegisterAction,
+  registerFail,
+  registerSucceed,
+  login as loginAction
 } from "../actions/auth";
 
 export const logout = (action$: ActionsObservable<LogoutAction>) =>
@@ -25,26 +32,11 @@ export const logout = (action$: ActionsObservable<LogoutAction>) =>
     return [];
   });
 
-// export const persistToken = (action$: ActionsObservable<ReceivedTokenAction>) =>
-//   action$.ofType(RECEIVED_TOKEN).flatMap((action: ReceivedTokenAction) => {
-//     console.log("Read from storage");
-//     window.localStorage.setItem("authToken", action.token);
-//     return [];
-//   });
-
-// export const initToken: Epic<AllActions, StateType> = action$ =>
-//   action$.ofType(APP_START).flatMap(action => {
-//     const token = localStorage.getItem("authToken");
-//     if (token !== undefined && token !== null) return [receiveToken(token)];
-//     return [];
-//   });
-
 export const login = (
   action$: ActionsObservable<Action>,
   store: MiddlewareAPI<StateType>
 ) => {
   const x = action$.ofType(LOGIN).flatMap(async (action$: LoginAction) => {
-    console.log("Gonna post!");
     type Result = {
       token: string;
     };
@@ -69,14 +61,52 @@ export const login = (
       );
 
       if (res.status !== 200) {
-        console.log("Failed :(");
         return failLogin(res.statusText);
       }
       return receiveToken(res.data.token);
     } catch (e) {
-      console.log(e.response);
       return failLogin(e.response.data.message);
     }
   });
+  return x;
+};
+
+export const register = (
+  action$: ActionsObservable<Action>,
+  store: MiddlewareAPI<StateType>
+) => {
+  const x = action$
+    .ofType(REGISTER)
+    .flatMap(async (action$: RegisterAction): Promise<Action[]> => {
+      type Result = {
+        token: string;
+      };
+      try {
+        const registration = await axios.post<{
+          success: boolean;
+          message?: string;
+        }>(StoryServices.user, {
+          username: action$.username,
+          password: action$.password,
+          passwordConfirmation: action$.passwordConfirmation
+        });
+
+        if (registration.status !== 200 || registration.data.success !== true) {
+          return [
+            registerFail(registration.data.message || registration.statusText)
+          ];
+        }
+        return [
+          registerSucceed(),
+          loginAction({
+            username: action$.username,
+            password: action$.password
+          })
+        ];
+      } catch (e) {
+        return [registerFail(e.response.data.message || e.message)];
+      }
+    })
+    .flatMap(os => Observable.from(os));
   return x;
 };

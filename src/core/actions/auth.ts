@@ -49,12 +49,37 @@ export type RegisterAction = {
   type: "REGISTER";
   username: string;
   password: string;
+  passwordConfirmation: string;
 };
-export const register = (
-  username: string,
-  password: string
-): RegisterAction => ({
+export const register = ({
+  username,
+  password,
+  passwordConfirmation
+}: {
+  username: string;
+  password: string;
+  passwordConfirmation: string;
+}): RegisterAction => ({
   type: REGISTER,
   username,
-  password
+  password,
+  passwordConfirmation
+});
+
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export type RegisterFailAction = {
+  type: "REGISTER_FAIL";
+  e: string;
+};
+export const registerFail = (err: string): RegisterFailAction => ({
+  type: REGISTER_FAIL,
+  e: err
+});
+
+export const REGISTER_SUCCEEDED = "REGISTER_SUCCEEDED";
+export type RegisterSucceedAction = {
+  type: "REGISTER_SUCCEEDED";
+};
+export const registerSucceed = (): RegisterSucceedAction => ({
+  type: REGISTER_SUCCEEDED
 });

@@ -1,9 +1,9 @@
 const StoryProdBasePath = "https://api.story-ai.com";
-const StoryDevBasePath = "http://localhost:4000";
+const StoryDevBasePath = "http://localhost";
 
 const StoryDevServices = {
-  material: `${StoryDevBasePath}`,
-  user: `${StoryDevBasePath}`
+  material: `${StoryDevBasePath}:4000`,
+  user: `${StoryDevBasePath}:4001`
 };
 
 const StoryProdServices = {
@@ -13,3 +13,5 @@ const StoryProdServices = {
 
 export const StoryServices =
   process.env.NODE_ENV === "production" ? StoryProdServices : StoryDevServices;
+
+export const CENTURY_API_BASE = "https://app.century.tech/learn/api";

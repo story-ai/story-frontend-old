@@ -16,7 +16,6 @@ import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { login } from "../../core/actions/auth";
 import { InputField } from "../Forms/InputField";
 
-import { LogoutPage } from "./logout";
 import "./index.scss";
 
 const LoginFormComponent: React.StatelessComponent<
@@ -101,4 +100,3 @@ export const LoginPageComponent: React.StatelessComponent<{
 export const LoginPage = connect(null, {
   onSubmit: login
 })(LoginPageComponent);
-export { LogoutPage } from "./logout";
