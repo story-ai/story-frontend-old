@@ -5,6 +5,7 @@ import { requestUser } from "./user";
 import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
 import { requestCourses, updateCoursesOnClassReceived } from "./courses";
 import { login, logout, register } from "./auth";
+import { requestStudyGroup, requestStudyGroupList } from "./study_groups";
 
 export const epic = combineEpics(
   // auth
@@ -20,5 +21,7 @@ export const epic = combineEpics(
   updateCoursesOnClassReceived,
 
   // user
-  requestUser
+  requestUser,
+  requestStudyGroup,
+  requestStudyGroupList
 );

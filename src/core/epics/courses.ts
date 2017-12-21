@@ -11,39 +11,50 @@ import {
   failCourseRequest,
   requestCourse,
   RequestCoursesAction,
-  succeedCourseRequest
+  succeedCourseRequest,
+  SucceedCourseRequestAction,
+  FailCourseRequestAction
 } from "../actions/courses";
-import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
+import { StoryTypes, Map } from "story-backend-utils";
 import {
   CLASSES_REQUEST_SUCCEEDED,
   ClassRequestSucceededAction
 } from "../actions/classes";
 import { StateType } from "../reducers/index";
-import { Map } from "../../../../backend-utils/dist/types/common";
 
-export const requestCourses = (action$: ActionsObservable<Action>) =>
-  action$
+export const requestCourses = (action$: ActionsObservable<Action>) => {
+  // separate ids out into a stream
+  const idStream = action$
     .ofType(COURSES_REQUESTED)
-    .map((action: RequestCoursesAction) =>
-      // filter out duplicates
-      action.ids.filter((id, i, a) => a.indexOf(id) === i)
-    )
-    // don't send if we don't need to
-    .filter(ids => ids.length > 0)
-    .flatMap(ids =>
-      axios.get<Map<StoryTypes.Course>>(`${StoryServices.material}/course`, {
-        params: { ids: ids.join(",") }
-      })
-    )
-    .map(res => {
-      if (res.status !== 200) throw res.data;
+    .flatMap((action: RequestCoursesAction) => action.ids);
 
-      if (typeof res.data !== "object") {
-        throw "Unexpected result shape " + JSON.stringify(res.data);
-      }
-      return succeedCourseRequest(res.data);
-    })
-    .catch(e => Observable.of(failCourseRequest(null, e)));
+  return (
+    idStream
+      .buffer(idStream.debounceTime(100))
+      .map(ids =>
+        // filter out duplicates
+        ids.filter((id, i, a) => a.indexOf(id) === i)
+      )
+      // don't send at all if we don't need to
+      .filter(ids => ids.length > 0)
+      .flatMap(ids => {
+        const x = axios
+          .get<Map<StoryTypes.Course>>(`${StoryServices.material}/course`, {
+            params: { ids: ids.join(",") }
+          })
+          .then(res => {
+            if (res.status !== 200) throw res.data;
+
+            if (typeof res.data !== "object") {
+              throw "Unexpected result shape " + JSON.stringify(res.data);
+            }
+            return succeedCourseRequest(res.data);
+          })
+          .catch(e => failCourseRequest(ids, e));
+        return x;
+      })
+  );
+};
 
 export const updateCoursesOnClassReceived = (
   action$: ActionsObservable<Action>,

@@ -35,7 +35,6 @@ export const reducer = (
   state: StateType = initial,
   action:
     | ReceivedTokenAction
-    | LogoutAction
     | LoginAction
     | LoginFailedAction
     | RegisterAction
@@ -45,9 +44,6 @@ export const reducer = (
   switch (action.type) {
     case RECEIVED_TOKEN:
       return { loginPending: false, token: action.token };
-
-    case LOGOUT:
-      return { loginPending: false, token: null };
 
     case LOGIN:
       return { loginPending: true, token: null };

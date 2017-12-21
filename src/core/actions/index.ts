@@ -25,6 +25,12 @@ import {
   ReceivedTokenAction,
   RegisterAction
 } from "./auth";
+import {
+  StudyGroupListRequestAction,
+  StudyGroupRequestAction,
+  StudyGroupRequestFailedAction,
+  StudyGroupRequestSucceededAction
+} from "./study_groups";
 
 export type AllActions =
   | LoginAction
@@ -43,4 +49,8 @@ export type AllActions =
   | RequestCoursesAction
   | FailRequestUserAction
   | SucceedUserRequestAction
-  | RequestUserAction;
+  | RequestUserAction
+  | StudyGroupListRequestAction
+  | StudyGroupRequestAction
+  | StudyGroupRequestFailedAction
+  | StudyGroupRequestSucceededAction;
