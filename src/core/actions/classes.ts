@@ -1,5 +1,45 @@
 import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
 
+export const REQUEST_ADD_TO_CLASS = "REQUEST_ADD_TO_CLASS";
+export type AddToClassRequestAction = {
+  type: "REQUEST_ADD_TO_CLASS";
+  classId: string;
+};
+export const requestAddToClass = (
+  classId: string,
+  userId: string
+): AddToClassRequestAction => ({
+  type: "REQUEST_ADD_TO_CLASS",
+  classId
+});
+
+export const ADD_TO_CLASS_REQUEST_FAILED = "ADD_TO_CLASS_REQUEST_FAILED";
+export type AddToClassFailedAction = {
+  type: "ADD_TO_CLASS_REQUEST_FAILED";
+  classId: string;
+  error: string;
+};
+export const failAddToClassRequest = (
+  classId: string,
+  error: string
+): AddToClassFailedAction => ({
+  type: ADD_TO_CLASS_REQUEST_FAILED,
+  error,
+  classId
+});
+
+export const ADD_TO_CLASS_REQUEST_SUCCEEDED = "ADD_TO_CLASS_REQUEST_SUCCEEDED";
+export type AddToClassSucceededAction = {
+  type: "ADD_TO_CLASS_REQUEST_SUCCEEDED";
+  classId: string;
+};
+export const succeedAddToClassRequest = (
+  classId: string
+): AddToClassSucceededAction => ({
+  type: ADD_TO_CLASS_REQUEST_SUCCEEDED,
+  classId
+});
+
 export const CLASSES_REQUESTED = "CLASS_REQUESTED";
 export type ClassRequestAction = {
   type: "CLASS_REQUESTED";

@@ -16,3 +16,5 @@ export const StoryServices =
 
 export const CENTURY_LEARN_API = "https://app.century.tech/learn/api";
 export const CENTURY_ACCOUNT_API = "https://api.century.tech/accounts/v2";
+
+export const STORY_ORGANISATION_ID = "0adee573-b3e3-46cf-a16b-32980590e2fe";

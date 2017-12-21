@@ -12,7 +12,10 @@ import {
   AllClassesRequestAction,
   ClassRequestAction,
   ClassRequestFailedAction,
-  ClassRequestSucceededAction
+  ClassRequestSucceededAction,
+  AddToClassFailedAction,
+  AddToClassRequestAction,
+  AddToClassSucceededAction
 } from "./classes";
 import {
   FailRequestUserAction,
@@ -53,4 +56,7 @@ export type AllActions =
   | StudyGroupListRequestAction
   | StudyGroupRequestAction
   | StudyGroupRequestFailedAction
-  | StudyGroupRequestSucceededAction;
+  | StudyGroupRequestSucceededAction
+  | AddToClassFailedAction
+  | AddToClassRequestAction
+  | AddToClassSucceededAction;

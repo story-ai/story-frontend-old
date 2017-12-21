@@ -1,3 +1,4 @@
+import { requestAddToClass } from "../../core/actions/classes";
 import { StateType } from "../../core/reducers";
 import * as React from "react";
 import { StoryTypes } from "story-backend-utils";
@@ -12,8 +13,11 @@ import {
 
 export const ClassListingComponent: React.StatelessComponent<
   Loadable<StoryTypes.Class> & {
+    owned: boolean;
+    reload: () => any;
     teachers: LoadableMap<StoryTypes.Teacher>;
     courses: LoadableMap<StoryTypes.Course>;
+    requestAddToClass: any;
   }
 > = props => {
   if (props.state === "LOADED") {
@@ -34,10 +38,23 @@ export const ClassListingComponent: React.StatelessComponent<
         }}
       >
         <h2>
-          {details.name} ({details.price.toLocaleString("en-GB", {
-            style: "currency",
-            currency: "GBP"
-          })})
+          {details.name} ({props.owned ? (
+            "Owned"
+          ) : (
+            <span>
+              {details.price.toLocaleString("en-GB", {
+                style: "currency",
+                currency: "GBP"
+              })}
+              {" - "}
+              <a
+                href="#"
+                onClick={() => props.requestAddToClass(props.item._id)}
+              >
+                Buy Now
+              </a>
+            </span>
+          )})
         </h2>
         <div>
           <h3>Teachers:</h3>
@@ -73,9 +90,14 @@ export const ClassListingComponent: React.StatelessComponent<
 };
 
 export const ClassListing = connect(
-  (state: StateType, props: { id: string }) => ({
+  (
+    state: StateType,
+    props: { id: string; reload: () => void; owned: boolean }
+  ) => ({
     teachers: state.teachers,
     courses: state.courses,
+    ...props,
     ...getLoadableFromMap(state.classes, props.id)
-  })
+  }),
+  { requestAddToClass }
 )(ClassListingComponent);

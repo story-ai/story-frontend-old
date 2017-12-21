@@ -2,13 +2,15 @@ import { StateType } from "../../core/reducers";
 import * as React from "react";
 import { connect } from "react-redux";
 import { requestAllClasses } from "../../core/actions/classes";
-import { Map, StoryTypes } from "story-backend-utils";
-import { LoadableMap } from "../../core/reducers/types/Loadable";
+import { Map, StoryTypes, CenturyTypes } from "story-backend-utils";
+import { LoadableMap, Loadable } from "../../core/reducers/types/Loadable";
 import { ClassListing } from "./ClassListing";
 import { requestStudyGroupList } from "../../core/actions/study_groups";
+import { STORY_ORGANISATION_ID } from "../../config";
 
 export class HomeComponent extends React.Component<{
   classes: string[];
+  user: Loadable<CenturyTypes.User>;
   requestAllClasses: () => any;
   requestStudyGroupList: () => any;
 }> {
@@ -22,9 +24,24 @@ export class HomeComponent extends React.Component<{
   };
 
   render(): JSX.Element {
+    if (this.props.user.state !== "LOADED") return <div>Loading...</div>;
+    const org = this.props.user.item.profile.groups.organisations.find(
+      o => o.organisation === STORY_ORGANISATION_ID
+    );
+    if (org === undefined) {
+      console.error("Could not find the story organisation");
+      return <div>An error occurred. Sorry!</div>;
+    }
     return (
       <div>
-        {this.props.classes.map(id => <ClassListing key={id} id={id} />)}
+        {this.props.classes.map(id => (
+          <ClassListing
+            key={id}
+            id={id}
+            reload={this.reload}
+            owned={org.classes.indexOf(id) >= 0}
+          />
+        ))}
       </div>
     );
   }
@@ -32,6 +49,7 @@ export class HomeComponent extends React.Component<{
 
 export const Home = connect(
   (state: StateType) => ({
+    user: state.user,
     classes: Object.keys(state.classes.LOADED)
   }),
   {

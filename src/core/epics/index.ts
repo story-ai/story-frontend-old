@@ -1,6 +1,10 @@
 import { combineEpics } from "redux-observable";
 
-import { requestAllClasses } from "./classes";
+import {
+  requestAllClasses,
+  addToClass,
+  reloadAfterAddingToClass
+} from "./classes";
 import { requestUser } from "./user";
 import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
 import { requestCourses, updateCoursesOnClassReceived } from "./courses";
@@ -23,5 +27,7 @@ export const epic = combineEpics(
   // user
   requestUser,
   requestStudyGroup,
-  requestStudyGroupList
+  requestStudyGroupList,
+  addToClass,
+  reloadAfterAddingToClass
 );
