@@ -18,7 +18,7 @@ const logger = createLogger({
 const devExtension = (window as any).devToolsExtension;
 const epicMiddleware = createEpicMiddleware(epic);
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const middlewares: (
   next: StoreEnhancerStoreCreator<StateType>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { StateType } from "../../core/reducers";
 import "./index.scss";
 import { Home } from "../ClassListingPage";
 import { Switch, Route } from "react-router";
@@ -7,8 +8,21 @@ import { Button } from "semantic-ui-react";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
 import { connect } from "react-redux";
+import { requestUser } from "../../core/actions/user";
+import { CenturyTypes } from "story-backend-utils";
+import * as userReducer from "../../core/reducers/user";
 
-export class AppComponent extends React.Component<{ startApp: () => any }, {}> {
+export class AppComponent extends React.Component<
+  {
+    requestUser: () => any;
+    user: userReducer.StateType;
+  },
+  {}
+> {
+  componentDidMount() {
+    this.props.requestUser();
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -29,4 +43,11 @@ export class AppComponent extends React.Component<{ startApp: () => any }, {}> {
   }
 }
 
-export const App = connect(() => ({}), {})(AppComponent);
+export const App = connect(
+  (state: StateType) => ({
+    user: state.user
+  }),
+  {
+    requestUser
+  }
+)(AppComponent);

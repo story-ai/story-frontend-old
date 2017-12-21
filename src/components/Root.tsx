@@ -7,19 +7,14 @@ import { StateType } from "../core/reducers";
 
 // ==== Local Files
 import "../css/style.scss";
-import { LoginPage, LogoutPage } from "./LoginForm";
+import { LoginPage } from "./LoginForm";
 import { RegisterForm } from "./RegisterForm";
 import { App } from "./App";
 
 const RoutesComponent: React.StatelessComponent<{
   token: string | null;
 }> = ({ token }) => {
-  const loggedInRoutes = (
-    <Switch>
-      <Route path="/logout" component={LogoutPage} />
-      <Route component={App} />
-    </Switch>
-  );
+  const loggedInRoutes = <Route component={App} />;
   const loggedOutRoutes = (
     <Switch>
       <Route path="/register" component={RegisterForm} />

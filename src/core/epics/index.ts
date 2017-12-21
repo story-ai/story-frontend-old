@@ -1,6 +1,7 @@
 import { combineEpics } from "redux-observable";
 
 import { requestAllClasses } from "./classes";
+import { requestUser } from "./user";
 import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
 import { requestCourses, updateCoursesOnClassReceived } from "./courses";
 import { login, logout, register } from "./auth";
@@ -16,5 +17,8 @@ export const epic = combineEpics(
   requestTeachers,
   requestCourses,
   updateTeachersOnClassReceived,
-  updateCoursesOnClassReceived
+  updateCoursesOnClassReceived,
+
+  // user
+  requestUser
 );

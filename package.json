@@ -20,7 +20,7 @@
     "lint-fix": "npm run lint -- --fix",
     "tslint-fix": "npm run tslint -- --fix",
     "watch": "npm-watch",
-    "deploy": "aws --profile serverless --region eu-west-1 s3 sync dist s3://frontend.story.ai"
+    "deploy": "aws --profile story-serverless --region eu-west-2 s3 sync dist s3://new.frontend.story-ai.com"
   },
   "watch": {
     "test": {

@@ -63,9 +63,11 @@ export const updateTeachersOnClassReceived = (
         teacherIds = teacherIds.concat(action$.items[classId].teachers);
       }
 
-      // filter out teachers we already knew
+      // filter out teachers we already knew (or have asked about)
       const knownTeachers = store.getState().teachers;
-      teacherIds = teacherIds.filter(t => !(t in knownTeachers));
+      teacherIds = teacherIds.filter(
+        t => !(t in knownTeachers.LOADED || t in knownTeachers.PENDING)
+      );
 
       // fetch any that are still unknown
       return requestTeacher(teacherIds);

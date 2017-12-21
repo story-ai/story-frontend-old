@@ -5,7 +5,7 @@ import "rxjs";
 import { ajax } from "rxjs/observable/dom/ajax";
 import { Action, MiddlewareAPI } from "redux";
 import axios from "axios";
-import { CENTURY_API_BASE } from "../../config";
+import { CENTURY_LEARN_API } from "../../config";
 
 import { StoryServices } from "../../config";
 import { StateType } from "../reducers/index";

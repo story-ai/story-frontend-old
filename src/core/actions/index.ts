@@ -4,10 +4,8 @@ import {
   RequestCoursesAction
 } from "./courses";
 import {
-  failTeacherRequest,
   FailTeacherRequestAction,
   RequestTeachersAction,
-  succeedTeacherRequest,
   SucceedTeacherRequestAction
 } from "./teachers";
 import {
@@ -17,19 +15,22 @@ import {
   ClassRequestSucceededAction
 } from "./classes";
 import {
+  FailRequestUserAction,
+  SucceedUserRequestAction,
+  RequestUserAction
+} from "./user";
+import {
   LoginAction,
   LogoutAction,
   ReceivedTokenAction,
   RegisterAction
 } from "./auth";
-import { APP_START, AppStartAction } from "./app";
 
 export type AllActions =
   | LoginAction
   | LogoutAction
   | ReceivedTokenAction
   | RegisterAction
-  | AppStartAction
   | ClassRequestAction
   | ClassRequestFailedAction
   | ClassRequestSucceededAction
@@ -39,4 +40,7 @@ export type AllActions =
   | RequestTeachersAction
   | FailCourseRequestAction
   | SucceedCourseRequestAction
-  | RequestCoursesAction;
+  | RequestCoursesAction
+  | FailRequestUserAction
+  | SucceedUserRequestAction
+  | RequestUserAction;

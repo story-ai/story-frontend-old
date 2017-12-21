@@ -12,7 +12,7 @@ export const CourseHeadingComponent: React.StatelessComponent<{
   item: StoryTypes.Course;
 }> = props => {
   const name = props.item.name;
-  return <li>{name}</li>;
+  return <li><a href="/">{name}</a></li>;
 };
 
 export const CourseHeading = CourseHeadingComponent;
