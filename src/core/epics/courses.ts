@@ -38,6 +38,7 @@ export const requestCourses = (action$: ActionsObservable<Action>) => {
       // don't send at all if we don't need to
       .filter(ids => ids.length > 0)
       .flatMap(ids => {
+        // TODO: Don't need to go via Story here - the CENTURY course endpoint is student-accessible
         const x = axios
           .get<Map<StoryTypes.Course>>(`${StoryServices.material}/course`, {
             params: { ids: ids.join(",") }
@@ -70,6 +71,7 @@ export const updateCoursesOnClassReceived = (
       // add all courses we are hearing about now
       let courseIds: string[] = [];
       for (const classId in action$.items) {
+        // GET study groups for each class
         courseIds = courseIds.concat(action$.items[classId].courses);
       }
 

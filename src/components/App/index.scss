@@ -2,16 +2,75 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  .header,
-  .footer {
-    flex: 0 0 auto;
-    .ui.menu {
-      border-radius: 0;
+
+  background-attachment: fixed;
+  background-color: #283039;
+  background-image: url(../../img/dark.png);
+  background-position: center center;
+  background-repeat: repeat-x;
+  color: #fff;
+  font-family: "Proxima Soft", "ProximaNovaSoft", "Proxima Nova Soft",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+
+  .app-content {
+    flex: 1;
+    overflow-y: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .app-header,
+  .app-footer {
+    background-attachment: fixed;
+    background-color: #283039;
+    background-image: url(../../img/dark-blur.png);
+    background-position: center center;
+    background-repeat: repeat-x;
+    padding: 0;
+    .container {
+      flex-direction: row;
+      height: 100%;
     }
   }
+
+  .container {
+    max-width: 1127px;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto;
+  }
+
+  .app-header {
+    height: 64px;
+    font-size: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    h1 {
+      line-height: 36px;
+      width: 100%;
+    }
+  }
+
+  .app-footer {
+    height: 36px;
+    line-height: 36px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    .container {
+      justify-content: space-between;
+    }
+  }
+
   .content {
     flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+
+#drift-widget-container iframe {
+  bottom: 44px !important;
 }

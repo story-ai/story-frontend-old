@@ -85,7 +85,7 @@ export const register = (
         const registration = await axios.post<{
           success: boolean;
           message?: string;
-        }>(StoryServices.user, {
+        }>(`${StoryServices.material}/user`, {
           username: action$.username,
           password: action$.password,
           passwordConfirmation: action$.passwordConfirmation

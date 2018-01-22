@@ -21,7 +21,11 @@ const RegistrationFormComponent: React.StatelessComponent<
   { pending: boolean; registerError?: string } & InjectedFormProps
 > = props => {
   return (
-    <Form size="large">
+    <Form
+      size="large"
+      // This is unsatisfactory but I think is a problem with the redux-forms typings
+      onSubmit={props.handleSubmit as any}
+    >
       <Segment stacked>
         {props.registerError !== undefined ? (
           <Message negative>{props.registerError}</Message>
@@ -57,7 +61,7 @@ const RegistrationFormComponent: React.StatelessComponent<
           color="teal"
           fluid
           size="large"
-          onClick={props.handleSubmit}
+          type="submit"
           disabled={props.pending}
         >
           {props.pending ? "Signing up..." : "Sign up"}

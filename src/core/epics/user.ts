@@ -10,13 +10,13 @@ import {
   failUserRequest,
   RequestUserAction,
   succeedUserRequest,
-  USER_REQUESTED
+  USER_REQUESTED,
+  USER_REQUEST_SUCCEEDED,
+  SucceedUserRequestAction
 } from "../actions/user";
-import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
 import { Store } from "react-redux";
 import { StateType } from "../reducers/index";
-import { Map } from "../../../../backend-utils/dist/types/common";
-import { CenturyTypes } from "../../../../backend-utils/dist/types/CenturyTypes";
+import { StoryTypes, Map, CenturyTypes } from "story-backend-utils";
 
 export const requestUser = (
   action$: ActionsObservable<Action>,
@@ -41,3 +41,18 @@ export const requestUser = (
       return succeedUserRequest(res.data);
     })
     .catch(e => Observable.of(failUserRequest(e)));
+
+export const identifyDrift = (
+  action$: ActionsObservable<Action>,
+  store: Store<StateType>
+) =>
+  action$
+    .ofType(USER_REQUEST_SUCCEEDED)
+    .flatMap((action: SucceedUserRequestAction) => {
+      drift.identify(action.user._id, {
+        email: action.user.contact.emails.find(e => e.isVerified),
+        name:
+          action.user.personal.name.first + " " + action.user.personal.name.last
+      });
+      return [];
+    });

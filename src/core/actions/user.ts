@@ -1,5 +1,4 @@
-import { StoryTypes } from "story-backend-utils";
-import { CenturyTypes } from "../../../../backend-utils/dist/types/CenturyTypes";
+import { CenturyTypes, StoryTypes } from "story-backend-utils";
 
 export const USER_REQUESTED = "USER_REQUESTED";
 export type RequestUserAction = {

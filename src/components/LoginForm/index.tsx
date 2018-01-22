@@ -22,7 +22,11 @@ const LoginFormComponent: React.StatelessComponent<
   { pending: boolean; loginError?: string } & InjectedFormProps
 > = props => {
   return (
-    <Form size="large">
+    <Form
+      size="large"
+      // This is unsatisfactory but I think is a problem with the redux-forms typings
+      onSubmit={props.handleSubmit as any}
+    >
       <Segment stacked>
         {props.loginError !== undefined ? (
           <Message negative>{props.loginError}</Message>
@@ -44,12 +48,11 @@ const LoginFormComponent: React.StatelessComponent<
           placeholder="Password"
           type="password"
         />
-
         <Button
           color="teal"
           fluid
           size="large"
-          onClick={props.handleSubmit}
+          type="submit"
           disabled={props.pending}
         >
           {props.pending ? "Logging in..." : "Login"}

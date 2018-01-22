@@ -1,12 +1,31 @@
 import * as React from "react";
 import { Menu, Container } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../../core/actions/auth";
 
-export const AppFooter: React.StatelessComponent<{}> = () => {
+export const AppFooterComponent: React.StatelessComponent<{
+  logout: typeof logout;
+}> = props => {
   return (
-    <Menu inverted borderless>
-      <Container>
-        <Menu.Item position="right">Copyright 2017 Story AI</Menu.Item>
-      </Container>
-    </Menu>
+    <div className="app-footer">
+      <div className="container">
+        {/* <Menu.Item
+          position="right"
+          onClick={props.logout}
+          as={(props: {}) => <Link to="/" {...props} />}
+        >
+          Logout
+        </Menu.Item> */}
+        <Link to="/" onClick={props.logout} className="logout">
+          Logout
+        </Link>
+        Copyright {new Date().getFullYear()} Story AI
+      </div>
+    </div>
   );
 };
+
+export const AppFooter = connect(null, {
+  logout
+})(AppFooterComponent);

@@ -7,6 +7,7 @@ import { LoadableMap, Loadable } from "../../core/reducers/types/Loadable";
 import { ClassListing } from "./ClassListing";
 import { requestStudyGroupList } from "../../core/actions/study_groups";
 import { STORY_ORGANISATION_ID } from "../../config";
+import "./index.scss";
 
 export class HomeComponent extends React.Component<{
   classes: string[];
@@ -33,15 +34,17 @@ export class HomeComponent extends React.Component<{
       return <div>An error occurred. Sorry!</div>;
     }
     return (
-      <div>
-        {this.props.classes.map(id => (
-          <ClassListing
-            key={id}
-            id={id}
-            reload={this.reload}
-            owned={org.classes.indexOf(id) >= 0}
-          />
-        ))}
+      <div className="app-content store">
+        <div className="container">
+          {this.props.classes.map(id => (
+            <ClassListing
+              key={id}
+              id={id}
+              reload={this.reload}
+              owned={org.classes.indexOf(id) >= 0}
+            />
+          ))}
+        </div>
       </div>
     );
   }

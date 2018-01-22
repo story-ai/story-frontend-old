@@ -5,11 +5,12 @@ import {
   addToClass,
   reloadAfterAddingToClass
 } from "./classes";
-import { requestUser } from "./user";
+import { requestUser, identifyDrift } from "./user";
 import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
 import { requestCourses, updateCoursesOnClassReceived } from "./courses";
 import { login, logout, register } from "./auth";
 import { requestStudyGroup, requestStudyGroupList } from "./study_groups";
+import { alertOnError } from "./errors";
 
 export const epic = combineEpics(
   // auth
@@ -29,5 +30,9 @@ export const epic = combineEpics(
   requestStudyGroup,
   requestStudyGroupList,
   addToClass,
-  reloadAfterAddingToClass
+  reloadAfterAddingToClass,
+  identifyDrift,
+
+  // errors
+  alertOnError
 );

@@ -12,6 +12,15 @@ import { requestUser } from "../../core/actions/user";
 import { CenturyTypes } from "story-backend-utils";
 import * as userReducer from "../../core/reducers/user";
 
+import { Helmet } from "react-helmet";
+
+const Head = () => (
+  <Helmet>
+    <meta charSet="utf-8" />
+    <title>Story</title>
+  </Helmet>
+);
+
 export class AppComponent extends React.Component<
   {
     requestUser: () => any;
@@ -19,6 +28,7 @@ export class AppComponent extends React.Component<
   },
   {}
 > {
+  // TODO: I feel like we should be kicking off epics outside the component
   componentDidMount() {
     this.props.requestUser();
   }
@@ -26,18 +36,15 @@ export class AppComponent extends React.Component<
   render() {
     return (
       <div className="app-container">
-        <div className="header">
-          <AppHeader />
-        </div>
-        <Container className="content">
-          <Switch>
-            <Route path="/page1" component={Home} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </Container>
+        <AppHeader />
+        <Switch>
+          <Route path="/" component={Home} />
+        </Switch>
         <div className="footer">
           <AppFooter />
         </div>
+
+        <Head />
       </div>
     );
   }

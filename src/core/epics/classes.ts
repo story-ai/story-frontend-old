@@ -61,17 +61,17 @@ export const addToClass = (
   action$
     .ofType(REQUEST_ADD_TO_CLASS)
     .flatMap((action: AddToClassRequestAction) => {
+      console.log("Adding to course again");
       const user = store.getState().user;
       if (user.state !== "LOADED")
         return Observable.of(
           failAddToClassRequest(action.classId, "User not loaded")
         );
 
-      console.log(action);
       return axios
         .put(
-          `${StoryServices.user}/${user.item._id}/class`,
-          { classId: action.classId },
+          `${StoryServices.material}/user/${user.item._id}/class`,
+          { classId: action.classId, stripeToken: action.token },
           {
             headers: {
               Authorization: `Bearer ${store.getState().auth.token}`
@@ -82,9 +82,18 @@ export const addToClass = (
           res =>
             res.status === 200
               ? succeedAddToClassRequest(action.classId)
-              : failAddToClassRequest(action.classId, res.statusText)
+              : failAddToClassRequest(
+                  action.classId,
+                  res.data.message || res.statusText
+                )
         )
-        .catch(e => failAddToClassRequest(action.classId, e));
+        .catch(e => {
+          const message =
+            (e.response && e.response.data && e.response.data.message) ||
+            e.message;
+          console.log(e);
+          return failAddToClassRequest(action.classId, message);
+        });
     });
 
 export const reloadAfterAddingToClass = (
@@ -94,6 +103,5 @@ export const reloadAfterAddingToClass = (
   action$
     .ofType(ADD_TO_CLASS_REQUEST_SUCCEEDED)
     .flatMap((action: AddToClassSucceededAction) => {
-      console.log("Reloading!");
       return [requestStudyGroupList(), requestUser()];
     });

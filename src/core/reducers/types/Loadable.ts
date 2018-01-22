@@ -1,4 +1,4 @@
-import { Map } from "story-backend-utils/dist/types/common";
+import { Map } from "story-backend-utils";
 
 export type LoadableState = "LOADED" | "FAILED" | "PENDING" | "UNKNOWN";
 
@@ -19,7 +19,7 @@ export interface LoadableMap<T = any> {
   PENDING: string[];
 }
 
-export function BlankLoadableMap() {
+export function BlankLoadableMap<T = any>(): LoadableMap<T> {
   return { LOADED: {}, FAILED: {}, PENDING: [] };
 }
 

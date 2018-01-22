@@ -17,10 +17,9 @@ import {
   succeedTeacherRequest,
   TEACHERS_REQUESTED
 } from "../actions/teachers";
-import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
+import { StoryTypes, Map } from "story-backend-utils";
 import { Store } from "react-redux";
 import { StateType } from "../reducers/index";
-import { Map } from "../../../../backend-utils/dist/types/common";
 
 export const requestTeachers = (action$: ActionsObservable<Action>) =>
   action$

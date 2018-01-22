@@ -15,7 +15,7 @@ import {
   AddPending,
   BlankLoadableMap
 } from "./types/Loadable";
-import { StoryTypes } from "../../../../backend-utils/dist/index";
+import { StoryTypes } from "story-backend-utils";
 
 export type StateType = LoadableMap<StoryTypes.Class>;
 

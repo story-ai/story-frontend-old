@@ -3,13 +3,15 @@ import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
 export const REQUEST_ADD_TO_CLASS = "REQUEST_ADD_TO_CLASS";
 export type AddToClassRequestAction = {
   type: "REQUEST_ADD_TO_CLASS";
+  token: string;
   classId: string;
 };
 export const requestAddToClass = (
-  classId: string,
-  userId: string
+  token: string,
+  classId: string
 ): AddToClassRequestAction => ({
   type: "REQUEST_ADD_TO_CLASS",
+  token,
   classId
 });
 

@@ -1,12 +1,8 @@
-// tslint:disable-next-line:no-unused-variable
-import * as React from "react";
-import * as ReactDom from "react-dom";
 import { Provider } from "react-redux";
 import { initial } from "./core/reducers";
 import { loadState, saveState } from "./core/store/localStore";
 import configureStore from "./core/store/configureStore";
 import Root from "./components/Root";
-import { AppContainer } from "react-hot-loader";
 import { combineReducers } from "redux";
 
 const store = configureStore(loadState() || initial);
@@ -14,15 +10,32 @@ store.subscribe(() => {
   saveState(store.getState());
 });
 
-ReactDom.render(<Root store={store} />, document.getElementById("app"));
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { AppContainer } from "react-hot-loader";
+import App from "./App";
 
-if ((module as any).hot) {
-  (module as any).hot.accept("./components/Root", () => {
-    const NextRootContainer = require("./components/Root").default;
+const rootEl = document.getElementById("root");
+ReactDOM.render(
+  <AppContainer>
+    <Root store={store} />
+  </AppContainer>,
+  rootEl
+);
 
-    ReactDom.render(
-      <NextRootContainer store={store} />,
-      document.getElementById("app")
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept("./components/Root", () => {
+    const newConfigureStore = require("./core/store/configureStore");
+    const newStore = newConfigureStore.configureStore();
+    const NextRootContainer = require<{
+      default: typeof Root;
+    }>("./components/Root").default;
+    ReactDOM.render(
+      <AppContainer>
+        <NextRootContainer store={newStore} />
+      </AppContainer>,
+      rootEl
     );
   });
 }
