@@ -18,7 +18,9 @@ import App from "./App";
 const rootEl = document.getElementById("root");
 ReactDOM.render(
   <AppContainer>
-    <Root store={store} />
+    <Provider store={store}>
+      <Root />
+    </Provider>
   </AppContainer>,
   rootEl
 );
@@ -33,7 +35,9 @@ if (module.hot) {
     }>("./components/Root").default;
     ReactDOM.render(
       <AppContainer>
-        <NextRootContainer store={newStore} />
+        <Provider store={store}>
+          <NextRootContainer />
+        </Provider>
       </AppContainer>,
       rootEl
     );

@@ -1,45 +1,29 @@
 // ==== Node Modules
 import * as React from "react";
 import { connect, Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect, BrowserRouter } from "react-router-dom";
 import { StateType } from "../core/reducers";
 
 // ==== Local Files
 import "../css/style.scss";
-import { LoginPage } from "./LoginForm";
-import { RegisterForm } from "./RegisterForm";
+import { AuthRoutes } from "./Auth";
 import { App } from "./App";
+import { Store } from "redux";
 
-const RoutesComponent: React.StatelessComponent<{
+export const RootComponent: React.StatelessComponent<{
   token: string | null;
-}> = ({ token }) => {
-  const loggedInRoutes = <Route component={App} />;
-  const loggedOutRoutes = (
-    <Switch>
-      <Route path="/register" component={RegisterForm} />
-      <Route component={LoginPage} />
-    </Switch>
-  );
+}> = props => {
+  const { token } = props;
+  let content;
+  if (props.token === null) {
+    content = <AuthRoutes />;
+  } else {
+    content = <App />;
+  }
 
-  return (
-    <BrowserRouter>
-      {token === null ? loggedOutRoutes : loggedInRoutes}
-    </BrowserRouter>
-  );
+  return <BrowserRouter>{content}</BrowserRouter>;
 };
 
-const Routes = connect((state: StateType) => ({ token: state.auth.token }))(
-  RoutesComponent
-);
-
-export default class Root extends React.Component<{ store: any }, {}> {
-  render() {
-    const { store } = this.props;
-    return (
-      <Provider store={store}>
-        <Routes />
-      </Provider>
-    );
-  }
-}
+export default connect((state: StateType) => ({
+  token: state.auth.token
+}))(RootComponent);

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Menu, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../core/actions/auth";

@@ -3,8 +3,6 @@ import { StateType } from "../../core/reducers";
 import "./index.scss";
 import { Home } from "../ClassListingPage";
 import { Switch, Route } from "react-router";
-import { Container } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
 import { connect } from "react-redux";
