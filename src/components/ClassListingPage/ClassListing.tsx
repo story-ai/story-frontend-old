@@ -41,7 +41,7 @@ export const ClassListingComponent: React.StatelessComponent<
           <i />
         </div>
 
-        <div className="content">
+        <div className="content ">
           <h2>
             {details.name}
             {!props.owned &&
@@ -53,55 +53,61 @@ export const ClassListingComponent: React.StatelessComponent<
                 ") "}
           </h2>
 
-          {/* <div>
-            Teachers:&nbsp;
-            {teachers
-              .map(
-                t =>
-                  t.state === "LOADED" &&
-                  t.item.personal.name.first + " " + t.item.personal.name.last
-              )
-              .join(", ")}
-          </div>
+          <div className="detail">
+            <div className="courses">
+              <h3>Courses Covered</h3>
 
-          <div>
-            Courses Covered:&nbsp;
-            {courses.map(t => t.state === "LOADED" && t.item.name).join(", ")}
-          </div> */}
+              <ul>
+                {courses.map(
+                  t =>
+                    t.state === "LOADED" ? (
+                      <CourseHeading
+                        bought={props.owned}
+                        key={t.item._id}
+                        item={t.item}
+                      />
+                    ) : null
+                )}
+              </ul>
+              {/* {courses.map(t => t.state === "LOADED" && <p>{t.item.name}</p>)} */}
+            </div>
+            <div className="teachers">
+              <h3>Teachers</h3>
+              <ul>
+                {teachers.map(
+                  t =>
+                    t.state === "LOADED" && (
+                      <li>
+                        {t.item.personal.name.first} {t.item.personal.name.last}
+                      </li>
+                    )
+                )}
+              </ul>
+            </div>
+          </div>
         </div>
-        {/* <div>
-        </div>
-        <div>
-          <h3>Courses Covered:</h3>
-          <ul>
-            {courses.map(
-              t =>
-                t.state === "LOADED" ? (
-                  <CourseHeading key={t.item._id} item={t.item} />
-                ) : null
-            )}
-          </ul>
-        </div> */}
       </div>
     );
 
     if (props.owned) {
-      return listing;
+      return <div className="listing-container">{listing}</div>;
     } else {
       return (
-        <StripeCheckout
-          token={t => props.requestAddToClass(t.id, props.item._id)}
-          name={"Story"}
-          description={props.item.name}
-          amount={props.item.price * 100}
-          currency="USD"
-          zipCode={true}
-          email={props.user.item.contact.emails[0].address}
-          bitcoin={true}
-          stripeKey={STRIPE_KEY}
-        >
-          {listing}
-        </StripeCheckout>
+        <div className="listing-container">
+          <StripeCheckout
+            token={t => props.requestAddToClass(t.id, props.item._id)}
+            name={"Story"}
+            description={props.item.name}
+            amount={props.item.price * 100}
+            currency="USD"
+            zipCode={true}
+            email={props.user.item.contact.emails[0].address}
+            bitcoin={true}
+            stripeKey={STRIPE_KEY}
+          >
+            {listing}
+          </StripeCheckout>
+        </div>
       );
     }
   }

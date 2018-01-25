@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: stretch;
     padding-top: 30px;
+    flex-wrap: wrap;
   }
   .class-listing {
     background-attachment: fixed;
@@ -12,15 +13,19 @@
     background-repeat: repeat-x;
     min-height: 120px;
     padding: 8px 18px 8px 8px;
-    border-radius: 200px 36px 36px 200px;
+    border-radius: 70px 36px 36px 70px;
     margin: 18px 27px;
     display: flex;
     flex-direction: row;
+    align-items: stretch;
     cursor: pointer;
     transition: all 500ms;
+    max-height: 140px;
     &:hover {
       margin-top: 12px;
       margin-bottom: 24px;
+      border-bottom-left-radius: 36px;
+      max-height: 300px;
     }
     .picture {
       background: linear-gradient(
@@ -61,6 +66,21 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      & .title {
+        flex: 0;
+      }
+      & .detail {
+        overflow-y: auto;
+        flex: 1;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        align-items: flex-start;
+        & > div {
+          flex: 1;
+        }
+      }
     }
   }
 }
