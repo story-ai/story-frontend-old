@@ -104,7 +104,10 @@ export const register = (
           })
         ];
       } catch (e) {
-        return [registerFail(e.response.data.message || e.message)];
+        if (e.response && e.response.data && e.response.data.message) {
+          return [registerFail(e.response.data.message)];
+        }
+        return [registerFail(e.message)];
       }
     })
     .flatMap(os => Observable.from(os));

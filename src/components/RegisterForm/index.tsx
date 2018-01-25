@@ -1,73 +1,67 @@
 import { StateType } from "../../core/reducers";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Segment
-} from "semantic-ui-react";
 import { InputHTMLAttributes } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { register } from "../../core/actions/auth";
 import { InputField } from "../Forms/InputField";
+
 import "./index.scss";
 
 const RegistrationFormComponent: React.StatelessComponent<
   { pending: boolean; registerError?: string } & InjectedFormProps
 > = props => {
   return (
-    <Form
-      size="large"
-      // This is unsatisfactory but I think is a problem with the redux-forms typings
-      onSubmit={props.handleSubmit as any}
-    >
-      <Segment stacked>
-        {props.registerError !== undefined ? (
-          <Message negative>{props.registerError}</Message>
-        ) : null}
-        <InputField
-          name="username"
-          fluid
-          icon="user"
-          iconPosition="left"
-          disabled={props.pending}
-          placeholder="E-mail address"
-        />
-        <InputField
-          name="password"
-          fluid
-          icon="lock"
-          iconPosition="left"
-          disabled={props.pending}
-          placeholder="Password"
-          type="password"
-        />
-        <InputField
-          name="passwordConfirmation"
-          fluid
-          icon="lock"
-          iconPosition="left"
-          disabled={props.pending}
-          placeholder="Password Confirmation"
-          type="password"
-        />
+    <div className="auth-container">
+      <div className="auth-content">
+        <div className="row">
+          <div className="logo" />
+          <form
+            // This is unsatisfactory but I think is a problem with the redux-forms typings
+            onSubmit={props.handleSubmit as any}
+          >
+            <h1>Register </h1>
+            {props.registerError && (
+              <div className="err">{props.registerError}</div>
+            )}
+            <Field
+              name="username"
+              disabled={props.pending}
+              placeholder="E-mail address"
+              component="input"
+              type="email"
+            />
+            <Field
+              name="password"
+              disabled={props.pending}
+              placeholder="Password"
+              component="input"
+              type="password"
+            />
+            <Field
+              name="passwordConfirmation"
+              disabled={props.pending}
+              placeholder="Password Confirmation"
+              component="input"
+              type="password"
+            />
 
-        <Button
-          color="teal"
-          fluid
-          size="large"
-          type="submit"
-          disabled={props.pending}
-        >
-          {props.pending ? "Signing up..." : "Sign up"}
-        </Button>
-      </Segment>
-    </Form>
+            <button type="submit" disabled={props.pending}>
+              {props.pending ? "Signing up..." : "Sign up"}
+            </button>
+          </form>
+        </div>
+      </div>
+      <div className="auth-footer">
+        <div>
+          <a href="https://story-ai.com">Story</a>
+        </div>
+        <div>
+          <a href="https://century.tech">Powered by CENTURY Tech</a>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -85,18 +79,11 @@ const RegistrationForm = connect(
 
 export const RegisterForm = () => (
   <div className="register-form">
-    <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          {" "}
-          Register for Story
-        </Header>
-        <RegistrationForm />
-        <Message>
-          Already have an account? &nbsp;
-          <Link to="/login">Login</Link>
-        </Message>
-      </Grid.Column>
-    </Grid>
+    <div>Register for Story</div>
+    <RegistrationForm />
+    <div>
+      Already have an account? &nbsp;
+      <Link to="/login">Login</Link>
+    </div>
   </div>
 );
