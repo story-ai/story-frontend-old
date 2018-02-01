@@ -5,8 +5,8 @@ import {
   FailRequestUserAction,
   SucceedUserRequestAction,
   RequestUserAction
-} from "../actions/user";
-import { Loadable } from "./types/Loadable";
+} from "../../actions/user";
+import { Loadable } from "../types/Loadable";
 import { CenturyTypes } from "story-backend-utils";
 
 export type StateType = Loadable<CenturyTypes.User>;

@@ -7,10 +7,8 @@
     "build": "webpack --config webpack.config.prod.ts",
     "start": "webpack-dev-server --config webpack.config.dev.ts",
     "prod": "static dist",
-    "deploy":
-      "aws --profile story-serverless --region eu-west-2 s3 sync --delete dist s3://frontend.story-ai.com && npm run invalidate",
-    "invalidate":
-      "aws cloudfront --profile story-serverless create-invalidation --distribution-id EJJ8POR7G55LE --paths '/*'",
+    "deploy": "aws --profile story-serverless --region eu-west-2 s3 sync --delete dist s3://frontend.story-ai.com && npm run invalidate",
+    "invalidate": "aws cloudfront --profile story-serverless create-invalidation --distribution-id EJJ8POR7G55LE --paths '/*'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -19,6 +17,7 @@
     "aws-sdk": "^2.155.0",
     "axios": "^0.17.1",
     "html-webpack-plugin": "^2.30.1",
+    "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
@@ -32,13 +31,15 @@
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.17.0",
     "rxjs": "^5.5.2",
-    "story-backend-utils": "^0.1.6",
+    "story-backend-utils": "^0.1.8",
     "underscore": "^1.8.3",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "@types/clean-webpack-plugin": "^0.1.0",
+    "@types/extract-text-webpack-plugin": "^3.0.0",
     "@types/html-webpack-plugin": "^2.30.1",
+    "@types/lodash": "^4.14.98",
     "@types/node": "^9.3.0",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
@@ -62,6 +63,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "node-sass": "^4.7.2",
     "node-static": "^0.7.10",

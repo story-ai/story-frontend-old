@@ -9,6 +9,7 @@ import { createLogger } from "redux-logger";
 import { reducer, StateType } from "../reducers";
 import { createEpicMiddleware } from "redux-observable";
 import { epic } from "../epics";
+import { POJOfier } from "./pojofier";
 
 const logger = createLogger({
   collapsed: (getState, action, logEntry) =>
@@ -18,11 +19,13 @@ const logger = createLogger({
 const devExtension = (window as any).devToolsExtension;
 const epicMiddleware = createEpicMiddleware(epic);
 
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const middlewares: (
   next: StoreEnhancerStoreCreator<StateType>
 ) => StoreEnhancerStoreCreator<StateType> = applyMiddleware(
+  POJOfier,
   epicMiddleware,
   logger
 );

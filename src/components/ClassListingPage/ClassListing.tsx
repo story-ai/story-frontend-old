@@ -128,7 +128,7 @@ export const ClassListing = connect(
     props: { id: string; reload: () => void; owned: boolean }
   ) => ({
     teachers: state.teachers,
-    courses: state.courses,
+    courses: state.courses.meta,
     user: state.user,
     ...props,
     ...getLoadableFromMap(state.classes, props.id)

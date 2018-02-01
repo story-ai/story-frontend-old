@@ -73,18 +73,23 @@ export function AddLoaded<T>(
 
 export function AddPending<T>(
   state: LoadableMap<T>,
-  action: { ids: string[] }
+  action: { ids?: string[] | undefined }
 ): LoadableMap<T> {
-  // add items to PENDING (but ensure uniqueness)
-  const PENDING = state.PENDING.concat(action.ids).filter(
-    (id, i, a) => a.indexOf(id) === i
-  );
+  let PENDING = state.PENDING;
+  if (typeof action.ids !== undefined) {
+    // add items to PENDING (but ensure uniqueness)
+    PENDING = PENDING.concat(action.ids).filter(
+      (id, i, a) => a.indexOf(id) === i
+    );
+  }
 
   // remove items from LOADED
   const LOADED: Map<T> = {};
-  for (const id in state.LOADED) {
-    if (action.ids.indexOf(id) < 0) {
-      LOADED[id] = state.LOADED[id];
+  if (action.ids !== undefined) {
+    for (const id in state.LOADED) {
+      if (action.ids.indexOf(id) < 0) {
+        LOADED[id] = state.LOADED[id];
+      }
     }
   }
 
@@ -100,10 +105,10 @@ export function AddPending<T>(
 
 export function AddFailures<T>(
   state: LoadableMap<T>,
-  action: { ids: string[] | null; error?: string }
+  action: { ids?: string[]; error?: string }
 ): LoadableMap<T> {
   console.error(action.error);
-  if (action.ids === null) {
+  if (action.ids === undefined) {
     return BlankLoadableMap();
   }
 

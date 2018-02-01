@@ -4,10 +4,10 @@ import * as classes from "./classes";
 import * as courses from "./courses";
 import * as studyGroups from "./study_groups";
 import * as teachers from "./teachers";
-import * as user from "./user";
+import * as user from "./user/index";
 import * as auth from "./auth";
 import { FormStateMap } from "redux-form/lib/reducer";
-import { AllActions } from "../actions/index";
+import { AllActions } from "../actions";
 import { LOGOUT } from "../actions/auth";
 
 export interface StateType {

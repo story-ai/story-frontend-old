@@ -1,16 +1,24 @@
 import { combineEpics } from "redux-observable";
 
-import {
-  requestAllClasses,
-  addToClass,
-  reloadAfterAddingToClass
-} from "./classes";
-import { requestUser, identifyDrift } from "./user";
-import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
-import { requestCourses, updateCoursesOnClassReceived } from "./courses";
 import { login, logout, register } from "./auth";
-import { requestStudyGroup, requestStudyGroupList } from "./study_groups";
+import { reloadAfterAddingToClass, requestAllClasses } from "./classes";
+import {
+  buyCourse,
+  getCourseMeta,
+  requestCourseMeta,
+  requestCourses,
+  updateCoursesOnClassReceived
+} from "./courses";
+import { reloadOnBuy } from "./courses/reloadOnBuy";
 import { alertOnError } from "./errors";
+import { requestStudyGroup, requestStudyGroupList } from "./study_groups";
+import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
+import {
+  getUserMeta,
+  identifyDrift,
+  requestUser,
+  requestUserMeta
+} from "./user";
 
 export const epic = combineEpics(
   // auth
@@ -24,14 +32,21 @@ export const epic = combineEpics(
   requestCourses,
   updateTeachersOnClassReceived,
   updateCoursesOnClassReceived,
+  getCourseMeta,
+
+  requestStudyGroup,
+  requestStudyGroupList,
+  // addToClass,
+  reloadAfterAddingToClass,
+  requestCourseMeta,
+  buyCourse,
+  reloadOnBuy,
 
   // user
   requestUser,
-  requestStudyGroup,
-  requestStudyGroupList,
-  addToClass,
-  reloadAfterAddingToClass,
+  requestUserMeta,
   identifyDrift,
+  getUserMeta,
 
   // errors
   alertOnError

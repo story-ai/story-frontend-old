@@ -25,7 +25,7 @@ export const config: webpack.Configuration = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[path]/assets/[name].[hash].[ext]"
+            name: "[path][name].[ext]"
           }
         }
       },
@@ -35,7 +35,7 @@ export const config: webpack.Configuration = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[path]/assets/[name].[hash].[ext]"
+            name: "[path][name].[ext]"
           }
         }
       },
@@ -48,26 +48,6 @@ export const config: webpack.Configuration = {
         include: path.resolve(__dirname, "src")
       },
 
-      {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
-      },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",

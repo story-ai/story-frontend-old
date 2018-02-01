@@ -1,7 +1,13 @@
 import {
-  FailCourseRequestAction,
-  SucceedCourseRequestAction,
-  RequestCoursesAction
+  AllCoursesRequested,
+  AllCoursesRequestFailed,
+  AllCoursesRequestSucceeded,
+  CourseMetaRequestFailed,
+  CoursesRequestFailed,
+  CoursesRequestSucceeded,
+  CoursesRequested,
+  CourseMetaRequested,
+  CourseMetaRequestSucceeded
 } from "./courses";
 import {
   FailTeacherRequestAction,
@@ -34,6 +40,8 @@ import {
   StudyGroupRequestFailedAction,
   StudyGroupRequestSucceededAction
 } from "./study_groups";
+import { Action } from "redux";
+export { MyAction } from "./MyAction";
 
 export type AllActions =
   | LoginAction
@@ -47,9 +55,6 @@ export type AllActions =
   | FailTeacherRequestAction
   | SucceedTeacherRequestAction
   | RequestTeachersAction
-  | FailCourseRequestAction
-  | SucceedCourseRequestAction
-  | RequestCoursesAction
   | FailRequestUserAction
   | SucceedUserRequestAction
   | RequestUserAction
@@ -59,4 +64,14 @@ export type AllActions =
   | StudyGroupRequestSucceededAction
   | AddToClassFailedAction
   | AddToClassRequestAction
-  | AddToClassSucceededAction;
+  | AddToClassSucceededAction
+  // courses
+  | AllCoursesRequested
+  | AllCoursesRequestFailed
+  | AllCoursesRequestSucceeded
+  | CourseMetaRequested
+  | CourseMetaRequestFailed
+  | CourseMetaRequestSucceeded
+  | CoursesRequested
+  | CoursesRequestFailed
+  | CoursesRequestSucceeded;

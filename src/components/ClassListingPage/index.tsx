@@ -1,6 +1,8 @@
 import { StateType } from "../../core/reducers";
 import * as React from "react";
 import { connect } from "react-redux";
+import { AllCoursesRequested } from "../../core/actions/courses";
+
 import { requestAllClasses } from "../../core/actions/classes";
 import { Map, StoryTypes, CenturyTypes } from "story-backend-utils";
 import { LoadableMap, Loadable } from "../../core/reducers/types/Loadable";
@@ -12,7 +14,7 @@ import "./index.scss";
 export class HomeComponent extends React.Component<{
   classes: string[];
   user: Loadable<CenturyTypes.User>;
-  requestAllClasses: () => any;
+  requestAllCourses: () => AllCoursesRequested;
   requestStudyGroupList: () => any;
 }> {
   componentDidMount() {
@@ -20,7 +22,7 @@ export class HomeComponent extends React.Component<{
   }
 
   reload = () => {
-    this.props.requestAllClasses();
+    this.props.requestAllCourses();
     this.props.requestStudyGroupList();
   };
 
@@ -56,7 +58,7 @@ export const Home = connect(
     classes: Object.keys(state.classes.LOADED)
   }),
   {
-    requestAllClasses,
+    requestAllCourses: () => new AllCoursesRequested(),
     requestStudyGroupList
   }
 )(HomeComponent);

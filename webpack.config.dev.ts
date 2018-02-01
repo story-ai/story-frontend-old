@@ -6,7 +6,30 @@ import { config } from "./webpack.config";
 
 export default merge(config, {
   entry: ["react-hot-loader/patch", "./src/index.tsx"],
-
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      }
+    ]
+  },
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
