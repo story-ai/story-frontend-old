@@ -1,49 +1,65 @@
 import { StateType } from "../../core/reducers";
 import * as React from "react";
 import { connect } from "react-redux";
-import { AllCoursesRequested } from "../../core/actions/courses";
+import {
+  AllCoursesRequested,
+  BuyCourseRequested
+} from "../../core/actions/courses";
 
 import { requestAllClasses } from "../../core/actions/classes";
 import { Map, StoryTypes, CenturyTypes } from "story-backend-utils";
 import { LoadableMap, Loadable } from "../../core/reducers/types/Loadable";
-import { ClassListing } from "./ClassListing";
+import { CourseListing } from "./CourseListing";
 import { requestStudyGroupList } from "../../core/actions/study_groups";
 import { STORY_ORGANISATION_ID } from "../../config";
 import "./index.scss";
 
-export class HomeComponent extends React.Component<{
-  classes: string[];
-  user: Loadable<CenturyTypes.User>;
+type Props = (
+  | { loaded: false }
+  | {
+      loaded: true;
+      courseToStudyGroup: { [k: string]: string };
+      courses: (CenturyTypes.Course & StoryTypes.StoryCourseFields)[];
+      email: string;
+    }) & {
   requestAllCourses: () => AllCoursesRequested;
   requestStudyGroupList: () => any;
-}> {
+  buy: (courseId: string, token: string) => any;
+};
+
+export class HomeComponent extends React.Component<Props> {
   componentDidMount() {
     this.reload();
   }
 
   reload = () => {
-    this.props.requestAllCourses();
-    this.props.requestStudyGroupList();
+    if (this.props.loaded) {
+      // TODO: Should we have a single "RELOAD" action with a corresponding epic?
+      this.props.requestAllCourses();
+      this.props.requestStudyGroupList();
+    }
   };
 
   render(): JSX.Element {
-    if (this.props.user.state !== "LOADED") return <div>Loading...</div>;
-    const org = this.props.user.item.profile.groups.organisations.find(
-      o => o.organisation === STORY_ORGANISATION_ID
-    );
-    if (org === undefined) {
-      console.error("Could not find the story organisation");
-      return <div>An error occurred. Sorry!</div>;
+    // if (this.props.user.state !== "LOADED") return <div>Loading...</div>;
+    // const org = this.props.user.item.profile.groups.organisations.find(
+    //   o => o.organisation === STORY_ORGANISATION_ID
+    // );
+    if (!this.props.loaded) {
+      return <div>Loading...</div>;
     }
+    const { email, courses, courseToStudyGroup } = this.props;
     return (
       <div className="app-content store">
         <div className="container">
-          {this.props.classes.map(id => (
-            <ClassListing
-              key={id}
-              id={id}
+          {courses.map(course => (
+            <CourseListing
+              key={course._id}
+              course={course}
               reload={this.reload}
-              owned={org.classes.indexOf(id) >= 0}
+              email={email}
+              studyGroupId={courseToStudyGroup[course._id]}
+              buy={this.props.buy}
             />
           ))}
         </div>
@@ -52,13 +68,43 @@ export class HomeComponent extends React.Component<{
   }
 }
 
-export const Home = connect(
-  (state: StateType) => ({
-    user: state.user,
-    classes: Object.keys(state.classes.LOADED)
-  }),
-  {
-    requestAllCourses: () => new AllCoursesRequested(),
-    requestStudyGroupList
+const mapState = (state: StateType) => {
+  // TODO: Move to selector
+  const courseKeys = Object.keys(state.courses.meta.LOADED);
+  const courses: (CenturyTypes.Course & StoryTypes.StoryCourseFields)[] = [];
+  for (const k of courseKeys) {
+    if (k in state.courses.century.LOADED) {
+      courses.push({
+        ...state.courses.meta.LOADED[k],
+        ...state.courses.century.LOADED[k]
+      });
+    }
   }
-)(HomeComponent);
+
+  // TODO: move to selector
+  if (state.user.details.state !== "LOADED") {
+    return { loaded: false };
+  }
+
+  // TODO: move to selector
+  const courseToStudyGroup: { [course: string]: string } = {};
+  for (const k of Object.keys(state.studyGroups.LOADED)) {
+    courseToStudyGroup[state.studyGroups.LOADED[k].course] = k;
+  }
+
+  // TODO: move to selector
+  const email = state.user.details.item.contact.emails[0].address;
+  return {
+    loaded: true,
+    courseToStudyGroup,
+    email,
+    courses
+  };
+};
+
+export const Home = connect(mapState, {
+  requestAllCourses: () => new AllCoursesRequested(),
+  buy: (courseId: string, token: string) =>
+    new BuyCourseRequested(courseId, token),
+  requestStudyGroupList
+})(HomeComponent);
