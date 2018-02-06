@@ -1,14 +1,15 @@
 import { combineReducers } from "redux";
 import * as form from "redux-form";
+import { FormStateMap } from "redux-form/lib/reducer";
+
+import { AllActions } from "../actions";
+import { LogoutRequestSucceeded } from "../actions/auth";
+import * as auth from "./auth";
 import * as classes from "./classes";
 import * as courses from "./courses";
 import * as studyGroups from "./study_groups";
 import * as teachers from "./teachers";
-import * as user from "./user/index";
-import * as auth from "./auth";
-import { FormStateMap } from "redux-form/lib/reducer";
-import { AllActions } from "../actions";
-import { LOGOUT } from "../actions/auth";
+import * as user from "./user";
 
 export interface StateType {
   readonly auth: auth.StateType;
@@ -45,8 +46,7 @@ export const reducer = (
   action: AllActions
 ): StateType => {
   switch (action.type) {
-    case LOGOUT:
-      console.log("Clearing!");
+    case LogoutRequestSucceeded.type:
       return initial;
   }
   return mainReducer(state, action);

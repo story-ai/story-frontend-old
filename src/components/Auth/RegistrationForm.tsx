@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { InputHTMLAttributes, ReactElement } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
-import { register } from "../../core/actions/auth";
+import { Register } from "../../core/actions/auth";
 
 const RegisterFormComponent: React.StatelessComponent<
   {
     pending: boolean;
-    registerError?: string;
+    registerError: string | undefined;
   } & InjectedFormProps
 > = props => {
   return (
@@ -57,12 +57,20 @@ const RegisterFormComponent: React.StatelessComponent<
 
 const registerReduxForm = reduxForm({
   form: "register"
-})(RegisterFormComponent);
+})(RegisterFormComponent as any);
 
 export const RegistrationForm = connect(
   (state: StateType) => ({
     pending: state.auth.loginPending,
     registerError: state.auth.registerError
   }),
-  { onSubmit: register }
+  {
+    onSubmit: ({
+      username,
+      password,
+      passwordConfirmation
+    }: {
+      [k: string]: string;
+    }) => new Register(username, password, passwordConfirmation)
+  }
 )(registerReduxForm as any);

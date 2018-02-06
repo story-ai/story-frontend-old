@@ -1,77 +1,104 @@
+import { ReloadAll } from "./app";
+import {
+  AuthRequestFailed,
+  GotToken,
+  LoginRequested,
+  LoginRequestSucceeded,
+  LogoutRequested,
+  LogoutRequestSucceeded,
+  Register,
+  RegisterFailed,
+  RegisterSucceeded
+} from "./auth";
+import {
+  AddToClassRequest,
+  AddToClassRequestFailed,
+  AddToClassRequestSucceeded,
+  AllClassesRequested,
+  ClassRequested,
+  ClassRequestFailed,
+  ClassRequestSucceeded
+} from "./classes";
 import {
   AllCoursesRequested,
   AllCoursesRequestFailed,
   AllCoursesRequestSucceeded,
-  CourseMetaRequestFailed,
-  CoursesRequestFailed,
-  CoursesRequestSucceeded,
-  CoursesRequested,
+  BuyCourseRequested,
+  BuyCourseRequestFailed,
+  BuyCourseRequestSucceeded,
   CourseMetaRequested,
-  CourseMetaRequestSucceeded
+  CourseMetaRequestFailed,
+  CourseMetaRequestSucceeded,
+  CoursesRequested,
+  CoursesRequestFailed,
+  CoursesRequestSucceeded
 } from "./courses";
 import {
-  FailTeacherRequestAction,
-  RequestTeachersAction,
-  SucceedTeacherRequestAction
+  StudyGroupListRequested,
+  StudyGroupListRequestFailed,
+  StudyGroupListRequestSucceeded,
+  StudyGroupsRequested,
+  StudyGroupsRequestFailed,
+  StudyGroupsRequestSucceeded
+} from "./study_groups";
+import {
+  TeachersRequested,
+  TeachersRequestFailed,
+  TeachersRequestSucceeded
 } from "./teachers";
 import {
-  AllClassesRequestAction,
-  ClassRequestAction,
-  ClassRequestFailedAction,
-  ClassRequestSucceededAction,
-  AddToClassFailedAction,
-  AddToClassRequestAction,
-  AddToClassSucceededAction
-} from "./classes";
-import {
-  FailRequestUserAction,
-  SucceedUserRequestAction,
-  RequestUserAction
+  UserMetaRequested,
+  UserMetaRequestFailed,
+  UserMetaRequestSucceeded,
+  UserRequested,
+  UserRequestFailed,
+  UserRequestSucceeded
 } from "./user";
-import {
-  LoginAction,
-  LogoutAction,
-  ReceivedTokenAction,
-  RegisterAction
-} from "./auth";
-import {
-  StudyGroupListRequestAction,
-  StudyGroupRequestAction,
-  StudyGroupRequestFailedAction,
-  StudyGroupRequestSucceededAction
-} from "./study_groups";
-import { Action } from "redux";
+
 export { MyAction } from "./MyAction";
 
 export type AllActions =
-  | LoginAction
-  | LogoutAction
-  | ReceivedTokenAction
-  | RegisterAction
-  | ClassRequestAction
-  | ClassRequestFailedAction
-  | ClassRequestSucceededAction
-  | AllClassesRequestAction
-  | FailTeacherRequestAction
-  | SucceedTeacherRequestAction
-  | RequestTeachersAction
-  | FailRequestUserAction
-  | SucceedUserRequestAction
-  | RequestUserAction
-  | StudyGroupListRequestAction
-  | StudyGroupRequestAction
-  | StudyGroupRequestFailedAction
-  | StudyGroupRequestSucceededAction
-  | AddToClassFailedAction
-  | AddToClassRequestAction
-  | AddToClassSucceededAction
-  // courses
+  | AddToClassRequest
+  | AddToClassRequestFailed
+  | AddToClassRequestSucceeded
+  | AllClassesRequested
   | AllCoursesRequested
   | AllCoursesRequestFailed
   | AllCoursesRequestSucceeded
+  | AuthRequestFailed
+  | BuyCourseRequested
+  | BuyCourseRequestFailed
+  | BuyCourseRequestSucceeded
+  | ClassRequested
+  | ClassRequestFailed
+  | ClassRequestSucceeded
   | CourseMetaRequested
   | CourseMetaRequestFailed
   | CourseMetaRequestSucceeded
   | CoursesRequested
   | CoursesRequestFailed
-  | CoursesRequestSucceeded;
+  | CoursesRequestSucceeded
+  | GotToken
+  | LoginRequested
+  | LoginRequestSucceeded
+  | LogoutRequested
+  | LogoutRequestSucceeded
+  | Register
+  | RegisterFailed
+  | RegisterSucceeded
+  | ReloadAll
+  | StudyGroupListRequested
+  | StudyGroupListRequestFailed
+  | StudyGroupListRequestSucceeded
+  | StudyGroupsRequested
+  | StudyGroupsRequestFailed
+  | StudyGroupsRequestSucceeded
+  | TeachersRequested
+  | TeachersRequestFailed
+  | TeachersRequestSucceeded
+  | UserMetaRequested
+  | UserMetaRequestFailed
+  | UserMetaRequestSucceeded
+  | UserRequested
+  | UserRequestFailed
+  | UserRequestSucceeded;

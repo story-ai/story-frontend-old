@@ -1,22 +1,19 @@
-import {
-  STUDY_GROUPS_REQUEST_FAILED,
-  STUDY_GROUPS_REQUEST_SUCCEEDED,
-  STUDY_GROUPS_REQUESTED,
-  StudyGroupRequestFailedAction,
-  StudyGroupRequestAction,
-  StudyGroupRequestSucceededAction,
-  STUDY_GROUP_LIST_REQUESTED,
-  StudyGroupListRequestAction
-} from "../actions/study_groups";
-
-import {
-  LoadableMap,
-  AddLoaded,
-  AddFailures,
-  AddPending,
-  BlankLoadableMap
-} from "./types/Loadable";
 import { CenturyTypes } from "story-backend-utils";
+
+import { AllActions } from "../actions";
+import {
+  StudyGroupListRequested,
+  StudyGroupsRequested,
+  StudyGroupsRequestFailed,
+  StudyGroupsRequestSucceeded
+} from "../actions/study_groups";
+import {
+  AddFailures,
+  AddLoaded,
+  AddPending,
+  BlankLoadableMap,
+  LoadableMap
+} from "./types/Loadable";
 
 export type StateType = LoadableMap<CenturyTypes.StudyGroup>;
 
@@ -24,25 +21,21 @@ export const initial: StateType = BlankLoadableMap();
 
 export const reducer = (
   state: StateType = initial,
-  action:
-    | StudyGroupRequestAction
-    | StudyGroupRequestSucceededAction
-    | StudyGroupRequestFailedAction
-    | StudyGroupListRequestAction
+  action: AllActions
 ): StateType => {
   switch (action.type) {
     // reset when we ask for a fresh list
-    case STUDY_GROUP_LIST_REQUESTED:
+    case StudyGroupListRequested.type:
       return initial;
 
-    case STUDY_GROUPS_REQUEST_FAILED:
+    case StudyGroupsRequestFailed.type:
       return AddFailures(state, action);
 
-    case STUDY_GROUPS_REQUEST_SUCCEEDED:
+    case StudyGroupsRequestSucceeded.type:
       console.log("done");
       return AddLoaded(state, action);
 
-    case STUDY_GROUPS_REQUESTED:
+    case StudyGroupsRequested.type:
       console.log("pending");
       return AddPending(state, action);
   }

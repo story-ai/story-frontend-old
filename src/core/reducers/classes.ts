@@ -1,21 +1,19 @@
+import { StoryTypes } from "story-backend-utils";
+
+import { AllActions } from "../actions";
 import {
-  CLASSES_REQUEST_FAILED,
-  CLASSES_REQUEST_SUCCEEDED,
-  CLASSES_REQUESTED,
-  ALL_CLASSES_REQUESTED,
-  AllClassesRequestAction,
-  ClassRequestAction,
-  ClassRequestFailedAction,
-  ClassRequestSucceededAction
+  AllClassesRequested,
+  ClassRequested,
+  ClassRequestFailed,
+  ClassRequestSucceeded
 } from "../actions/classes";
 import {
-  LoadableMap,
-  AddLoaded,
   AddFailures,
+  AddLoaded,
   AddPending,
-  BlankLoadableMap
+  BlankLoadableMap,
+  LoadableMap
 } from "./types/Loadable";
-import { StoryTypes } from "story-backend-utils";
 
 export type StateType = LoadableMap<StoryTypes.Class>;
 
@@ -23,23 +21,19 @@ export const initial: StateType = BlankLoadableMap();
 
 export const reducer = (
   state: StateType = initial,
-  action:
-    | ClassRequestAction
-    | AllClassesRequestAction
-    | ClassRequestFailedAction
-    | ClassRequestSucceededAction
+  action: AllActions
 ): StateType => {
   switch (action.type) {
-    case ALL_CLASSES_REQUESTED:
+    case AllClassesRequested.type:
       return initial;
 
-    case CLASSES_REQUEST_FAILED:
+    case ClassRequested.type:
       return AddFailures(state, action);
 
-    case CLASSES_REQUEST_SUCCEEDED:
+    case ClassRequestSucceeded.type:
       return AddLoaded(state, action);
 
-    case CLASSES_REQUESTED:
+    case ClassRequestFailed.type:
       return AddPending(state, action);
   }
   return state;

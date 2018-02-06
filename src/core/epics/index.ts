@@ -1,15 +1,15 @@
 import { combineEpics } from "redux-observable";
 
-import { login, logout, register } from "./auth";
-import { reloadAfterAddingToClass, requestAllClasses } from "./classes";
+import { logout, register, ssoObserver } from "./auth";
+import { requestAllClasses } from "./classes";
 import {
   buyCourse,
   getCourseMeta,
+  reloadOnBuy,
   requestCourseMeta,
   requestCourses,
   updateCoursesOnClassReceived
 } from "./courses";
-import { reloadOnBuy } from "./courses/reloadOnBuy";
 import { alertOnError } from "./errors";
 import { requestStudyGroup, requestStudyGroupList } from "./study_groups";
 import { requestTeachers, updateTeachersOnClassReceived } from "./teachers";
@@ -19,35 +19,27 @@ import {
   requestUser,
   requestUserMeta
 } from "./user";
+import { reload } from "./app";
 
 export const epic = combineEpics(
-  // auth
-  login,
+  alertOnError,
+  buyCourse,
+  getCourseMeta,
+  getUserMeta,
+  identifyDrift,
   logout,
   register,
-
-  // materials
+  reload,
+  reloadOnBuy,
   requestAllClasses,
-  requestTeachers,
+  requestCourseMeta,
   requestCourses,
-  updateTeachersOnClassReceived,
-  updateCoursesOnClassReceived,
-  getCourseMeta,
-
   requestStudyGroup,
   requestStudyGroupList,
-  // addToClass,
-  reloadAfterAddingToClass,
-  requestCourseMeta,
-  buyCourse,
-  reloadOnBuy,
-
-  // user
+  requestTeachers,
   requestUser,
   requestUserMeta,
-  identifyDrift,
-  getUserMeta,
-
-  // errors
-  alertOnError
+  ssoObserver,
+  updateCoursesOnClassReceived,
+  updateTeachersOnClassReceived
 );

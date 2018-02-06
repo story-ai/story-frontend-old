@@ -1,36 +1,30 @@
-import { ActionsObservable } from "redux-observable";
-import { Action, MiddlewareAPI } from "redux";
-import { CenturyTypes, StoryTypes } from "story-backend-utils";
-import axios from "axios";
-import { StateType } from "../../reducers/index";
+import { Epic } from "redux-observable";
 
-import {
-  CLASSES_REQUEST_SUCCEEDED,
-  ClassRequestSucceededAction
-} from "../../actions/classes";
+import { AllActions } from "../../actions";
+import { ClassRequestSucceeded } from "../../actions/classes";
 import { CoursesRequested } from "../../actions/courses";
+import { StateType } from "../../reducers";
 
-export const updateCoursesOnClassReceived = (
-  action$: ActionsObservable<Action>,
-  store: MiddlewareAPI<StateType>
+export const updateCoursesOnClassReceived: Epic<AllActions, StateType> = (
+  action$,
+  state$
 ) =>
   action$
-    .ofType(CLASSES_REQUEST_SUCCEEDED)
-    .map((action$: ClassRequestSucceededAction) => {
-      type Result = {
-        [k: string]: StoryTypes.Course;
-      };
-
+    .ofType<ClassRequestSucceeded>(ClassRequestSucceeded.type)
+    .withLatestFrom(state$.map(s => s.courses))
+    .map(([action, knownCourses]) => {
       // add all courses we are hearing about now
       let courseIds: string[] = [];
-      for (const classId in action$.items) {
+      for (const classId in action.items) {
         // GET study groups for each class
-        courseIds = courseIds.concat(action$.items[classId].courses);
+        courseIds = courseIds.concat(action.items[classId].courses);
       }
 
       // filter out courses we already knew about
-      const knownCourses = store.getState().courses;
-      courseIds = courseIds.filter(t => !(t in knownCourses));
+      courseIds = courseIds.filter(
+        t =>
+          !(t in knownCourses.century.LOADED || t in knownCourses.meta.LOADED)
+      );
 
       return new CoursesRequested(courseIds);
     });

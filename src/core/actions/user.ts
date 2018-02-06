@@ -1,35 +1,33 @@
 import { CenturyTypes, StoryTypes } from "story-backend-utils";
+
 import { MyAction } from "./MyAction";
 
-export const USER_REQUESTED = "USER_REQUESTED";
-export type RequestUserAction = {
-  type: "USER_REQUESTED";
-};
-export const requestUser = (): RequestUserAction => ({
-  type: USER_REQUESTED
-});
+export class UserRequested extends MyAction {
+  type = UserRequested.type;
 
-export const USER_REQUEST_FAILED = "USER_REQUEST_FAILED";
-export type FailRequestUserAction = {
-  type: "USER_REQUEST_FAILED";
+  static type: "USER_REQUESTED" = "USER_REQUESTED";
+}
+
+export class UserRequestFailed extends MyAction {
+  type = UserRequestFailed.type;
+
+  static type: "USER_REQUEST_FAILED" = "USER_REQUEST_FAILED";
   error: string;
-};
-export const failUserRequest = (e: string): FailRequestUserAction => ({
-  type: USER_REQUEST_FAILED,
-  error: e
-});
+  constructor(error: string) {
+    super();
+    this.error = error;
+  }
+}
+export class UserRequestSucceeded extends MyAction {
+  type = UserRequestSucceeded.type;
 
-export const USER_REQUEST_SUCCEEDED = "USER_REQUEST_SUCCEEDED";
-export type SucceedUserRequestAction = {
-  type: "USER_REQUEST_SUCCEEDED";
+  static type: "USER_REQUEST_SUCCEEDED" = "USER_REQUEST_SUCCEEDED";
   user: CenturyTypes.User;
-};
-export const succeedUserRequest = (
-  user: CenturyTypes.User
-): SucceedUserRequestAction => ({
-  type: USER_REQUEST_SUCCEEDED,
-  user
-});
+  constructor(user: CenturyTypes.User) {
+    super();
+    this.user = user;
+  }
+}
 
 export class UserMetaRequested extends MyAction {
   type = UserMetaRequested.type;

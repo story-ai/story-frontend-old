@@ -2,14 +2,12 @@ import {
   applyMiddleware,
   compose,
   createStore,
-  StoreEnhancerStoreCreator,
-  Middleware,
-  Dispatch,
-  MiddlewareAPI
+  StoreEnhancerStoreCreator
 } from "redux";
-import { reducer, StateType } from "../reducers";
-import { epic } from "../epics";
 import { createEpicMiddleware } from "redux-observable";
+
+import { epic } from "../epics";
+import { reducer, StateType } from "../reducers";
 import { POJOfier } from "./pojofier";
 
 const epicMiddleware = createEpicMiddleware(epic);

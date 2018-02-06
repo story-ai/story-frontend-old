@@ -6,7 +6,7 @@ import { Switch, Route } from "react-router";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
 import { connect } from "react-redux";
-import { requestUser } from "../../core/actions/user";
+import { UserRequested } from "../../core/actions/user";
 import { CenturyTypes } from "story-backend-utils";
 import * as userReducer from "../../core/reducers/user";
 
@@ -21,13 +21,14 @@ const Head = () => (
 
 export class AppComponent extends React.Component<
   {
-    requestUser: () => any;
+    requestUser: () => UserRequested;
     user: userReducer.StateType;
   },
   {}
 > {
   // TODO: I feel like we should be kicking off epics outside the component
   componentDidMount() {
+    // console.log("I mounted?");
     this.props.requestUser();
   }
 
@@ -53,6 +54,6 @@ export const App = connect(
     user: state.user
   }),
   {
-    requestUser
+    requestUser: () => new UserRequested()
   }
 )(AppComponent);

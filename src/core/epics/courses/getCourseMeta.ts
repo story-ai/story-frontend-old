@@ -1,25 +1,20 @@
-import { ActionsObservable } from "redux-observable";
-import { Action, MiddlewareAPI } from "redux";
-import { CenturyTypes, StoryTypes, Map } from "story-backend-utils";
 import axios from "axios";
-import { StateType } from "../../reducers/index";
-import {
-  AllCoursesRequestSucceeded,
-  CoursesRequestSucceeded,
-  CourseMetaRequestFailed,
-  CourseMetaRequestSucceeded,
-  CourseMetaRequested
-} from "../../actions/courses";
-import { StoryServices } from "../../../config/index";
-import { Observable } from "rxjs/Observable";
+import { Epic } from "redux-observable";
+import { Map, StoryTypes } from "story-backend-utils";
 
-export function getCourseMeta(
-  action$: ActionsObservable<Action>,
-  store: MiddlewareAPI<StateType>
-) {
-  return action$.ofType(CourseMetaRequested.type).flatMap(
-    (action: CourseMetaRequested) =>
-      console.log(action) ||
+import { StoryServices } from "../../../config";
+import { AllActions } from "../../actions";
+import {
+  CourseMetaRequested,
+  CourseMetaRequestFailed,
+  CourseMetaRequestSucceeded
+} from "../../actions/courses";
+import { StateType } from "../../reducers";
+
+export const getCourseMeta: Epic<AllActions, StateType> = action$ =>
+  action$
+    .ofType<CourseMetaRequested>(CourseMetaRequested.type)
+    .flatMap(action =>
       axios
         .get<Map<StoryTypes.StoryCourseFields>>(
           `${StoryServices.material}/course`,
@@ -39,5 +34,4 @@ export function getCourseMeta(
           return new CourseMetaRequestSucceeded(res.data);
         })
         .catch(e => new CourseMetaRequestFailed(action.ids, e))
-  );
-}
+    );

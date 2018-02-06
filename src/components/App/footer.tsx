@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../../core/actions/auth";
+import { LogoutRequested } from "../../core/actions/auth";
 
 export const AppFooterComponent: React.StatelessComponent<{
-  logout: typeof logout;
+  logout: () => LogoutRequested;
 }> = props => {
   return (
     <div className="app-footer">
@@ -26,5 +26,5 @@ export const AppFooterComponent: React.StatelessComponent<{
 };
 
 export const AppFooter = connect(null, {
-  logout
+  logout: () => new LogoutRequested()
 })(AppFooterComponent);

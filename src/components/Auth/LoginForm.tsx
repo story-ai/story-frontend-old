@@ -1,26 +1,22 @@
-import { StateType } from "../../core/reducers";
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { InputHTMLAttributes, ReactElement } from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
-import { login } from "../../core/actions/auth";
+import { Link } from "react-router-dom";
 
-const LoginFormComponent: React.StatelessComponent<
-  {
-    pending: boolean;
-    loginError?: string;
-  } & InjectedFormProps
-> = props => {
+import { LoginRequested } from "../../core/actions/auth";
+import { StateType } from "../../core/reducers";
+
+const LoginFormComponent: React.StatelessComponent<{
+  pending: boolean;
+  loginError: string | undefined;
+  login: () => LoginRequested;
+}> = props => {
   return (
     <div className="form">
-      <form
-        // This is unsatisfactory but I think is a problem with the redux-forms typings
-        onSubmit={props.handleSubmit as any}
-      >
+      <form>
         <h1>Login</h1>
         {props.loginError && <div className="err">{props.loginError}</div>}
-        <Field
+        {/* <Field
           name="username"
           disabled={props.pending}
           placeholder="E-mail address"
@@ -33,9 +29,9 @@ const LoginFormComponent: React.StatelessComponent<
           placeholder="Password"
           component="input"
           type="password"
-        />
+        /> */}
 
-        <button type="submit" disabled={props.pending}>
+        <button type="submit" disabled={props.pending} onClick={props.login}>
           {props.pending ? "Logging in..." : "Login"}
         </button>
       </form>
@@ -47,14 +43,16 @@ const LoginFormComponent: React.StatelessComponent<
   );
 };
 
-const loginReduxForm = reduxForm({
-  form: "login"
-})(LoginFormComponent);
+// const loginReduxForm = reduxForm({
+//   form: "login"
+// })(LoginFormComponent);
 
 export const LoginForm = connect(
   (state: StateType) => ({
     pending: state.auth.loginPending,
     loginError: state.auth.loginError
   }),
-  { onSubmit: login }
-)(loginReduxForm as any);
+  {
+    login: () => new LoginRequested()
+  }
+)(LoginFormComponent);

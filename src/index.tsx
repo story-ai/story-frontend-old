@@ -1,19 +1,17 @@
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
-import { initial } from "./core/reducers";
-import { loadState, saveState } from "./core/store/localStore";
-import configureStore from "./core/store/configureStore";
+
 import Root from "./components/Root";
-import { combineReducers } from "redux";
+import { initial } from "./core/reducers";
+import configureStore from "./core/store/configureStore";
+import { loadState, saveState } from "./core/store/localStore";
 
 const store = configureStore(loadState() || initial);
 store.subscribe(() => {
   saveState(store.getState());
 });
-
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
-import App from "./App";
 
 const rootEl = document.getElementById("root");
 ReactDOM.render(

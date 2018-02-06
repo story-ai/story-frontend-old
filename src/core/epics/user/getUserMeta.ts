@@ -1,34 +1,25 @@
-import { ActionsObservable } from "redux-observable";
-import { Action } from "redux";
-import { StateType } from "../../reducers/index";
-import { Store } from "react-redux";
+import { Epic } from "redux-observable";
+import { StoryTypes } from "story-backend-utils";
+import * as superagent from "superagent";
+
+import { StoryServices } from "../../../config";
+import { AllActions } from "../../actions";
 import {
   UserMetaRequested,
-  UserMetaRequestSucceeded,
-  UserMetaRequestFailed
+  UserMetaRequestFailed,
+  UserMetaRequestSucceeded
 } from "../../actions/user";
-import { StoryTypes } from "story-backend-utils";
-import { StoryServices } from "../../../config/index";
-import axios from "axios";
-import { Observable } from "rxjs";
+import { StateType } from "../../reducers";
 
-export const getUserMeta = (
-  action$: ActionsObservable<Action>,
-  store: Store<StateType>
-) =>
+export const getUserMeta: Epic<AllActions, StateType> = action$ =>
   action$
-    .ofType(UserMetaRequested.type)
-    .flatMap((action: UserMetaRequested) => {
-      return axios.get<StoryTypes.StoryUserFields>(
-        `${StoryServices.material}/user/${action.user_id}`
-      );
-    })
+    .ofType<UserMetaRequested>(UserMetaRequested.type)
+    .switchMap(action =>
+      superagent.get(`${StoryServices.material}/user/${action.user_id}`)
+    )
     .map(res => {
-      if (res.status !== 200) throw res.data;
+      if (res.status !== 200) return new UserMetaRequestFailed(res.text);
+      const data = res.body as StoryTypes.StoryUserFields;
 
-      if (typeof res.data !== "object") {
-        throw "Unexpected result shape " + JSON.stringify(res.data);
-      }
-      return new UserMetaRequestSucceeded(res.data);
-    })
-    .catch(e => Observable.of(new UserMetaRequestFailed(e)));
+      return new UserMetaRequestSucceeded(data);
+    });

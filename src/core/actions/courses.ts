@@ -34,7 +34,7 @@ export class CourseMetaRequestFailed extends MyAction {
   type = CourseMetaRequestFailed.type;
 
   static type: "COURSE_META_REQUEST_FAILED" = "COURSE_META_REQUEST_FAILED";
-  ids: null | string[];
+  ids?: string[];
   error: string;
   constructor(
     ids: CourseMetaRequestFailed["ids"],
@@ -83,11 +83,11 @@ export class CoursesRequestFailed extends MyAction {
   type = CoursesRequestFailed.type;
 
   static type: "COURSE_REQUEST_FAILED" = "COURSE_REQUEST_FAILED";
-  ids: null | string[];
+  ids?: string[];
   error: string;
   constructor(
-    ids: CoursesRequestFailed["ids"],
-    error: CoursesRequestFailed["error"]
+    error: CoursesRequestFailed["error"],
+    ids?: CoursesRequestFailed["ids"]
   ) {
     super();
     this.ids = ids;

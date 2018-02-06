@@ -2,13 +2,13 @@ import {
   applyMiddleware,
   compose,
   createStore,
-  StoreEnhancerStoreCreator,
-  Action
+  StoreEnhancerStoreCreator
 } from "redux";
 import { createLogger } from "redux-logger";
-import { reducer, StateType } from "../reducers";
 import { createEpicMiddleware } from "redux-observable";
+
 import { epic } from "../epics";
+import { reducer, StateType } from "../reducers";
 import { POJOfier } from "./pojofier";
 
 const logger = createLogger({

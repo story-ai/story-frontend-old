@@ -1,37 +1,29 @@
-import { ActionsObservable } from "redux-observable";
-import { Action, Store } from "redux";
+import { Epic } from "redux-observable";
+import { CenturyTypes } from "story-backend-utils";
+import * as superagent from "superagent";
+
+import { CENTURY_ACCOUNT_API } from "../../../config";
+import { AllActions } from "../../actions";
+import { centuryAuthHeaders, getTokenStream } from "../../common";
 import { StateType } from "../../reducers";
 import {
-  USER_REQUESTED,
-  RequestUserAction,
-  succeedUserRequest,
-  failUserRequest
+  UserRequested,
+  UserRequestFailed,
+  UserRequestSucceeded
 } from "../../actions/user";
-import { CenturyTypes } from "story-backend-utils";
-import axios from "axios";
-import { Observable } from "rxjs";
-import { CENTURY_ACCOUNT_API } from "../../../config";
 
-export const requestUser = (
-  action$: ActionsObservable<Action>,
-  store: Store<StateType>
-) =>
+export const requestUser: Epic<AllActions, StateType> = (action$, state$) =>
   action$
-    .ofType(USER_REQUESTED)
-    .flatMap((action: RequestUserAction) => {
-      const state = store.getState();
-      return axios.get<CenturyTypes.User>(`${CENTURY_ACCOUNT_API}/users/me`, {
-        headers: {
-          Authorization: `Bearer ${state.auth.token}`
-        }
-      });
-    })
+    .ofType<UserRequested>(UserRequested.type)
+    .combineLatest(getTokenStream(state$))
+    .switchMap(([action, token]) =>
+      superagent
+        .get(`${CENTURY_ACCOUNT_API}/users/me`)
+        .set(centuryAuthHeaders(token))
+    )
     .map(res => {
-      if (res.status !== 200) throw res.data;
+      if (res.status !== 200) return new UserRequestFailed(res.text);
 
-      if (typeof res.data !== "object") {
-        throw "Unexpected result shape " + JSON.stringify(res.data);
-      }
-      return succeedUserRequest(res.data);
-    })
-    .catch(e => Observable.of(failUserRequest(e)));
+      const data = res.body as CenturyTypes.User;
+      return new UserRequestSucceeded(data);
+    });

@@ -1,20 +1,10 @@
-import { ActionsObservable } from "redux-observable";
-import { Action } from "redux";
-import { StateType } from "../../reducers/index";
-import { Store } from "react-redux";
-import {
-  USER_REQUEST_SUCCEEDED,
-  UserMetaRequested,
-  SucceedUserRequestAction
-} from "../../actions/user";
+import { Epic } from "redux-observable";
 
-export const requestUserMeta = (
-  action$: ActionsObservable<Action>,
-  store: Store<StateType>
-) =>
+import { AllActions } from "../../actions";
+import { UserMetaRequested, UserRequestSucceeded } from "../../actions/user";
+import { StateType } from "../../reducers";
+
+export const requestUserMeta: Epic<AllActions, StateType> = action$ =>
   action$
-    .ofType(USER_REQUEST_SUCCEEDED)
-    .map(
-      (action: SucceedUserRequestAction) =>
-        new UserMetaRequested(action.user._id)
-    );
+    .ofType<UserRequestSucceeded>(UserRequestSucceeded.type)
+    .map(action => new UserMetaRequested(action.user._id));

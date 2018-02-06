@@ -11,14 +11,15 @@ import { App } from "./App";
 import { Store } from "redux";
 
 export const RootComponent: React.StatelessComponent<{
-  token: string | null;
+  token: string | undefined;
 }> = props => {
   const { token } = props;
+  console.log("Here is the token", token);
   let content;
-  if (props.token === null) {
-    content = <AuthRoutes />;
-  } else {
+  if (props.token) {
     content = <App />;
+  } else {
+    content = <AuthRoutes />;
   }
 
   return <BrowserRouter>{content}</BrowserRouter>;

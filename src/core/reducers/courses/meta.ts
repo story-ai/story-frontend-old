@@ -1,19 +1,18 @@
-import {
-  LoadableMap,
-  AddLoaded,
-  AddFailures,
-  AddPending,
-  BlankLoadableMap
-} from "../types/Loadable";
 import { StoryTypes } from "story-backend-utils";
+
+import { AllActions } from "../../actions";
 import {
-  CoursesRequestFailed,
-  CoursesRequested,
-  CoursesRequestSucceeded,
+  CourseMetaRequested,
   CourseMetaRequestFailed,
-  CourseMetaRequestSucceeded,
-  CourseMetaRequested
+  CourseMetaRequestSucceeded
 } from "../../actions/courses";
+import {
+  AddFailures,
+  AddLoaded,
+  AddPending,
+  BlankLoadableMap,
+  LoadableMap
+} from "../types/Loadable";
 
 export type StateType = LoadableMap<StoryTypes.StoryCourseFields>;
 
@@ -21,10 +20,7 @@ export const initial: StateType = BlankLoadableMap();
 
 export const reducer = (
   state: StateType = initial,
-  action:
-    | CourseMetaRequestFailed
-    | CourseMetaRequestSucceeded
-    | CourseMetaRequested
+  action: AllActions
 ): StateType => {
   switch (action.type) {
     case CourseMetaRequestFailed.type:

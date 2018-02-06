@@ -76,15 +76,9 @@ export function AddPending<T>(
   action: { ids?: string[] | undefined }
 ): LoadableMap<T> {
   let PENDING = state.PENDING;
-  if (typeof action.ids !== undefined) {
-    // add items to PENDING (but ensure uniqueness)
-    PENDING = PENDING.concat(action.ids).filter(
-      (id, i, a) => a.indexOf(id) === i
-    );
-  }
-
-  // remove items from LOADED
   const LOADED: Map<T> = {};
+  const FAILED: Map<string> = {};
+  // remove items from LOADED
   if (action.ids !== undefined) {
     for (const id in state.LOADED) {
       if (action.ids.indexOf(id) < 0) {
@@ -93,13 +87,22 @@ export function AddPending<T>(
     }
   }
 
-  // remove from FAILED
-  const FAILED: Map<string> = {};
-  for (const id in state.FAILED) {
-    if (action.ids.indexOf(id) < 0) {
-      FAILED[id] = state.FAILED[id];
+  // If no IDs are given, we can assume that everything is being reloaded
+  // so it's okay to just leave LOADED and FAILED empty
+  if (typeof action.ids !== "undefined") {
+    // add items to PENDING (but ensure uniqueness)
+    PENDING = PENDING.concat(action.ids).filter(
+      (id, i, a) => a.indexOf(id) === i
+    );
+
+    // remove from FAILED
+    for (const id in state.FAILED) {
+      if (action.ids.indexOf(id) < 0) {
+        FAILED[id] = state.FAILED[id];
+      }
     }
   }
+
   return { LOADED, PENDING, FAILED };
 }
 

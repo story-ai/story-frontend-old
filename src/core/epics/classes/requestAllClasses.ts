@@ -1,20 +1,21 @@
-import {
-  failClassRequest,
-  succeedClassRequest,
-  ALL_CLASSES_REQUESTED,
-  AllClassesRequestAction
-} from "../../actions/classes";
-import { ActionsObservable } from "redux-observable";
-import { Observable } from "rxjs";
 import axios from "axios";
-import { Action, Store } from "redux";
-import { StoryServices } from "../../../config";
+import { Epic } from "redux-observable";
+import { Observable } from "rxjs";
 import { StoryTypes } from "story-backend-utils";
 
-export const requestAllClasses = (action$: ActionsObservable<Action>) =>
+import { StoryServices } from "../../../config";
+import { AllActions } from "../../actions";
+import {
+  AllClassesRequested,
+  ClassRequestFailed,
+  ClassRequestSucceeded
+} from "../../actions/classes";
+import { StateType } from "../../reducers";
+
+export const requestAllClasses: Epic<AllActions, StateType> = action$ =>
   action$
-    .ofType(ALL_CLASSES_REQUESTED)
-    .flatMap((action: AllClassesRequestAction) => {
+    .ofType<AllClassesRequested>(AllClassesRequested.type)
+    .switchMap(action => {
       type Result = {
         classes: {
           [k: string]: StoryTypes.Class;
@@ -27,6 +28,6 @@ export const requestAllClasses = (action$: ActionsObservable<Action>) =>
       if (typeof res.data.classes !== "object") {
         throw "Unexpected result shape " + JSON.stringify(res.data);
       }
-      return succeedClassRequest(res.data.classes);
+      return new ClassRequestSucceeded(res.data.classes);
     })
-    .catch(e => Observable.of(failClassRequest(null, e)));
+    .catch(e => Observable.of(new ClassRequestFailed(e)));

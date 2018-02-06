@@ -1,18 +1,16 @@
-import { StateType } from "../../core/reducers";
+import "./index.scss";
+
 import * as React from "react";
 import { connect } from "react-redux";
+import { CenturyTypes, StoryTypes } from "story-backend-utils";
+
 import {
   AllCoursesRequested,
   BuyCourseRequested
 } from "../../core/actions/courses";
-
-import { requestAllClasses } from "../../core/actions/classes";
-import { Map, StoryTypes, CenturyTypes } from "story-backend-utils";
-import { LoadableMap, Loadable } from "../../core/reducers/types/Loadable";
+import { StudyGroupListRequested } from "../../core/actions/study_groups";
+import { StateType } from "../../core/reducers";
 import { CourseListing } from "./CourseListing";
-import { requestStudyGroupList } from "../../core/actions/study_groups";
-import { STORY_ORGANISATION_ID } from "../../config";
-import "./index.scss";
 
 type Props = (
   | { loaded: false }
@@ -23,21 +21,20 @@ type Props = (
       email: string;
     }) & {
   requestAllCourses: () => AllCoursesRequested;
-  requestStudyGroupList: () => any;
-  buy: (courseId: string, token: string) => any;
+  requestStudyGroupList: () => StudyGroupListRequested;
+  buy: (courseId: string, token: string) => BuyCourseRequested;
 };
 
 export class HomeComponent extends React.Component<Props> {
   componentDidMount() {
+    console.log("Mounted home");
     this.reload();
   }
 
   reload = () => {
-    if (this.props.loaded) {
-      // TODO: Should we have a single "RELOAD" action with a corresponding epic?
-      this.props.requestAllCourses();
-      this.props.requestStudyGroupList();
-    }
+    // TODO: Should we have a single "RELOAD" action with a corresponding epic?
+    this.props.requestAllCourses();
+    this.props.requestStudyGroupList();
   };
 
   render(): JSX.Element {
@@ -106,5 +103,5 @@ export const Home = connect(mapState, {
   requestAllCourses: () => new AllCoursesRequested(),
   buy: (courseId: string, token: string) =>
     new BuyCourseRequested(courseId, token),
-  requestStudyGroupList
+  requestStudyGroupList: () => new StudyGroupListRequested()
 })(HomeComponent);

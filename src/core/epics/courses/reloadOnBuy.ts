@@ -1,17 +1,12 @@
-import { ActionsObservable } from "redux-observable";
-import { MiddlewareAPI, Action } from "redux";
-import { StateType } from "../../reducers";
-import {
-  BuyCourseRequestSucceeded,
-  BuyCourseRequested
-} from "../../actions/courses";
-import { requestStudyGroupList } from "../../actions/study_groups";
+import { Epic } from "redux-observable";
 
-export function reloadOnBuy(
-  action$: ActionsObservable<Action>,
-  store: MiddlewareAPI<StateType>
-) {
+import { AllActions } from "../../actions";
+import { ReloadAll } from "../../actions/app";
+import { BuyCourseRequestSucceeded } from "../../actions/courses";
+import { StateType } from "../../reducers";
+
+export const reloadOnBuy: Epic<AllActions, StateType> = action$ => {
   return action$
-    .ofType(BuyCourseRequestSucceeded.type)
-    .map((action: BuyCourseRequestSucceeded) => requestStudyGroupList());
-}
+    .ofType<BuyCourseRequestSucceeded>(BuyCourseRequestSucceeded.type)
+    .map(() => new ReloadAll());
+};

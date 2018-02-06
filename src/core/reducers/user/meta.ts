@@ -1,5 +1,6 @@
 import { StoryTypes } from "story-backend-utils/dist/types/StoryTypes";
 
+import { AllActions } from "../../actions";
 import {
   UserMetaRequested,
   UserMetaRequestFailed,
@@ -13,7 +14,7 @@ export const initial: StateType = { state: "UNKNOWN" };
 
 export const reducer = (
   state: StateType = initial,
-  action: UserMetaRequestFailed | UserMetaRequested | UserMetaRequestSucceeded
+  action: AllActions
 ): StateType => {
   switch (action.type) {
     case UserMetaRequestFailed.type:

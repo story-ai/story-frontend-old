@@ -1,29 +1,23 @@
-import {
-  REQUEST_ADD_TO_CLASS,
-  AddToClassRequestAction,
-  succeedAddToClassRequest,
-  failAddToClassRequest
-} from "../../actions/classes";
-import { ActionsObservable } from "redux-observable";
+import { Epic } from "redux-observable";
 import { Observable } from "rxjs";
-import axios from "axios";
-import { Action, Store } from "redux";
+import * as superagent from "superagent";
+
 import { StoryServices } from "../../../config";
-import { StateType } from "../../reducers";
+import { AllActions } from "../../actions";
 import {
   BuyCourseRequested,
   BuyCourseRequestFailed,
   BuyCourseRequestSucceeded
 } from "../../actions/courses";
+import { centuryAuthHeaders, getTokenStream } from "../../common";
+import { StateType } from "../../reducers";
 
-export const buyCourse = (
-  action$: ActionsObservable<Action>,
-  store: Store<StateType>
-) =>
+export const buyCourse: Epic<AllActions, StateType> = (action$, state$) =>
   action$
-    .ofType(BuyCourseRequested.type)
-    .flatMap((action: BuyCourseRequested): Observable<Action> => {
-      const user = store.getState().user;
+    .ofType<BuyCourseRequested>(BuyCourseRequested.type)
+    .combineLatest(getTokenStream(state$))
+    .combineLatest(state$.map(s => s.user).distinctUntilChanged())
+    .flatMap(([[action, token], user]) => {
       if (user.details.state !== "LOADED") {
         return Observable.of(
           new BuyCourseRequestFailed(action.courseId, "User not loaded")
@@ -31,31 +25,14 @@ export const buyCourse = (
       }
 
       return Observable.fromPromise(
-        axios
-          .put(
-            `${StoryServices.material}/user/${user.details.item._id}/course`,
-            { courseId: action.courseId, stripeToken: action.token },
-            {
-              headers: {
-                Authorization: `Bearer ${store.getState().auth.token}`
-              }
-            }
-          )
-          .then(
-            res =>
-              res.status === 200
-                ? new BuyCourseRequestSucceeded(action.courseId)
-                : new BuyCourseRequestFailed(
-                    action.courseId,
-                    res.data.message || res.statusText
-                  )
-          )
-          .catch(e => {
-            const message =
-              (e.response && e.response.data && e.response.data.message) ||
-              e.message;
-            console.log(e);
-            return new BuyCourseRequestFailed(action.courseId, message);
-          })
-      );
+        superagent
+          .put(`${StoryServices.material}/user/${user.details.item._id}/course`)
+          .send({ courseId: action.courseId, stripeToken: action.token })
+          .set(centuryAuthHeaders(token))
+      ).map(res => {
+        if (!res.ok)
+          return new BuyCourseRequestFailed(action.courseId, res.text);
+
+        return new BuyCourseRequestSucceeded(action.courseId);
+      });
     });

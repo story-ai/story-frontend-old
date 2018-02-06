@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../../core/actions/auth";
 
 export const AppHeaderComponent: React.StatelessComponent<{
-  logout: () => any;
+  // logout: () => any;
 }> = props => {
   return (
     <div className="app-header">
@@ -15,6 +14,4 @@ export const AppHeaderComponent: React.StatelessComponent<{
   );
 };
 
-export const AppHeader = connect(null, {
-  logout
-})(AppHeaderComponent);
+export const AppHeader = connect(null, {})(AppHeaderComponent);

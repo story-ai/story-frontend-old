@@ -1,19 +1,21 @@
+import { CenturyTypes } from "story-backend-utils/dist/types/CenturyTypes";
+
+import { AllActions } from "../../actions";
 import {
-  LoadableMap,
-  AddLoaded,
-  AddFailures,
-  AddPending,
-  BlankLoadableMap
-} from "../types/Loadable";
-import {
-  CoursesRequestFailed,
-  CoursesRequested,
-  CoursesRequestSucceeded,
+  AllCoursesRequested,
   AllCoursesRequestFailed,
   AllCoursesRequestSucceeded,
-  AllCoursesRequested
+  CoursesRequested,
+  CoursesRequestFailed,
+  CoursesRequestSucceeded
 } from "../../actions/courses";
-import { CenturyTypes } from "story-backend-utils/dist/types/CenturyTypes";
+import {
+  AddFailures,
+  AddLoaded,
+  AddPending,
+  BlankLoadableMap,
+  LoadableMap
+} from "../types/Loadable";
 
 export type StateType = LoadableMap<CenturyTypes.Course>;
 
@@ -21,13 +23,7 @@ export const initial: StateType = BlankLoadableMap();
 
 export const reducer = (
   state: StateType = initial,
-  action:
-    | CoursesRequestFailed
-    | CoursesRequestSucceeded
-    | CoursesRequested
-    | AllCoursesRequestFailed
-    | AllCoursesRequestSucceeded
-    | AllCoursesRequested
+  action: AllActions
 ): StateType => {
   switch (action.type) {
     case CoursesRequestFailed.type:

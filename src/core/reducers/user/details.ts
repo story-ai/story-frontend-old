@@ -1,13 +1,12 @@
+import { CenturyTypes } from "story-backend-utils";
+
+import { AllActions } from "../../actions";
 import {
-  USER_REQUEST_FAILED,
-  USER_REQUEST_SUCCEEDED,
-  USER_REQUESTED,
-  FailRequestUserAction,
-  SucceedUserRequestAction,
-  RequestUserAction
+  UserRequested,
+  UserRequestFailed,
+  UserRequestSucceeded
 } from "../../actions/user";
 import { Loadable } from "../types/Loadable";
-import { CenturyTypes } from "story-backend-utils";
 
 export type StateType = Loadable<CenturyTypes.User>;
 
@@ -15,22 +14,22 @@ export const initial: StateType = { state: "UNKNOWN" };
 
 export const reducer = (
   state: StateType = initial,
-  action: FailRequestUserAction | SucceedUserRequestAction | RequestUserAction
-): StateType | null => {
+  action: AllActions
+): StateType => {
   switch (action.type) {
-    case USER_REQUEST_FAILED:
+    case UserRequestFailed.type:
       return {
         state: "FAILED",
         error: action.error
       };
 
-    case USER_REQUEST_SUCCEEDED:
+    case UserRequestSucceeded.type:
       return {
         state: "LOADED",
         item: action.user
       };
 
-    case USER_REQUESTED:
+    case UserRequested.type:
       return {
         state: "PENDING"
       };

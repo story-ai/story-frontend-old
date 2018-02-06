@@ -1,85 +1,124 @@
-export const LOGOUT = "LOGOUT";
-export type LogoutAction = {
-  type: "LOGOUT";
-};
-export const logout = (): LogoutAction => ({
-  type: LOGOUT
-});
+import { TokenData } from "../epics/auth/century-sso";
+import { MyAction } from "./MyAction";
 
-export const LOGIN_FAILED = "LOGIN_FAILED";
-export type LoginFailedAction = {
-  type: "LOGIN_FAILED";
+export class LogoutRequested extends MyAction {
+  type = LogoutRequested.type;
+
+  static type: "LOGOUT_REQUESTED" = "LOGOUT_REQUESTED";
+}
+
+export class LogoutRequestSucceeded extends MyAction {
+  type = LogoutRequestSucceeded.type;
+
+  static type: "LOGOUT_REQUEST_SUCCEEDED" = "LOGOUT_REQUEST_SUCCEEDED";
+}
+
+export class LoginRequested extends MyAction {
+  type = LoginRequested.type;
+
+  static type: "LOGIN_REQUESTED" = "LOGIN_REQUESTED";
+
+  constructor() {
+    super();
+  }
+}
+
+export class LoginRequestSucceeded extends MyAction {
+  type = LoginRequestSucceeded.type;
+
+  static type: "LOGIN_REQUEST_SUCCEEDED" = "LOGIN_REQUEST_SUCCEEDED";
+  token: TokenData;
+
+  constructor(token: TokenData) {
+    super();
+    this.token = token;
+  }
+}
+
+export class AuthRequestFailed extends MyAction {
+  type = AuthRequestFailed.type;
+
+  static type: "AUTH_REQUEST_FAILED" = "AUTH_REQUEST_FAILED";
   e: string;
-};
-export const failLogin = (e: string): LoginFailedAction => ({
-  type: LOGIN_FAILED,
-  e
-});
 
-export const LOGIN = "LOGIN";
-export type LoginAction = {
-  type: "LOGIN";
+  constructor(e: string) {
+    super();
+    this.e = e;
+  }
+}
+
+// export const LOGIN = "LOGIN";
+// export type LoginAction = {
+//   type: "LOGIN";
+//   username: string;
+//   password: string;
+// };
+// export const login = ({
+//   username,
+//   password
+// }: {
+//   username: string;
+//   password: string;
+// }): LoginAction => ({
+//   type: LOGIN,
+//   username,
+//   password
+// });
+
+// export const RECEIVED_TOKEN = "RECEIVED_TOKEN";
+// export type ReceivedTokenAction = {
+//   type: "RECEIVED_TOKEN";
+//   token: string;
+// };
+// export const receiveToken = (token: string): ReceivedTokenAction => ({
+//   type: RECEIVED_TOKEN,
+//   token
+// });
+
+export class Register extends MyAction {
+  type = Register.type;
+
+  static type: "REGISTER" = "REGISTER";
   username: string;
   password: string;
-};
-export const login = ({
-  username,
-  password
-}: {
-  username: string;
-  password: string;
-}): LoginAction => ({
-  type: LOGIN,
-  username,
-  password
-});
+  passwordConfirmation: string;
+  constructor(
+    username: string,
+    password: string,
+    passwordConfirmation: string
+  ) {
+    super();
+    this.username = username;
+    this.password = password;
+    this.passwordConfirmation = passwordConfirmation;
+  }
+}
 
-export const RECEIVED_TOKEN = "RECEIVED_TOKEN";
-export type ReceivedTokenAction = {
-  type: "RECEIVED_TOKEN";
+export class RegisterFailed extends MyAction {
+  type = RegisterFailed.type;
+
+  static type: "REGISTER_FAILED" = "REGISTER_FAILED";
+  e: string;
+  constructor(e: string) {
+    super();
+    this.e = e;
+  }
+}
+
+export class RegisterSucceeded extends MyAction {
+  type = RegisterSucceeded.type;
+
+  static type: "REGISTER_SUCCEEDED" = "REGISTER_SUCCEEDED";
+}
+
+export class GotToken extends MyAction {
+  type = GotToken.type;
+
+  static type: "GOT_TOKEN" = "GOT_TOKEN";
   token: string;
-};
-export const receiveToken = (token: string): ReceivedTokenAction => ({
-  type: RECEIVED_TOKEN,
-  token
-});
 
-export const REGISTER = "REGISTER";
-export type RegisterAction = {
-  type: "REGISTER";
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-};
-export const register = ({
-  username,
-  password,
-  passwordConfirmation
-}: {
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-}): RegisterAction => ({
-  type: REGISTER,
-  username,
-  password,
-  passwordConfirmation
-});
-
-export const REGISTER_FAIL = "REGISTER_FAIL";
-export type RegisterFailAction = {
-  type: "REGISTER_FAIL";
-  e: string;
-};
-export const registerFail = (err: string): RegisterFailAction => ({
-  type: REGISTER_FAIL,
-  e: err
-});
-
-export const REGISTER_SUCCEEDED = "REGISTER_SUCCEEDED";
-export type RegisterSucceedAction = {
-  type: "REGISTER_SUCCEEDED";
-};
-export const registerSucceed = (): RegisterSucceedAction => ({
-  type: REGISTER_SUCCEEDED
-});
+  constructor(token: string) {
+    super();
+    this.token = token;
+  }
+}
