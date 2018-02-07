@@ -6,7 +6,7 @@ import * as compiler from "babel-minify-webpack-plugin";
 import { config } from "./webpack.config";
 import * as ExtractTextPlugin from "extract-text-webpack-plugin";
 
-console.log("======PROD======");
+console.log("======STAGING======");
 export default merge(config, {
   entry: "./src/index.tsx",
   module: {
@@ -23,7 +23,8 @@ export default merge(config, {
   plugins: [
     new ExtractTextPlugin("styles.css"),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production")
+      "process.env.NODE_ENV": JSON.stringify("production"),
+      "process.env.STAGING": JSON.stringify("true")
     }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
 

@@ -56,6 +56,8 @@ export const CourseListing: React.StatelessComponent<{
           href={`https://app.century.tech/learn/study-groups/${
             props.studyGroupId
           }`}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {listing}
         </a>

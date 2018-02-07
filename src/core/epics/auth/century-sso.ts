@@ -29,7 +29,7 @@ export interface SingleSignOnClientArgs {
 }
 
 export class SingleSignOnClient {
-  public appServer: string = "http://app.century.tech";
+  public appServer: string = "https://app.century.tech";
   public appKey: string;
   public onUpdate: (data: TokenData) => void;
   public redirectUrl?: string;

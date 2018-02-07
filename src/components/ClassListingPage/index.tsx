@@ -3,6 +3,7 @@ import "./index.scss";
 import * as React from "react";
 import { connect } from "react-redux";
 import { CenturyTypes, StoryTypes } from "story-backend-utils";
+import { ReloadAll } from "../../core/actions/app";
 
 import {
   AllCoursesRequested,
@@ -20,8 +21,7 @@ type Props = (
       courses: (CenturyTypes.Course & StoryTypes.StoryCourseFields)[];
       email: string;
     }) & {
-  requestAllCourses: () => AllCoursesRequested;
-  requestStudyGroupList: () => StudyGroupListRequested;
+  reload: () => ReloadAll;
   buy: (courseId: string, token: string) => BuyCourseRequested;
 };
 
@@ -32,9 +32,7 @@ export class HomeComponent extends React.Component<Props> {
   }
 
   reload = () => {
-    // TODO: Should we have a single "RELOAD" action with a corresponding epic?
-    this.props.requestAllCourses();
-    this.props.requestStudyGroupList();
+    this.props.reload();
   };
 
   render(): JSX.Element {
@@ -100,8 +98,7 @@ const mapState = (state: StateType) => {
 };
 
 export const Home = connect(mapState, {
-  requestAllCourses: () => new AllCoursesRequested(),
+  reload: () => new ReloadAll(),
   buy: (courseId: string, token: string) =>
-    new BuyCourseRequested(courseId, token),
-  requestStudyGroupList: () => new StudyGroupListRequested()
+    new BuyCourseRequested(courseId, token)
 })(HomeComponent);
