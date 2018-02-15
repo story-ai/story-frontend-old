@@ -53,4 +53,6 @@ export const requestCourses: Epic<AllActions, StateType> = (action$, state$) =>
         story.body as CenturyTypes.Course[]
       );
       return new AllCoursesRequestSucceeded(keyBy(data, "_id"));
-    });
+    })
+
+    .catch(e => Observable.of(new AllCoursesRequestFailed(e)));

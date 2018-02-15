@@ -9,18 +9,25 @@ import { Register } from "../../core/actions/auth";
 const RegisterFormComponent: React.StatelessComponent<
   {
     pending: boolean;
-    registerError: string | undefined;
+    registerError: Error | string | undefined;
   } & InjectedFormProps
 > = props => {
   return (
     <div className="form">
       <form
+        className="inner"
         // This is unsatisfactory but I think is a problem with the redux-forms typings
         onSubmit={props.handleSubmit as any}
       >
         <h1>Register </h1>
         {props.registerError && (
-          <div className="err">{props.registerError}</div>
+          <div className="err">
+            {typeof props.registerError === "string"
+              ? props.registerError
+              : typeof props.registerError === "undefined"
+                ? ""
+                : props.registerError.message}
+          </div>
         )}
         <Field
           name="username"

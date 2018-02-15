@@ -10,6 +10,7 @@ import {
   UserMetaRequestSucceeded
 } from "../../actions/user";
 import { StateType } from "../../reducers";
+import { Observable } from "rxjs/Observable";
 
 export const getUserMeta: Epic<AllActions, StateType> = action$ =>
   action$
@@ -22,4 +23,5 @@ export const getUserMeta: Epic<AllActions, StateType> = action$ =>
       const data = res.body as StoryTypes.StoryUserFields;
 
       return new UserMetaRequestSucceeded(data);
-    });
+    })
+    .catch(e => Observable.of(new UserMetaRequestFailed(e)));

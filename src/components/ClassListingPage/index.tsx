@@ -20,6 +20,7 @@ type Props = (
       courseToStudyGroup: { [k: string]: string };
       courses: (CenturyTypes.Course & StoryTypes.StoryCourseFields)[];
       email: string;
+      thumbnailMap: { [k: string]: string };
     }) & {
   reload: () => ReloadAll;
   buy: (courseId: string, token: string) => BuyCourseRequested;
@@ -43,20 +44,24 @@ export class HomeComponent extends React.Component<Props> {
     if (!this.props.loaded) {
       return <div>Loading...</div>;
     }
-    const { email, courses, courseToStudyGroup } = this.props;
+    const { email, courses, courseToStudyGroup, thumbnailMap } = this.props;
     return (
       <div className="app-content store">
         <div className="container">
-          {courses.map(course => (
-            <CourseListing
-              key={course._id}
-              course={course}
-              reload={this.reload}
-              email={email}
-              studyGroupId={courseToStudyGroup[course._id]}
-              buy={this.props.buy}
-            />
-          ))}
+          {courses.map(course => {
+            const studyGroupId = courseToStudyGroup[course._id];
+            return (
+              <CourseListing
+                key={course._id}
+                course={course}
+                reload={this.reload}
+                email={email}
+                thumbnail={thumbnailMap[studyGroupId]}
+                studyGroupId={studyGroupId}
+                buy={this.props.buy}
+              />
+            );
+          })}
         </div>
       </div>
     );
@@ -83,8 +88,8 @@ const mapState = (state: StateType) => {
 
   // TODO: move to selector
   const courseToStudyGroup: { [course: string]: string } = {};
-  for (const k of Object.keys(state.studyGroups.LOADED)) {
-    courseToStudyGroup[state.studyGroups.LOADED[k].course] = k;
+  for (const k of Object.keys(state.studyGroups.items.LOADED)) {
+    courseToStudyGroup[state.studyGroups.items.LOADED[k].course] = k;
   }
 
   // TODO: move to selector
@@ -93,7 +98,8 @@ const mapState = (state: StateType) => {
     loaded: true,
     courseToStudyGroup,
     email,
-    courses
+    courses,
+    thumbnailMap: state.studyGroups.thumbnails
   };
 };
 

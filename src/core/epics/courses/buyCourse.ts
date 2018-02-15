@@ -29,10 +29,16 @@ export const buyCourse: Epic<AllActions, StateType> = (action$, state$) =>
           .put(`${StoryServices.material}/user/${user.details.item._id}/course`)
           .send({ courseId: action.courseId, stripeToken: action.token })
           .set(centuryAuthHeaders(token))
-      ).map(res => {
-        if (!res.ok)
-          return new BuyCourseRequestFailed(action.courseId, res.text);
+      )
+        .map(res => {
+          if (!res.ok)
+            return new BuyCourseRequestFailed(action.courseId, res.text);
 
-        return new BuyCourseRequestSucceeded(action.courseId);
-      });
+          console.log("Got an error sadly");
+
+          return new BuyCourseRequestSucceeded(action.courseId);
+        })
+        .catch(e =>
+          Observable.of(new BuyCourseRequestFailed(action.courseId, e))
+        );
     });

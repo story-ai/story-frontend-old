@@ -12,6 +12,7 @@ import {
 } from "../../actions/study_groups";
 import { centuryAuthHeaders, getTokenStream } from "../../common";
 import { StateType } from "../../reducers";
+import { Observable } from "rxjs/Observable";
 
 export const requestStudyGroup: Epic<AllActions, StateType> = (
   action$,
@@ -46,4 +47,5 @@ export const requestStudyGroup: Epic<AllActions, StateType> = (
       const data = res.body as CenturyTypes.StudyGroup[];
       const map = keyBy(data, "_id");
       return new StudyGroupsRequestSucceeded(map);
-    });
+    })
+    .catch(e => Observable.of(new StudyGroupsRequestFailed(e)));

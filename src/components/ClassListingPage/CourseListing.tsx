@@ -13,12 +13,22 @@ export const CourseListing: React.StatelessComponent<{
   reload: () => any;
   course: StoryTypes.StoryCourseFields & CenturyTypes.Course;
   studyGroupId: string | undefined;
+  thumbnail?: string;
 }> = props => {
   const owned = props.studyGroupId !== undefined;
   const listing = (
     <div className={`course-listing ${owned && "bought"}`}>
       <div className="picture">
-        <i />
+        <i
+          className={owned ? "" : "locked"}
+          style={
+            props.thumbnail
+              ? {
+                  backgroundImage: `url(${props.thumbnail}`
+                }
+              : {}
+          }
+        />
         {/* TODO: Add a course picture from somewhere */}
       </div>
 
@@ -29,7 +39,7 @@ export const CourseListing: React.StatelessComponent<{
             " (" +
               props.course.price.toLocaleString("en-US", {
                 style: "currency",
-                currency: "USD"
+                currency: "GBP"
               }) +
               ") "}
         </h2>
@@ -71,10 +81,9 @@ export const CourseListing: React.StatelessComponent<{
           name={"Story"}
           description={props.course.name}
           amount={props.course.price * 100}
-          currency="USD"
+          currency="GBP"
           zipCode={true}
           email={props.email}
-          bitcoin={true}
           stripeKey={STRIPE_KEY}
         >
           {listing}

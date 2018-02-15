@@ -5,7 +5,8 @@ import {
   StudyGroupListRequested,
   StudyGroupsRequested,
   StudyGroupsRequestFailed,
-  StudyGroupsRequestSucceeded
+  StudyGroupsRequestSucceeded,
+  ThumbnailsReceived
 } from "../actions/study_groups";
 import {
   AddFailures,
@@ -14,10 +15,14 @@ import {
   BlankLoadableMap,
   LoadableMap
 } from "./types/Loadable";
+import { keyBy, mapValues } from "lodash";
 
-export type StateType = LoadableMap<CenturyTypes.StudyGroup>;
+export type StateType = {
+  thumbnails: { [id: string]: string };
+  items: LoadableMap<CenturyTypes.StudyGroup>;
+};
 
-export const initial: StateType = BlankLoadableMap();
+export const initial: StateType = { items: BlankLoadableMap(), thumbnails: {} };
 
 export const reducer = (
   state: StateType = initial,
@@ -29,15 +34,20 @@ export const reducer = (
       return initial;
 
     case StudyGroupsRequestFailed.type:
-      return AddFailures(state, action);
+      return { ...state, items: AddFailures(state.items, action) };
 
     case StudyGroupsRequestSucceeded.type:
-      console.log("done");
-      return AddLoaded(state, action);
+      return { ...state, items: AddLoaded(state.items, action) };
 
     case StudyGroupsRequested.type:
-      console.log("pending");
-      return AddPending(state, action);
+      return { ...state, items: AddPending(state.items, action) };
+
+    case ThumbnailsReceived.type:
+      const x = {
+        ...state,
+        thumbnails: mapValues(keyBy(action.thumbnails, "id"), x => x.thumbnail)
+      };
+      return x;
   }
   return state;
 };

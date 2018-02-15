@@ -11,6 +11,7 @@ import {
   UserRequestFailed,
   UserRequestSucceeded
 } from "../../actions/user";
+import { Observable } from "rxjs/Observable";
 
 export const requestUser: Epic<AllActions, StateType> = (action$, state$) =>
   action$
@@ -22,8 +23,9 @@ export const requestUser: Epic<AllActions, StateType> = (action$, state$) =>
         .set(centuryAuthHeaders(token))
     )
     .map(res => {
-      if (res.status !== 200) return new UserRequestFailed(res.text);
+      if (!res.ok) return new UserRequestFailed(res.text);
 
       const data = res.body as CenturyTypes.User;
       return new UserRequestSucceeded(data);
-    });
+    })
+    .catch(e => Observable.of(new UserRequestFailed(e)));

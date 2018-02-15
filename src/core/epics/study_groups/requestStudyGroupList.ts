@@ -7,10 +7,13 @@ import {
   StudyGroupListRequested,
   StudyGroupListRequestFailed,
   StudyGroupListRequestSucceeded,
-  StudyGroupsRequested
+  StudyGroupsRequested,
+  ThumbnailsReceived
 } from "../../actions/study_groups";
 import { centuryAuthHeaders, getTokenStream } from "../../common";
 import { StateType } from "../../reducers";
+import { Observable } from "rxjs/Observable";
+import { keyBy } from "lodash";
 
 export const requestStudyGroupList: Epic<AllActions, StateType> = (
   action$,
@@ -27,9 +30,44 @@ export const requestStudyGroupList: Epic<AllActions, StateType> = (
     .mergeMap<superagent.Response, AllActions>(res => {
       if (!res.ok) return [new StudyGroupListRequestFailed(res.text)];
 
-      const data = res.body as { studyGroupId: string }[];
+      type Thumb = {
+        _id: string;
+        name: string;
+        files: [
+          {
+            filename: string;
+            mimetype: string;
+            type: "image";
+            status: "active";
+            s3: {
+              path: string;
+              region: string;
+              bucket: string;
+            };
+            id: string;
+          }
+        ];
+      };
+      const data = res.body as {
+        studyGroupId: string;
+        thumb: Thumb;
+        coursePlanId: string;
+        name: string;
+      }[];
+
       return [
         new StudyGroupListRequestSucceeded(data),
-        new StudyGroupsRequested(data.map(x => x.studyGroupId))
+        new StudyGroupsRequested(data.map(x => x.studyGroupId)),
+        new ThumbnailsReceived(
+          data
+            .filter(x => x.thumb !== undefined && x.thumb.files.length > 0)
+            .map(x => ({
+              id: x.studyGroupId,
+              thumbnail: `https://cdn.prod.century.tech/media/${
+                x.thumb.files[0].filename
+              }`
+            }))
+        )
       ];
-    });
+    })
+    .catch((e: any) => Observable.of(new StudyGroupListRequestFailed(e)));

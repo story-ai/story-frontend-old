@@ -13,7 +13,7 @@ const LoginFormComponent: React.StatelessComponent<{
 }> = props => {
   return (
     <div className="form">
-      <form>
+      <div className="inner">
         <h1>Login</h1>
         {props.loginError && <div className="err">{props.loginError}</div>}
         {/* <Field
@@ -31,10 +31,10 @@ const LoginFormComponent: React.StatelessComponent<{
           type="password"
         /> */}
 
-        <button type="submit" disabled={props.pending} onClick={props.login}>
+        <button disabled={props.pending} onClick={props.login}>
           {props.pending ? "Logging in..." : "Login"}
         </button>
-      </form>
+      </div>
 
       <Link to="/register">
         <div>Register a new account</div>

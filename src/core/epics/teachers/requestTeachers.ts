@@ -10,6 +10,7 @@ import {
   TeachersRequestSucceeded
 } from "../../actions/teachers";
 import { StateType } from "../../reducers";
+import { Observable } from "rxjs/Observable";
 
 export const requestTeachers: Epic<AllActions, StateType> = action$ =>
   action$
@@ -31,8 +32,9 @@ export const requestTeachers: Epic<AllActions, StateType> = action$ =>
       (ids, res): [string[], superagent.Response] => [ids, res]
     )
     .map(([ids, res]) => {
-      if (res.status !== 200) return new TeachersRequestFailed(res.text, ids);
+      if (!res.ok) return new TeachersRequestFailed(res.text, ids);
       const data = res.body as { [k: string]: StoryTypes.Teacher };
 
       return new TeachersRequestSucceeded(data);
-    });
+    })
+    .catch(e => Observable.of(new TeachersRequestFailed(e)));

@@ -67,3 +67,15 @@ export class StudyGroupListRequestSucceeded extends MyAction {
     this.items = items;
   }
 }
+
+export class ThumbnailsReceived extends MyAction {
+  type = ThumbnailsReceived.type;
+
+  static type: "THUMBNAILS_RECEIVED" = "THUMBNAILS_RECEIVED";
+  thumbnails: { id: string; thumbnail: string }[];
+
+  constructor(thumbnails: ThumbnailsReceived["thumbnails"]) {
+    super();
+    this.thumbnails = thumbnails;
+  }
+}

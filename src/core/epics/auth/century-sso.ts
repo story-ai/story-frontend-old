@@ -87,10 +87,8 @@ export class SingleSignOnClient {
     //   "centuryAuth",
     //   "menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes,width=550,height=700"
     // );
-    const redirect = this.redirectUrl
-      ? this.redirectUrl
-      : document.location.href;
-    document.location.href = loginUrl + "?redirect=" + redirect;
+    const redirect = this.redirectUrl ? this.redirectUrl : window.location.href;
+    window.location.assign(loginUrl + "?redirect=" + redirect);
 
     // if we can't open the window, redirect to the login page
     // if (!newWin || newWin.closed || typeof newWin.closed == "undefined") {

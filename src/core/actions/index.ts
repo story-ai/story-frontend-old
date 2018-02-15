@@ -39,7 +39,8 @@ import {
   StudyGroupListRequestSucceeded,
   StudyGroupsRequested,
   StudyGroupsRequestFailed,
-  StudyGroupsRequestSucceeded
+  StudyGroupsRequestSucceeded,
+  ThumbnailsReceived
 } from "./study_groups";
 import {
   TeachersRequested,
@@ -82,6 +83,7 @@ export type AllActions =
   | LoginRequested
   | LoginRequestSucceeded
   | LogoutRequested
+  | ThumbnailsReceived
   | LogoutRequestSucceeded
   | Register
   | RegisterFailed

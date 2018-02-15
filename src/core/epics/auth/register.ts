@@ -1,4 +1,5 @@
 import { Epic } from "redux-observable";
+import { Observable } from "rxjs/Observable";
 import * as superagent from "superagent";
 
 import { StoryServices } from "../../../config";
@@ -27,7 +28,8 @@ export const register: Epic<AllActions, StateType> = action$ =>
         mesage?: string;
       };
 
-      if (res.status !== 200) return [new RegisterFailed(res.body)];
+      if (!res.ok) return [new RegisterFailed(res.body)];
 
       return [new RegisterSucceeded(), new LoginRequested()];
-    });
+    })
+    .catch(e => Observable.of(new RegisterFailed(e)));

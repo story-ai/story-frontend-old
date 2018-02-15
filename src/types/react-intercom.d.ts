@@ -3,3 +3,6 @@ declare namespace drift {
 }
 
 declare module "babel-minify-webpack-plugin";
+
+declare module "*.svg";
+declare module "*.png";
