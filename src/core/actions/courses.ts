@@ -111,14 +111,17 @@ export class BuyCourseRequested extends MyAction {
 
   static type: "BUY_COURSE_REQUESTED" = "BUY_COURSE_REQUESTED";
   courseId: string;
-  token: string;
+  token?: string;
+  discount?: StoryTypes.Discount;
   constructor(
     courseId: BuyCourseRequested["courseId"],
-    token: BuyCourseRequested["token"]
+    token?: BuyCourseRequested["token"],
+    discount?: BuyCourseRequested["discount"]
   ) {
     super();
     this.courseId = courseId;
     this.token = token;
+    this.discount = discount;
   }
 }
 

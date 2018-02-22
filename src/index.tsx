@@ -2,22 +2,25 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 import Root from "./components/Root";
 import { initial } from "./core/reducers";
 import configureStore from "./core/store/configureStore";
-import { loadState, saveState } from "./core/store/localStore";
 
-const store = configureStore(loadState() || initial);
-store.subscribe(() => {
-  saveState(store.getState());
-});
+// const store = configureStore(loadState() || initial);
+// store.subscribe(() => {
+//   saveState(store.getState());
+// });
+const store = configureStore(initial);
 
 const rootEl = document.getElementById("root");
 ReactDOM.render(
   <AppContainer>
     <Provider store={store}>
-      <Root />
+      <BrowserRouter>
+        <Root />
+      </BrowserRouter>
     </Provider>
   </AppContainer>,
   rootEl
@@ -34,7 +37,9 @@ if (module.hot) {
     ReactDOM.render(
       <AppContainer>
         <Provider store={store}>
-          <NextRootContainer />
+          <BrowserRouter>
+            <NextRootContainer />
+          </BrowserRouter>
         </Provider>
       </AppContainer>,
       rootEl

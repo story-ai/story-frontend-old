@@ -4,6 +4,11 @@
     align-items: stretch;
     padding-top: 30px;
     flex-wrap: wrap;
+    &.error {
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .listing-container {
     position: static;
@@ -13,7 +18,7 @@
   }
   .course-listing {
     background-attachment: fixed;
-    background-color: #283039;
+    background-color: #212730;
     background-image: url(../../img/dark-blur.png);
     background-position: center center;
     background-repeat: repeat-x;
@@ -24,15 +29,15 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    cursor: pointer;
     transition: all 500ms;
-    max-height: 140px;
-    will-change: margin, max-height, border;
-    &:hover {
-      margin-top: 12px;
-      margin-bottom: 24px;
+    will-change: margin, border;
+    box-shadow: 0 0px 0 rgba(83, 217, 233, 0.5);
+    color: #9fa7ae;
+
+    &.active {
       border-bottom-left-radius: 36px;
-      max-height: 300px;
+      color: white;
+      box-shadow: 0 0 20px rgba(83, 217, 233, 0.5);
     }
     .picture {
       background: linear-gradient(
@@ -79,11 +84,24 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      .strikethrough {
+        position: relative;
+      }
+      .strikethrough:before {
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 50%;
+        right: 0;
+        border-top: 5px solid;
+        border-color: red;
+        transform: rotate(20deg);
+      }
       & .title {
         flex: 0;
       }
       & .detail {
-        overflow-y: auto;
         flex: 1;
 
         display: flex;
@@ -94,6 +112,18 @@
           flex: 1;
         }
       }
+    }
+
+    .action-button {
+      background: #fb114b;
+      cursor: pointer;
+      text-transform: uppercase;
+      color: white;
+      border: none;
+      height: 40px;
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin-top: 10px;
     }
   }
 }

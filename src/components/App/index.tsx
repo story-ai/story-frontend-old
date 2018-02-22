@@ -2,7 +2,7 @@ import * as React from "react";
 import { StateType } from "../../core/reducers";
 import "./index.scss";
 import { Home } from "../ClassListingPage";
-import { Switch, Route } from "react-router";
+import { Switch, Route, withRouter, RouteComponentProps } from "react-router";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
 import { connect } from "react-redux";
@@ -23,12 +23,11 @@ export class AppComponent extends React.Component<
   {
     requestUser: () => UserRequested;
     user: userReducer.StateType;
-  },
+  } & RouteComponentProps<{}>,
   {}
 > {
   // TODO: I feel like we should be kicking off epics outside the component
   componentDidMount() {
-    // console.log("I mounted?");
     this.props.requestUser();
   }
 
@@ -49,11 +48,13 @@ export class AppComponent extends React.Component<
   }
 }
 
-export const App = connect(
-  (state: StateType) => ({
-    user: state.user
-  }),
-  {
-    requestUser: () => new UserRequested()
-  }
-)(AppComponent);
+export const App = withRouter(
+  connect(
+    (state: StateType) => ({
+      user: state.user
+    }),
+    {
+      requestUser: () => new UserRequested()
+    }
+  )(AppComponent)
+);

@@ -17,7 +17,7 @@ export const AppHeaderComponent: React.StatelessComponent<{
               marginRight: 15
             }}
           />
-          Store
+          Browse Courses
         </h1>
       </div>
     </div>

@@ -60,6 +60,7 @@ export class SingleSignOnClient {
 
     // Listen on data sent by the iframe
     window.addEventListener("message", evt => {
+      // console.log("New message!", evt);
       if (evt.data && evt.data.ctekAuth) {
         if (this.popup) {
           this.popup.close();

@@ -13,16 +13,22 @@ import {
   AddLoaded,
   AddPending,
   BlankLoadableMap,
-  LoadableMap
+  LoadableMap,
+  Loadable
 } from "./types/Loadable";
-import { keyBy, mapValues } from "lodash";
+import { keyBy, mapValues, Dictionary } from "lodash";
 
 export type StateType = {
   thumbnails: { [id: string]: string };
-  items: LoadableMap<CenturyTypes.StudyGroup>;
+  groups: Loadable<Dictionary<CenturyTypes.StudyGroup>>;
 };
 
-export const initial: StateType = { items: BlankLoadableMap(), thumbnails: {} };
+export const initial: StateType = {
+  groups: {
+    state: "UNKNOWN"
+  },
+  thumbnails: {}
+};
 
 export const reducer = (
   state: StateType = initial,
@@ -31,16 +37,33 @@ export const reducer = (
   switch (action.type) {
     // reset when we ask for a fresh list
     case StudyGroupListRequested.type:
-      return initial;
+      return { ...initial };
 
     case StudyGroupsRequestFailed.type:
-      return { ...state, items: AddFailures(state.items, action) };
+      return {
+        ...state,
+        groups: {
+          state: "FAILED",
+          error: action.error
+        }
+      };
 
     case StudyGroupsRequestSucceeded.type:
-      return { ...state, items: AddLoaded(state.items, action) };
+      return {
+        ...state,
+        groups: {
+          state: "LOADED",
+          item: action.items
+        }
+      };
 
     case StudyGroupsRequested.type:
-      return { ...state, items: AddPending(state.items, action) };
+      return {
+        ...state,
+        groups: {
+          state: "PENDING"
+        }
+      };
 
     case ThumbnailsReceived.type:
       const x = {

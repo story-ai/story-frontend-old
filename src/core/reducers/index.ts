@@ -10,6 +10,7 @@ import * as courses from "./courses";
 import * as studyGroups from "./study_groups";
 import * as teachers from "./teachers";
 import * as user from "./user";
+import * as discounts from "./discounts";
 
 export interface StateType {
   readonly auth: auth.StateType;
@@ -18,6 +19,7 @@ export interface StateType {
   readonly courses: courses.StateType;
   readonly studyGroups: studyGroups.StateType;
   readonly teachers: teachers.StateType;
+  readonly discounts: discounts.StateType;
   readonly form: FormStateMap;
 }
 
@@ -28,6 +30,7 @@ export const initial: StateType = {
   courses: courses.initial,
   studyGroups: studyGroups.initial,
   teachers: teachers.initial,
+  discounts: discounts.initial,
   form: {}
 };
 
@@ -38,6 +41,7 @@ export const mainReducer = combineReducers<StateType>({
   courses: courses.reducer,
   studyGroups: studyGroups.reducer,
   teachers: teachers.reducer,
+  discounts: discounts.reducer,
   form: form.reducer
 });
 

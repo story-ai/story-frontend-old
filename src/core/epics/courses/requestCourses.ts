@@ -15,6 +15,7 @@ import {
 import { StateType } from "../../reducers";
 import { getTokenStream, centuryAuthHeaders } from "../../common";
 import * as superagent from "superagent";
+import * as Promise from "bluebird";
 
 export const requestCourses: Epic<AllActions, StateType> = (action$, state$) =>
   action$

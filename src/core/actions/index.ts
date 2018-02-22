@@ -1,4 +1,4 @@
-import { ReloadAll } from "./app";
+import { ReloadAll, AddVisibleCourse, RemoveVisibleCourse } from "./app";
 import {
   AuthRequestFailed,
   GotToken,
@@ -33,6 +33,7 @@ import {
   CoursesRequestFailed,
   CoursesRequestSucceeded
 } from "./courses";
+import { ActivateDiscount, DeactivateDiscounts } from "./discounts";
 import {
   StudyGroupListRequested,
   StudyGroupListRequestFailed,
@@ -59,6 +60,8 @@ import {
 export { MyAction } from "./MyAction";
 
 export type AllActions =
+  | DeactivateDiscounts
+  | ActivateDiscount
   | AddToClassRequest
   | AddToClassRequestFailed
   | AddToClassRequestSucceeded
@@ -103,4 +106,6 @@ export type AllActions =
   | UserMetaRequestSucceeded
   | UserRequested
   | UserRequestFailed
+  | AddVisibleCourse
+  | RemoveVisibleCourse
   | UserRequestSucceeded;

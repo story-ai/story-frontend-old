@@ -62,6 +62,20 @@
           justify-content: center;
         }
 
+        .name {
+          display: flex;
+          & > * {
+            flex: 1;
+            margin: 4px;
+            &:last-child {
+              margin-right: 0;
+            }
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+        }
+
         a {
           color: rgb(159, 167, 174);
           transition: color 0.4s, background-color 0.4s;

@@ -20,30 +20,22 @@ export const requestStudyGroup: Epic<AllActions, StateType> = (
 ) =>
   action$
     .ofType<StudyGroupsRequested>(StudyGroupsRequested.type)
-    // separate ids from all requests into a single ID stream
-    .mergeMap((action: StudyGroupsRequested) => action.ids)
-    // debounce
-    .bufferTime(100)
-    // filter out duplicates
-    .map(ids => ids.filter((id, i, a) => a.indexOf(id) === i))
-    // don't send at all if we don't need to
-    .filter(ids => ids.length > 0)
-    // finally actually make a request
-    .combineLatest(getTokenStream(state$))
+    .withLatestFrom(getTokenStream(state$))
     .mergeMap(
-      ([ids, token]) =>
+      ([req, token]) =>
         superagent
           .get(`${CENTURY_ACCOUNT_API}/study-groups`)
           .query({
-            ids: ids.join(","),
+            ids: req.ids.join(","),
             include: "course,class,coursePlan,isEnabled,status,filters"
           })
           .set(centuryAuthHeaders(token)),
-      ([ids, token], res): [string[], superagent.Response] => [ids, res]
+      ([req, token], res): [string[], superagent.Response] => [req.ids, res]
     )
     .map(([ids, res]) => {
       if (!res.ok) return new StudyGroupsRequestFailed(res.text, ids);
 
+      console.log("Got groups", res.body);
       const data = res.body as CenturyTypes.StudyGroup[];
       const map = keyBy(data, "_id");
       return new StudyGroupsRequestSucceeded(map);

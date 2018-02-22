@@ -7,7 +7,8 @@ export const POJOfier: Middleware = <StateType>({
   getState
 }: MiddlewareAPI<StateType>) => (next: Dispatch<StateType>) => action => {
   if (action instanceof MyAction) {
-    return next(Object.assign({}, action));
+    const plain = JSON.parse(JSON.stringify(action));
+    return next(plain);
   }
   return next(action);
 };

@@ -29,6 +29,22 @@ const RegisterFormComponent: React.StatelessComponent<
                 : props.registerError.message}
           </div>
         )}
+        <div className="name">
+          <Field
+            name="firstname"
+            disabled={props.pending}
+            placeholder="First Name"
+            component="input"
+            type="text"
+          />
+          <Field
+            name="lastname"
+            disabled={props.pending}
+            placeholder="Last Name"
+            component="input"
+            type="text"
+          />
+        </div>
         <Field
           name="username"
           disabled={props.pending}
@@ -75,9 +91,18 @@ export const RegistrationForm = connect(
     onSubmit: ({
       username,
       password,
+      firstname,
+      lastname,
       passwordConfirmation
     }: {
       [k: string]: string;
-    }) => new Register(username, password, passwordConfirmation)
+    }) =>
+      new Register(
+        username,
+        firstname,
+        lastname,
+        password,
+        passwordConfirmation
+      )
   }
 )(registerReduxForm as any);

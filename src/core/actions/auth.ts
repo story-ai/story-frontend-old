@@ -80,16 +80,22 @@ export class Register extends MyAction {
 
   static type: "REGISTER" = "REGISTER";
   username: string;
+  firstname: string;
+  lastname: string;
   password: string;
   passwordConfirmation: string;
   constructor(
     username: string,
+    firstname: string,
+    lastname: string,
     password: string,
     passwordConfirmation: string
   ) {
     super();
     this.username = username;
     this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.passwordConfirmation = passwordConfirmation;
   }
 }

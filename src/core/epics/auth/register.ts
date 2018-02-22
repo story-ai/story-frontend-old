@@ -18,6 +18,8 @@ export const register: Epic<AllActions, StateType> = action$ =>
     .switchMap(action =>
       superagent.post(`${StoryServices.material}/user`).send({
         username: action.username,
+        firstname: action.firstname,
+        lastname: action.lastname,
         password: action.password,
         passwordConfirmation: action.passwordConfirmation
       })
