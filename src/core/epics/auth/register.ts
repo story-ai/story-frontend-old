@@ -21,7 +21,8 @@ export const register: Epic<AllActions, StateType> = action$ =>
         firstname: action.firstname,
         lastname: action.lastname,
         password: action.password,
-        passwordConfirmation: action.passwordConfirmation
+        passwordConfirmation: action.passwordConfirmation,
+        referral_code: action.referral_code
       })
     )
     .mergeMap((res): AllActions[] => {

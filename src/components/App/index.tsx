@@ -2,7 +2,13 @@ import * as React from "react";
 import { StateType } from "../../core/reducers";
 import "./index.scss";
 import { Home } from "../ClassListingPage";
-import { Switch, Route, withRouter, RouteComponentProps } from "react-router";
+import {
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+  Redirect
+} from "react-router";
 import { AppHeader } from "./header";
 import { AppFooter } from "./footer";
 import { connect } from "react-redux";
@@ -36,6 +42,17 @@ export class AppComponent extends React.Component<
       <div className="app-container">
         <AppHeader />
         <Switch>
+          <Route
+            path="/login"
+            component={(props: RouteComponentProps<{}>) => {
+              const match = props.location.search.match("redirect=([^&]*)");
+              if (match) {
+                const redirect = match[1];
+                return <Redirect to={match[1]} />;
+              }
+              return <Redirect to="/" />;
+            }}
+          />
           <Route path="/" component={Home} />
         </Switch>
         <div className="footer">

@@ -84,12 +84,14 @@ export class Register extends MyAction {
   lastname: string;
   password: string;
   passwordConfirmation: string;
+  referral_code?: string;
   constructor(
     username: string,
     firstname: string,
     lastname: string,
     password: string,
-    passwordConfirmation: string
+    passwordConfirmation: string,
+    referral_code?: string
   ) {
     super();
     this.username = username;
@@ -97,6 +99,7 @@ export class Register extends MyAction {
     this.firstname = firstname;
     this.lastname = lastname;
     this.passwordConfirmation = passwordConfirmation;
+    this.referral_code = referral_code;
   }
 }
 

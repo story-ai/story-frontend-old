@@ -66,6 +66,13 @@ const RegisterFormComponent: React.StatelessComponent<
           component="input"
           type="password"
         />
+        <Field
+          name="referral_code"
+          disabled={props.pending}
+          placeholder="Referral Code"
+          component="input"
+          type="password"
+        />
 
         <button type="submit" disabled={props.pending}>
           {props.pending ? "Signing up..." : "Sign up"}
@@ -93,7 +100,8 @@ export const RegistrationForm = connect(
       password,
       firstname,
       lastname,
-      passwordConfirmation
+      passwordConfirmation,
+      referral_code
     }: {
       [k: string]: string;
     }) =>
@@ -102,7 +110,8 @@ export const RegistrationForm = connect(
         firstname,
         lastname,
         password,
-        passwordConfirmation
+        passwordConfirmation,
+        referral_code
       )
   }
 )(registerReduxForm as any);

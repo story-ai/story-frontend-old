@@ -1,24 +1,20 @@
 import "./index.scss";
-import { animateScroll } from "react-scroll";
 
 import * as React from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
+import { animateScroll } from "react-scroll";
 import { CenturyTypes, StoryTypes } from "story-backend-utils";
-import {
-  ReloadAll,
-  AddVisibleCourse,
-  RemoveVisibleCourse
-} from "../../core/actions/app";
-import { DiscountChest } from "../Discount";
 
 import {
-  AllCoursesRequested,
-  BuyCourseRequested
-} from "../../core/actions/courses";
-import { StudyGroupListRequested } from "../../core/actions/study_groups";
+  AddVisibleCourse,
+  ReloadAll,
+  RemoveVisibleCourse
+} from "../../core/actions/app";
+import { BuyCourseRequested } from "../../core/actions/courses";
 import { StateType } from "../../core/reducers";
-import { CourseListing } from "./CourseListing";
-import { withRouter, RouteComponentProps } from "react-router";
+import { DiscountChest } from "../Discount";
+import { CourseListingRoute } from "./CourseListingRoute";
 
 type StateProps =
   | { loaded: false }
@@ -99,10 +95,10 @@ export class HomeComponent extends React.Component<
         removeVisible
       } = this.props;
 
-      content = courses.map((course, i) => {
+      content = courses.map(course => {
         const studyGroupId = courseToStudyGroup[course._id];
         return (
-          <CourseListing
+          <CourseListingRoute
             key={course._id}
             course={course}
             reload={this.reload}
@@ -116,7 +112,6 @@ export class HomeComponent extends React.Component<
               vis ? addVisible(course) : removeVisible(course)
             }
             scrollTo={this.scrollTo}
-            // active={active !== undefined && course._id === active._id}
           />
         );
       });

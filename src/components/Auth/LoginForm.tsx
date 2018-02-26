@@ -30,10 +30,17 @@ const LoginFormComponent: React.StatelessComponent<{
           component="input"
           type="password"
         /> */}
-
         <button disabled={props.pending} onClick={props.login}>
           {props.pending ? "Logging in..." : "Login"}
         </button>
+        <span
+          style={{
+            marginTop: 20,
+            color: "rgba(255,255,255,0.4)"
+          }}
+        >
+          Forgot your password? Let us help in the live chat below.
+        </span>
       </div>
 
       <Link to="/register">

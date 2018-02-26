@@ -24,6 +24,7 @@ export const reducer = (
       };
 
     case UserMetaRequestSucceeded.type:
+      if (action.user.discounts === undefined) action.user.discounts = [];
       return {
         state: "LOADED",
         item: action.user
