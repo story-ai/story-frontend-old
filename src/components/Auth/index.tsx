@@ -1,10 +1,12 @@
 import "./index.scss";
+
 import * as React from "react";
 import { ReactElement } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-import { RegistrationForm } from "./RegistrationForm";
 import { LoginForm } from "./LoginForm";
+import { RegistrationForm } from "./RegistrationForm";
+import { i18n } from "../../strings/i18n";
 
 export const AuthPage: React.StatelessComponent<{
   children?: ReactElement<any>;
@@ -21,10 +23,10 @@ export const AuthPage: React.StatelessComponent<{
       </div>
       <div className="auth-footer">
         <div>
-          <a href="https://story-ai.com">Story</a>
+          <a href="https://story-ai.com">{i18n`Auth Page Story Link Text`}</a>
         </div>
         <div>
-          <a href="https://century.tech">Powered by CENTURY Tech</a>
+          <a href="https://century.tech">{i18n`Auth Page CENTURY Link Text`}</a>
         </div>
       </div>
     </div>
@@ -37,7 +39,11 @@ export const AuthRoutes = () => {
       <Switch>
         <Route path="/register" component={RegistrationForm} />
         <Route path="/login" component={LoginForm} />
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        <Route
+          render={({ location }) => (
+            <Redirect to={`/login?redirect=${location.pathname}`} />
+          )}
+        />
       </Switch>
     </AuthPage>
   );

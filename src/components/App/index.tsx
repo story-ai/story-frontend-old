@@ -1,27 +1,28 @@
-import * as React from "react";
-import { StateType } from "../../core/reducers";
 import "./index.scss";
-import { Home } from "../ClassListingPage";
-import {
-  Switch,
-  Route,
-  withRouter,
-  RouteComponentProps,
-  Redirect
-} from "react-router";
-import { AppHeader } from "./header";
-import { AppFooter } from "./footer";
-import { connect } from "react-redux";
-import { UserRequested } from "../../core/actions/user";
-import { CenturyTypes } from "story-backend-utils";
-import * as userReducer from "../../core/reducers/user";
 
+import * as React from "react";
 import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+  withRouter
+} from "react-router";
+
+import { UserRequested } from "../../core/actions/user";
+import { StateType } from "../../core/reducers";
+import * as userReducer from "../../core/reducers/user";
+import { Home } from "../ClassListingPage";
+import { AppFooter } from "./footer";
+import { AppHeader } from "./header";
+import { i18n } from "../../strings/i18n";
 
 const Head = () => (
   <Helmet>
     <meta charSet="utf-8" />
-    <title>Story</title>
+    <title>{i18n`Page Title`}</title>
   </Helmet>
 );
 
@@ -58,7 +59,6 @@ export class AppComponent extends React.Component<
         <div className="footer">
           <AppFooter />
         </div>
-
         <Head />
       </div>
     );

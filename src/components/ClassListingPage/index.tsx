@@ -15,6 +15,7 @@ import { BuyCourseRequested } from "../../core/actions/courses";
 import { StateType } from "../../core/reducers";
 import { DiscountChest } from "../Discount";
 import { CourseListingRoute } from "./CourseListingRoute";
+import { i18n } from "../../strings/i18n";
 
 type StateProps =
   | { loaded: false }
@@ -58,7 +59,6 @@ export class HomeComponent extends React.Component<
 
   scrollTo = (n: HTMLElement) => {
     if (this.node !== null) {
-      console.log("Scrolling");
       animateScroll.scrollTo(n.offsetTop - 100, {
         containerId: this.node.id,
         duration: 500
@@ -67,22 +67,14 @@ export class HomeComponent extends React.Component<
   };
 
   render(): JSX.Element {
-    // if (this.props.user.state !== "LOADED") return <div>Loading...</div>;
-    // const org = this.props.user.item.profile.groups.organisations.find(
-    //   o => o.organisation === STORY_ORGANISATION_ID
-    // );
     let content;
     let errorState = false;
     if (!this.props.loaded) {
       errorState = true;
-      content = <div className="empty">Loading...</div>;
+      content = <div className="empty">{i18n`Courses Loading Text`}</div>;
     } else if (this.props.courses.length < 1) {
       errorState = true;
-      content = (
-        <div className="empty">
-          No courses are currently available. Come back soon!
-        </div>
-      );
+      content = <div className="empty">{i18n`No Courses Available Text`}</div>;
     } else {
       const {
         email,
@@ -162,18 +154,11 @@ const mapState = (state: StateType): StateProps => {
   // TODO: move to selector
   const email = state.user.details.item.contact.emails[0].address;
 
-  // TODO: move to selector
-  // const firstVisible = courses.filter(
-  //   c => state.courses.visible.indexOf(c._id) >= 0
-  // )[0];
-  // const active = firstVisible || courses[0];
-
   return {
     loaded: true,
     courseToStudyGroup,
     email,
     courses,
-    // firstVisible,
     thumbnailMap: state.studyGroups.thumbnails,
     activeDiscount: state.discounts.active
   };

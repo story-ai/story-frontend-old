@@ -1,11 +1,11 @@
 import "./index.scss";
 
 import * as React from "react";
+import { Omit } from "react-redux";
 import { Link, Route } from "react-router-dom";
 import VisibilitySensor = require("react-visibility-sensor");
 
 import { CourseListing, CourseListingProps } from "./CourseListing";
-import { Omit } from "react-redux";
 
 export const CourseListingRoute: React.StatelessComponent<
   Omit<CourseListingProps, "price" | "owned" | "active">

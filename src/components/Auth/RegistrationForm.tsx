@@ -1,10 +1,12 @@
-import { StateType } from "../../core/reducers";
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { InputHTMLAttributes, ReactElement } from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import { Link } from "react-router-dom";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
+
 import { Register } from "../../core/actions/auth";
+import { StateType } from "../../core/reducers";
+import { i18n } from "../../strings/i18n";
 
 const RegisterFormComponent: React.StatelessComponent<
   {
@@ -19,7 +21,7 @@ const RegisterFormComponent: React.StatelessComponent<
         // This is unsatisfactory but I think is a problem with the redux-forms typings
         onSubmit={props.handleSubmit as any}
       >
-        <h1>Register </h1>
+        <h1>{i18n`Register Page Header`}</h1>
         {props.registerError && (
           <div className="err">
             {typeof props.registerError === "string"
@@ -33,14 +35,14 @@ const RegisterFormComponent: React.StatelessComponent<
           <Field
             name="firstname"
             disabled={props.pending}
-            placeholder="First Name"
+            placeholder={i18n`Registration Placeholder - First Name`}
             component="input"
             type="text"
           />
           <Field
             name="lastname"
             disabled={props.pending}
-            placeholder="Last Name"
+            placeholder={i18n`Registration Placeholder - Last Name`}
             component="input"
             type="text"
           />
@@ -48,38 +50,40 @@ const RegisterFormComponent: React.StatelessComponent<
         <Field
           name="username"
           disabled={props.pending}
-          placeholder="E-mail address"
+          placeholder={i18n`Registration Placeholder - Email Address`}
           component="input"
           type="email"
         />
         <Field
           name="password"
           disabled={props.pending}
-          placeholder="Password"
+          placeholder={i18n`Registration Placeholder - Password`}
           component="input"
           type="password"
         />
         <Field
           name="passwordConfirmation"
           disabled={props.pending}
-          placeholder="Password Confirmation"
+          placeholder={i18n`Registration Placeholder - Password Confirmation`}
           component="input"
           type="password"
         />
         <Field
           name="referral_code"
           disabled={props.pending}
-          placeholder="Referral Code"
+          placeholder={i18n`Registration Placeholder - Referral Code`}
           component="input"
           type="password"
         />
 
         <button type="submit" disabled={props.pending}>
-          {props.pending ? "Signing up..." : "Sign up"}
+          {props.pending
+            ? i18n`Registration Submit Button (Pending)`
+            : i18n`Registration Submit Button`}
         </button>
       </form>
       <Link to="/login">
-        <div>I already have an account</div>
+        <div>{i18n`Registration Page Login Link Text`}</div>
       </Link>
     </div>
   );

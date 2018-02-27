@@ -1,8 +1,9 @@
+import { i18n } from "../../strings/i18n";
 import * as React from "react";
 import StripeCheckout from "react-stripe-checkout";
 import { CenturyTypes, StoryTypes } from "story-backend-utils";
 
-import { STRIPE_KEY } from "../../config";
+import { STRIPE_KEY, STRINGS } from "../../config";
 import { BuyCourseRequested } from "../../core/actions/courses";
 import { PriceLabel } from "./PriceLabel";
 
@@ -37,17 +38,21 @@ export const CourseButton: React.StatelessComponent<
         target="_blank"
         rel="noopener noreferrer"
       >
-        <button className="action-button">Start course</button>
+        <button className="action-button">{i18n`Start Course Action Button`}</button>
       </a>
     );
   }
+  const priceLabel = (
+    <PriceLabel
+      price={props.course.price}
+      discount={props.discount}
+      key="price"
+    />
+  );
 
   const button = (
     <button className="action-button">
-      Unlock Course (<PriceLabel
-        price={props.course.price}
-        discount={props.discount}
-      />)
+      {i18n`Buy Course Action Button ${priceLabel}[Course Price]`}
     </button>
   );
 

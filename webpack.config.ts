@@ -40,6 +40,12 @@ export const config: webpack.Configuration = {
         }
       },
 
+      {
+        test: /\.ya?ml$/,
+        include: path.resolve("data"),
+        loaders: ["json-loader", "yaml-loader"]
+      },
+
       // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
       {
         test: /\.tsx?$/,

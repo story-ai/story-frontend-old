@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
 import * as StoryLogo from "../../img/s-tight.png";
+import { i18n } from "../../strings/i18n";
 
 export const AppHeaderComponent: React.StatelessComponent<{
   // logout: () => any;
@@ -17,7 +18,7 @@ export const AppHeaderComponent: React.StatelessComponent<{
               marginRight: 15
             }}
           />
-          Browse Courses
+          {i18n`App Header`}
         </h1>
       </div>
     </div>

@@ -1,0 +1,175 @@
+{
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"Activate Discount Link": {
+			"type": "string",
+			"minLength": 1
+		},
+		"App Header": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Auth Page CENTURY Link Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Auth Page Story Link Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Buy Course Action Button ${0}[Course Price]": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "(?=.*?\\$\\{0\\})"
+		},
+		"Copyright Notice ${0}[Year]": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "(?=.*?\\$\\{0\\})"
+		},
+		"Courses Loading Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Deactivate Discount Link": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Discount Box Title": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Free Price Description": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Login Page Forgot Password Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Login Page Header": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Login Page Register Button": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Login Submit Button": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Login Submit Button (Pending)": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Logout Link Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"No Courses Available Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"No Discounts Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Page Title": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Referral Bonus Description ${0}[Referral Code]": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "(?=.*?\\$\\{0\\})"
+		},
+		"Register Page Header": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Page Login Link Text": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - Email Address": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - First Name": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - Last Name": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - Password": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - Password Confirmation": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Placeholder - Referral Code": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Submit Button": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Registration Submit Button (Pending)": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Start Course Action Button": {
+			"type": "string",
+			"minLength": 1
+		},
+		"Strand Name ${0}[name], ${1}[number of nuggets]": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "(?=.*?\\$\\{0\\})(?=.*?\\$\\{1\\})"
+		}
+	},
+	"required": [
+		"Activate Discount Link",
+		"App Header",
+		"Auth Page CENTURY Link Text",
+		"Auth Page Story Link Text",
+		"Buy Course Action Button ${0}[Course Price]",
+		"Copyright Notice ${0}[Year]",
+		"Courses Loading Text",
+		"Deactivate Discount Link",
+		"Discount Box Title",
+		"Free Price Description",
+		"Login Page Forgot Password Text",
+		"Login Page Header",
+		"Login Page Register Button",
+		"Login Submit Button",
+		"Login Submit Button (Pending)",
+		"Logout Link Text",
+		"No Courses Available Text",
+		"No Discounts Text",
+		"Page Title",
+		"Referral Bonus Description ${0}[Referral Code]",
+		"Register Page Header",
+		"Registration Page Login Link Text",
+		"Registration Placeholder - Email Address",
+		"Registration Placeholder - First Name",
+		"Registration Placeholder - Last Name",
+		"Registration Placeholder - Password",
+		"Registration Placeholder - Password Confirmation",
+		"Registration Placeholder - Referral Code",
+		"Registration Submit Button",
+		"Registration Submit Button (Pending)",
+		"Start Course Action Button",
+		"Strand Name ${0}[name], ${1}[number of nuggets]"
+	],
+	"additionalProperties": false
+}

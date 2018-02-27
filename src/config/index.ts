@@ -1,3 +1,7 @@
+import { safeLoad } from "js-yaml";
+// import * as fs from "fs";
+// console.log(fs);
+
 const prod = process.env.NODE_ENV === "production";
 const staging = process.env.STAGING === "true";
 console.log("Prod?", prod);
@@ -20,3 +24,9 @@ export const STRIPE_KEY =
   prod && !staging
     ? "pk_live_dYRBP3OX7aJTbFbeZf2F7gpt"
     : "pk_test_1FHvicuh1rLO80YIQQI1g1l8";
+
+export const LOCALE = "en-GB";
+
+export const STRINGS: {
+  [k: string]: string;
+} = require(`json-loader!../strings/${LOCALE}.json`);

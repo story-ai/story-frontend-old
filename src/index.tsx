@@ -8,10 +8,6 @@ import Root from "./components/Root";
 import { initial } from "./core/reducers";
 import configureStore from "./core/store/configureStore";
 
-// const store = configureStore(loadState() || initial);
-// store.subscribe(() => {
-//   saveState(store.getState());
-// });
 const store = configureStore(initial);
 
 const rootEl = document.getElementById("root");

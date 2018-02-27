@@ -1,0 +1,37 @@
+{
+  "App Header": "Browse Courses",
+  "Logout Link Text": "Logout",
+  "Copyright Notice ${0}[Year]": "Copyright ${0} Story AI",
+  "Activate Discount Link": "Activate",
+  "Deactivate Discount Link": "Deactivate",
+  "Registration Placeholder - Email Address": "E-mail Address",
+  "Registration Placeholder - First Name": "First Name",
+  "Login Page Forgot Password Text":
+    "Forgot your password? Let us help in the live chat below.",
+  "Registration Page Login Link Text": "I already have an account",
+  "Registration Placeholder - Last Name": "Last Name",
+  "Login Submit Button (Pending)": "Logging in...",
+  "Login Submit Button": "Login",
+  "Login Page Header": "Login",
+  "Page Title": "Story",
+  "Registration Placeholder - Password": "Password",
+  "Registration Placeholder - Password Confirmation": "Password Confirmation",
+  "Registration Placeholder - Referral Code": "Referral Code",
+  "Login Page Register Button": "Register a new account",
+  "Registration Submit Button": "Sign up",
+  "Registration Submit Button (Pending)": "Signing up...",
+  "Strand Name ${0}[name], ${1}[number of nuggets]": "${0} - (${1} nuggets)",
+  "Free Price Description": "Free!",
+  "Courses Loading Text": "Loading...",
+  "No Courses Available Text":
+    "No courses are currently available. Come back soon!",
+  "Auth Page CENTURY Link Text": "Powered by CENTURY Tech",
+  "Register Page Header": "Register",
+  "Start Course Action Button": "Start course",
+  "Buy Course Action Button ${0}[Course Price]": "Unlock course (${0})",
+  "Auth Page Story Link Text": "Story",
+  "No Discounts Text": "No discounts yet.",
+  "Referral Bonus Description ${0}[Referral Code]":
+    "Get a £20 discount for yourself, and £10 off for a friend! Just give them your referral code: ${0}",
+  "Discount Box Title": "My Discounts"
+}

@@ -25,13 +25,24 @@
     "staging-start": "static dist",
     "build": "webpack",
     "prod-build": "npm run build -- --config $npm_package_env_prod_webpack",
-    "staging-build": "npm run build -- --config $npm_package_env_staging_webpack",
-    "deploy": "aws --profile story-serverless --region eu-west-2 s3 sync --delete dist",
-    "prod-deploy": "npm run deploy -- $npm_package_env_prod_s3 && npm run prod-invalidate",
-    "staging-deploy": "npm run deploy -- $npm_package_env_staging_s3 && npm run staging-invalidate",
-    "invalidate": "aws cloudfront --profile story-serverless create-invalidation --paths '/*'",
-    "prod-invalidate": "npm run invalidate -- --distribution-id  $npm_package_env_prod_cloudfront",
-    "staging-invalidate": "npm run invalidate -- --distribution-id  $npm_package_env_staging_cloudfront"
+    "staging-build":
+      "npm run build -- --config $npm_package_env_staging_webpack",
+    "deploy":
+      "aws --profile story-serverless --region eu-west-2 s3 sync --delete dist",
+    "prod-deploy":
+      "npm run deploy -- $npm_package_env_prod_s3 && npm run prod-invalidate",
+    "staging-deploy":
+      "npm run deploy -- $npm_package_env_staging_s3 && npm run staging-invalidate",
+    "invalidate":
+      "aws cloudfront --profile story-serverless create-invalidation --paths '/*'",
+    "prod-invalidate":
+      "npm run invalidate -- --distribution-id  $npm_package_env_prod_cloudfront",
+    "staging-invalidate":
+      "npm run invalidate -- --distribution-id  $npm_package_env_staging_cloudfront",
+    "generate-string-schema":
+      "i18n-tag-schema ./src --preprocessor ./preprocessors/typescript --filter \"\\.[tj]sx?\" --schema ./translation.schema.json",
+    "validate-string-schema":
+      "npm run generate-string-schema && i18n-tag-schema ./src/strings --validate --schema ./translation.schema.json"
   },
   "dependencies": {
     "@types/aws-lambda": "0.0.27",
@@ -40,8 +51,10 @@
     "axios": "^0.17.1",
     "bignumber": "^1.1.0",
     "bluebird": "^3.5.1",
+    "es2015-i18n-tag": "^1.3.1",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.2",
+    "js-yaml": "^3.10.0",
     "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -60,11 +73,12 @@
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.17.0",
     "rxjs": "^5.5.2",
-    "soltsice": "^0.10.2",
-    "story-backend-utils": "^0.1.8",
+
+    "story-backend-utils": "^0.1.10",
     "superagent": "^3.8.2",
     "underscore": "^1.8.3",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "yaml-loader": "^0.5.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.20",
@@ -73,6 +87,7 @@
     "@types/extract-text-webpack-plugin": "^3.0.0",
     "@types/html-webpack-plugin": "^2.30.1",
     "@types/immutable": "^3.8.7",
+    "@types/js-yaml": "^3.10.1",
     "@types/lodash": "^4.14.101",
     "@types/node": "^9.4.0",
     "@types/react": "^16.0.36",
@@ -102,6 +117,7 @@
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
+    "i18n-tag-schema": "^2.4.1",
     "node-sass": "^4.7.2",
     "node-static": "^0.7.10",
     "react-hot-loader": "^3.1.3",

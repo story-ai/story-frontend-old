@@ -1,13 +1,15 @@
 import "./index.scss";
 
 import * as React from "react";
-import { StateType } from "../../core/reducers";
 import { connect } from "react-redux";
-import { CenturyTypes, StoryTypes } from "story-backend-utils";
+import { StoryTypes } from "story-backend-utils";
+
 import {
   ActivateDiscount,
   DeactivateDiscounts
 } from "../../core/actions/discounts";
+import { StateType } from "../../core/reducers";
+import { i18n } from "../../strings/i18n";
 
 type StateProps =
   | {
@@ -31,6 +33,11 @@ export class DiscountChestComponent extends React.Component<
   render() {
     if (!this.props.loaded) return null;
     const { discounts, activeDiscount, referral_code } = this.props;
+    const referral_code_text = (
+      <span className="code" key="referral_code">
+        {referral_code}
+      </span>
+    );
     return (
       <div className="discount-chest">
         <div
@@ -39,7 +46,7 @@ export class DiscountChestComponent extends React.Component<
         />
         <div className={`discount-list ${this.state.open ? "" : "hidden"}`}>
           <div className="top">
-            <h3>Your Discounts</h3>
+            <h3>{i18n`Discount Box Title`}</h3>
           </div>
           <div className="bottom">
             {discounts.length > 0 ? (
@@ -59,11 +66,11 @@ export class DiscountChestComponent extends React.Component<
                       - [
                       {active ? (
                         <a href="#" onClick={() => this.props.deactivate()}>
-                          Deactivate
+                          {i18n`Deactivate Discount Link`}
                         </a>
                       ) : (
                         <a href="#" onClick={() => this.props.activate(x)}>
-                          Activate
+                          {i18n`Activate Discount Link`}
                         </a>
                       )}]
                     </li>
@@ -71,12 +78,10 @@ export class DiscountChestComponent extends React.Component<
                 })}
               </ul>
             ) : (
-              <p className="no-discount-text">No discounts yet.</p>
+              <p className="no-discount-text">{i18n`No Discounts Text`}</p>
             )}
             <p className="code-text">
-              Get a £20 discount for yourself, and £10 off for a friend! Just
-              give them your referral code:{" "}
-              <span className="code">{referral_code}</span>
+              {i18n`Referral Bonus Description ${referral_code_text}[Referral Code]`}
             </p>
           </div>
         </div>
