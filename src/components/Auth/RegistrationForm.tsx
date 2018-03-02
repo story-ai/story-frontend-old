@@ -73,7 +73,7 @@ const RegisterFormComponent: React.StatelessComponent<
           disabled={props.pending}
           placeholder={i18n`Registration Placeholder - Referral Code`}
           component="input"
-          type="password"
+          type="text"
         />
 
         <button type="submit" disabled={props.pending}>

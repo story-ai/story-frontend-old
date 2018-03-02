@@ -131,11 +131,12 @@ const mapState = (state: StateType): StateProps => {
   for (const k of courseKeys) {
     if (k in state.courses.century.LOADED) {
       courses.push({
-        ...state.courses.meta.LOADED[k],
-        ...state.courses.century.LOADED[k]
+        ...state.courses.century.LOADED[k],
+        ...state.courses.meta.LOADED[k]
       });
     }
   }
+  courses.sort((a, b) => (a.order || 0) - (b.order || 0));
 
   // TODO: move to selector
   if (
