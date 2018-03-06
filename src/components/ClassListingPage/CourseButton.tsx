@@ -17,6 +17,7 @@ export type CourseButtonProps = {
   ) => BuyCourseRequested;
   course: StoryTypes.StoryCourseFields & CenturyTypes.Course;
   firstVisit: boolean;
+  specialCourse: boolean;
   studyGroupId: string | undefined;
   price: number;
   discount?: StoryTypes.Discount;
@@ -26,18 +27,16 @@ export const CourseButton: React.StatelessComponent<
   CourseButtonProps
 > = props => {
   if (props.owned) {
+    let link;
+    if (props.firstVisit && !props.specialCourse) {
+      link = "https://app.century.tech/learn/my-path";
+    } else {
+      link = `https://app.century.tech/learn/study-groups/${
+        props.studyGroupId
+      }`;
+    }
     return (
-      <a
-        href={
-          props.firstVisit
-            ? "https://app.century.tech/learn/my-path"
-            : `https://app.century.tech/learn/study-groups/${
-                props.studyGroupId
-              }`
-        }
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={link} target="_blank" rel="noopener noreferrer">
         <button className="action-button">{i18n`Start Course Action Button`}</button>
       </a>
     );

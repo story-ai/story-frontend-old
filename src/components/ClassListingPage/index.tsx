@@ -87,6 +87,13 @@ export class HomeComponent extends React.Component<
         removeVisible
       } = this.props;
 
+      const normalCourseIds = Object.keys(courseToStudyGroup).filter(
+        courseId => {
+          // TODO: eww hacky hard-code. What is special about the how-to course?
+          if (courseId === "5559662d-2eba-4279-b8e5-62aee12ad10c") return false;
+          return true;
+        }
+      );
       content = courses.map(course => {
         const studyGroupId = courseToStudyGroup[course._id];
         return (
@@ -99,7 +106,8 @@ export class HomeComponent extends React.Component<
             studyGroupId={studyGroupId}
             buy={this.props.buy}
             discount={activeDiscount}
-            firstVisit={Object.keys(courseToStudyGroup).length < 2}
+            firstVisit={normalCourseIds.length < 2}
+            specialCourse={normalCourseIds.indexOf(course._id) < 0}
             visibilityChanged={vis =>
               vis ? addVisible(course) : removeVisible(course)
             }
