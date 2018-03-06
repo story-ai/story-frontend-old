@@ -75,8 +75,29 @@
             }
           }
         }
+        .check-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          height: 36px;
+          margin: 5px 0;
+
+          input {
+            margin-top: 10px;
+            margin-right: 10px;
+            padding: 0;
+            height: auto;
+          }
+        }
 
         a {
+          &:hover {
+            color: white;
+          }
+        }
+
+        a.switch-auth {
           color: rgb(159, 167, 174);
           transition: color 0.4s, background-color 0.4s;
           text-align: center;

@@ -32,7 +32,7 @@ const LoginFormComponent: React.StatelessComponent<{
         </span>
       </div>
 
-      <Link to="/register">
+      <Link to="/register" className="switch-auth">
         <div>{i18n`Login Page Register Button`}</div>
       </Link>
     </div>

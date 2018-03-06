@@ -76,13 +76,37 @@ const RegisterFormComponent: React.StatelessComponent<
           type="text"
         />
 
+        <div className="check-row">
+          <Field name="terms" id="terms" component="input" type="checkbox" />
+          <label htmlFor="employed">
+            {i18n`T&C Registration Text ${(
+              <a
+                href="https://story-ai.com/terms"
+                key="link"
+              >{i18n`T&C Link Text`}</a>
+            )}[Link]`}
+          </label>
+        </div>
+
+        <div className="check-row">
+          <Field
+            name="mailing_list"
+            id="mailing_list"
+            component="input"
+            type="checkbox"
+          />
+          <label htmlFor="mailing_list">
+            {i18n`Mailing List Registration Text`}
+          </label>
+        </div>
+
         <button type="submit" disabled={props.pending}>
           {props.pending
             ? i18n`Registration Submit Button (Pending)`
             : i18n`Registration Submit Button`}
         </button>
       </form>
-      <Link to="/login">
+      <Link to="/login" className="switch-auth">
         <div>{i18n`Registration Page Login Link Text`}</div>
       </Link>
     </div>
@@ -99,23 +123,16 @@ export const RegistrationForm = connect(
     registerError: state.auth.registerError
   }),
   {
-    onSubmit: ({
-      username,
-      password,
-      firstname,
-      lastname,
-      passwordConfirmation,
-      referral_code
-    }: {
-      [k: string]: string;
-    }) =>
-      new Register(
-        username,
-        firstname,
-        lastname,
-        password,
-        passwordConfirmation,
-        referral_code
-      )
+    onSubmit: (form: any) =>
+      new Register({
+        username: form.username,
+        firstname: form.firstname,
+        lastname: form.lastname,
+        password: form.password,
+        passwordConfirmation: form.passwordConfirmation,
+        mailing_list: form.mailing_list,
+        terms: form.terms,
+        referral_code: form.referral_code
+      })
   }
 )(registerReduxForm as any);

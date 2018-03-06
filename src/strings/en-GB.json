@@ -33,5 +33,9 @@
   "No Discounts Text": "No discounts yet.",
   "Referral Bonus Description ${0}[Referral Code]":
     "Get a £20 discount for yourself, and £10 off for a friend! Just give them your referral code: ${0}",
-  "Discount Box Title": "My Discounts"
+  "Discount Box Title": "My Discounts",
+  "T&C Link Text": "Terms and Conditions",
+  "T&C Registration Text ${0}[Link]": "I agree to the Story ${0}",
+  "Mailing List Registration Text":
+    "I would like to hear about news and offers from Story"
 }

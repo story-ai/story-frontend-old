@@ -13,26 +13,30 @@ import {
 import { StateType } from "../../reducers";
 
 export const register: Epic<AllActions, StateType> = action$ =>
-  action$
-    .ofType<Register>(Register.type)
-    .switchMap(action =>
+  action$.ofType<Register>(Register.type).switchMap(action =>
+    Observable.fromPromise(
       superagent.post(`${StoryServices.material}/user`).send({
-        username: action.username,
-        firstname: action.firstname,
-        lastname: action.lastname,
-        password: action.password,
-        passwordConfirmation: action.passwordConfirmation,
-        referral_code: action.referral_code
+        ...action
       })
     )
-    .mergeMap((res): AllActions[] => {
-      const data = res.body as {
-        success: boolean;
-        mesage?: string;
-      };
+      .mergeMap((res): AllActions[] => {
+        const data = res.body as {
+          success: boolean;
+          message?: string;
+        };
 
-      if (!res.ok) return [new RegisterFailed(res.body)];
+        if (res.ok) {
+          if (data.success)
+            return [new RegisterSucceeded(), new LoginRequested()];
+          return [new RegisterFailed(data.message)];
+        }
 
-      return [new RegisterSucceeded(), new LoginRequested()];
-    })
-    .catch(e => Observable.of(new RegisterFailed(e)));
+        console.error(res);
+        return [new RegisterFailed("An unknown error occurred")];
+      })
+      .catch(
+        e =>
+          console.error(e) ||
+          Observable.of(new RegisterFailed("An unknown error occurred"))
+      )
+  );

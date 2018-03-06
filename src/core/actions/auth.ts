@@ -84,22 +84,28 @@ export class Register extends MyAction {
   lastname: string;
   password: string;
   passwordConfirmation: string;
+  mailing_list: boolean;
+  terms: boolean;
   referral_code?: string;
-  constructor(
-    username: string,
-    firstname: string,
-    lastname: string,
-    password: string,
-    passwordConfirmation: string,
-    referral_code?: string
-  ) {
+  constructor(input: {
+    username: string;
+    firstname: string;
+    lastname: string;
+    password: string;
+    passwordConfirmation: string;
+    mailing_list: boolean;
+    terms: boolean;
+    referral_code?: string;
+  }) {
     super();
-    this.username = username;
-    this.password = password;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.passwordConfirmation = passwordConfirmation;
-    this.referral_code = referral_code;
+    this.username = input.username;
+    this.password = input.password;
+    this.firstname = input.firstname;
+    this.lastname = input.lastname;
+    this.passwordConfirmation = input.passwordConfirmation;
+    this.mailing_list = input.mailing_list;
+    this.terms = input.terms;
+    this.referral_code = input.referral_code;
   }
 }
 
@@ -107,8 +113,8 @@ export class RegisterFailed extends MyAction {
   type = RegisterFailed.type;
 
   static type: "REGISTER_FAILED" = "REGISTER_FAILED";
-  e: string;
-  constructor(e: string) {
+  e?: string;
+  constructor(e?: string) {
     super();
     this.e = e;
   }
