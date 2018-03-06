@@ -1,6 +1,6 @@
 {
   "name": "story-frontend",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Prototype Frontend for the Story platform",
   "main": "./dist/bundle.js",
   "env": {

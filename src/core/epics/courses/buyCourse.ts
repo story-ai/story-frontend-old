@@ -33,7 +33,8 @@ export const buyCourse: Epic<AllActions, StateType> = (action$, state$) =>
           .send({
             courseId: action.courseId,
             stripeToken: action.token,
-            discount: action.discount
+            discount: action.discount,
+            receipt_email: user.details.item.contact.emails[0].address
           })
           .set(centuryAuthHeaders(token))
       )
