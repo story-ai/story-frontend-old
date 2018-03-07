@@ -2,10 +2,14 @@ import * as webpack from "webpack";
 import * as path from "path";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as CleanWebpackPlugin from "clean-webpack-plugin";
+import * as CopyWebpackPlugin from "copy-webpack-plugin";
 
 //common
 export const config: webpack.Configuration = {
-  plugins: [new CleanWebpackPlugin(["dist"])],
+  plugins: [
+    new CleanWebpackPlugin(["dist"]),
+    new CopyWebpackPlugin([{ from: "src/favicon", to: "" }])
+  ],
 
   output: {
     path: path.join(__dirname, "dist"),

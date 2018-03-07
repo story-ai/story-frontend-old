@@ -1,14 +1,23 @@
 import "./index.scss";
 
 import * as React from "react";
-import { Omit } from "react-redux";
+import { Omit, connect } from "react-redux";
 import { Link, Route } from "react-router-dom";
 import VisibilitySensor = require("react-visibility-sensor");
 
 import { CourseListing, CourseListingProps } from "./CourseListing";
+import { ExpandCourse } from "../../core/actions/app";
+import { StateType } from "../../core/reducers";
+
+type CourseListingRouteProps = Omit<
+  CourseListingProps,
+  "price" | "owned" | "active"
+> & {
+  // expand: () => ExpandCourse;
+};
 
 export const CourseListingRoute: React.StatelessComponent<
-  Omit<CourseListingProps, "price" | "owned" | "active">
+  CourseListingRouteProps
 > = props => {
   const owned = props.studyGroupId !== undefined;
   const price =
@@ -35,7 +44,12 @@ export const CourseListingRoute: React.StatelessComponent<
             {active ? (
               <div>{courseContent}</div>
             ) : (
-              <Link to={`/course/${props.course._id}`}>{courseContent}</Link>
+              <Link
+                to={`/course/${props.course._id}`}
+                // onClick={props.expand}
+              >
+                {courseContent}
+              </Link>
             )}
           </div>
         );
@@ -43,3 +57,11 @@ export const CourseListingRoute: React.StatelessComponent<
     </Route>
   );
 };
+
+// export const CourseListingRoute = connect(
+//   (state: StateType, ownProps: CourseListingProps) => ({ ...ownProps }),
+//   {
+//     expand: () => new ExpandCourse(5)
+//   },
+//   CourseListingRouteComponent
+// );

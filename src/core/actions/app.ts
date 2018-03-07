@@ -30,3 +30,27 @@ export class RemoveVisibleCourse extends MyAction {
     this.course = course;
   }
 }
+
+export class ExpandCourse extends MyAction {
+  type = ExpandCourse.type;
+
+  static type: "EXPAND_COURSE" = "EXPAND_COURSE";
+  course: StoryTypes.StoryCourseFields & CenturyTypes.Course;
+
+  constructor(course: ExpandCourse["course"]) {
+    super();
+    this.course = course;
+  }
+}
+
+export class OpenCheckout extends MyAction {
+  type = OpenCheckout.type;
+
+  static type: "OPEN_CHECKOUT" = "OPEN_CHECKOUT";
+  course: StoryTypes.StoryCourseFields & CenturyTypes.Course;
+
+  constructor(course: OpenCheckout["course"]) {
+    super();
+    this.course = course;
+  }
+}
